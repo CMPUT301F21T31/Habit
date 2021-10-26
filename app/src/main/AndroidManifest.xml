@@ -10,10 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
         <activity
-            android:name=".tutorial_2username"
+            android:name=".tutorial_2usern"
+            android:exported="true" />
+        <activity
+            android:name=".tutorial_4freq"
             android:exported="true"
-            android:label="@string/title_activity_tutorial2username"
+            android:label="@string/title_activity_tutorial4freq"
             android:theme="@style/Theme.Habit.NoActionBar" />
+        <activity
+            android:name=".tutorial_3enterhabit"
+            android:exported="true"
+            android:label="@string/title_activity_tutorial3enterhabit"
+            android:theme="@style/Theme.Habit.NoActionBar" />
+
         <activity
             android:name=".tutorial_1"
             android:exported="true" />

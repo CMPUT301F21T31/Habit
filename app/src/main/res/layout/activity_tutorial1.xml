@@ -9,9 +9,31 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="175dp"
-        android:layout_height="88dp"
-        android:layout_centerInParent="true"
-        android:text="t_1"
-        android:textSize="40dp" />
+        android:layout_width="170dp"
+        android:layout_height="103dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="238dp"
+        android:text="@string/t_1" />
+
+    <EditText
+        android:id="@+id/t_1t"
+        android:layout_width="273dp"
+        android:layout_height="117dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="271dp"
+        android:ems="10"
+        android:hint="yourname"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:id="@+id/t_1b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="226dp"
+        android:text="Button" />
 </RelativeLayout>

@@ -13,23 +13,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.habit.databinding.ActivityTutorial2usernameBinding;
+import com.example.habit.databinding.ActivityTutorial3enterhabitBinding;
 
-public class tutorial_2username extends AppCompatActivity {
+public class tutorial_3enterhabit extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityTutorial2usernameBinding binding;
+    private ActivityTutorial3enterhabitBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityTutorial2usernameBinding.inflate(getLayoutInflater());
+        binding = ActivityTutorial3enterhabitBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial2username);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial3enterhabit);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -44,7 +44,7 @@ public class tutorial_2username extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial2username);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial3enterhabit);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }

@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.UUID;
+
 public class MainActivity extends AppCompatActivity {
 
-
+   // String uniqueID = UUID.randomUUID().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +21,12 @@ public class MainActivity extends AppCompatActivity {
         boolean firstStart= prefs.getBoolean("firstStart",true);
 
 Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
-    if (firstStart==true){
+    if (firstStart==true || 1==1){
 
         opentutorial();
         SharedPreferences.Editor editor=prefs.edit();
         editor.putBoolean("firstStart",false);
+       // editor.putString("UID",uniqueID);
         editor.apply();
         }
 
