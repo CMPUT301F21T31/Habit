@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
         boolean firstStart= prefs.getBoolean("firstStart",true);
 
-Toast.makeText(MainActivity.this,String.valueOf(firstStart),Toast.LENGTH_LONG).show();
+Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
     if (firstStart==true){
 
         opentutorial();
