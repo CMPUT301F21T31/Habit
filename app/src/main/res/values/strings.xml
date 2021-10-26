@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Habit</string>
+    <string name="following_list_title">Following</string>
+    <string name="today_button_text">Today</string>
+    <string name="all_button_text">All</string>
+    <string name="TEMP_habit_list_greeting">Hey, Username</string>
 </resources>
