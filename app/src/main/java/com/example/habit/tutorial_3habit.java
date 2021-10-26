@@ -37,6 +37,8 @@ public class tutorial_3habit extends AppCompatActivity {
 
     private void opent_4() {
         Intent intent=new Intent(this,tutorial_4freq.class);
+        String firshabbit = t3et.getText().toString();
+        intent.putExtra("habit", firshabbit);
         startActivity(intent);
     }
 }

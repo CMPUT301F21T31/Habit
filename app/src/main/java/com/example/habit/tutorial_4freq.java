@@ -27,8 +27,11 @@ public class tutorial_4freq extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial4freq);
         t4t=findViewById(R.id.t4t);
-        t4t.setText("tex4");
+
         t4b=findViewById(R.id.t4b);
+        Intent intent = getIntent();
+        String habit = intent.getExtras().getString("habit");
+        t4t.setText(habit+" COOL!");
         t4b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

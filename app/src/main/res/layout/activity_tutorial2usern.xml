@@ -21,8 +21,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="username"
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/t2b"

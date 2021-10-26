@@ -26,8 +26,8 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="299dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="habit"
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/t3b"
