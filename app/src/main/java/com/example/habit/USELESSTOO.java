@@ -13,23 +13,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.habit.databinding.ActivityTutorial3enterhabitBinding;
+import com.example.habit.databinding.ActivityTutorial4freqBinding;
 
-public class tutorial_3enterhabit extends AppCompatActivity {
+public class USELESSTOO extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityTutorial3enterhabitBinding binding;
+    private ActivityTutorial4freqBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityTutorial3enterhabitBinding.inflate(getLayoutInflater());
+        binding = ActivityTutorial4freqBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial3enterhabit);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial4freq);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -44,7 +44,7 @@ public class tutorial_3enterhabit extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial3enterhabit);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_tutorial4freq);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
