@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <EditText
         android:id="@+id/habit_title"
         android:layout_width="149dp"
@@ -14,8 +16,7 @@
         android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="130dp">
-    </EditText>
+        tools:layout_editor_absoluteY="130dp"></EditText>
 
     <EditText
         android:id="@+id/habit_reason"
@@ -26,8 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="196dp">
-    </EditText>
+        tools:layout_editor_absoluteY="196dp"></EditText>
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,8 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="282dp">
-    </TextView>
+        tools:layout_editor_absoluteY="282dp"></TextView>
 
     <EditText
         android:id="@+id/start_month"
@@ -45,16 +44,14 @@
         android:layout_height="wrap_content"
         android:hint="MM"
         tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="308dp">
-    </EditText>
+        tools:layout_editor_absoluteY="308dp"></EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/"
         tools:layout_editor_absoluteX="180dp"
-        tools:layout_editor_absoluteY="320dp">
-    </TextView>
+        tools:layout_editor_absoluteY="320dp"></TextView>
 
     <EditText
         android:id="@+id/start_day"
@@ -62,16 +59,14 @@
         android:layout_height="wrap_content"
         android:hint="DD"
         tools:layout_editor_absoluteX="186dp"
-        tools:layout_editor_absoluteY="308dp">
-    </EditText>
+        tools:layout_editor_absoluteY="308dp"></EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/"
         tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="320dp">
-    </TextView>
+        tools:layout_editor_absoluteY="320dp"></TextView>
 
     <EditText
         android:id="@+id/start_year"
@@ -79,8 +74,7 @@
         android:layout_height="wrap_content"
         android:hint="YYYY"
         tools:layout_editor_absoluteX="223dp"
-        tools:layout_editor_absoluteY="308dp">
-    </EditText>
+        tools:layout_editor_absoluteY="308dp"></EditText>
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,8 +82,7 @@
         android:text="Recurrence"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="481dp">
-    </TextView>
+        tools:layout_editor_absoluteY="481dp"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,16 +91,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="386dp">
-    </TextView>
+        tools:layout_editor_absoluteY="386dp"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/"
         tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="417dp">
-    </TextView>
+        tools:layout_editor_absoluteY="417dp"></TextView>
 
     <EditText
         android:id="@+id/end_year"
@@ -115,8 +106,7 @@
         android:layout_height="wrap_content"
         android:hint="YYYY"
         tools:layout_editor_absoluteX="223dp"
-        tools:layout_editor_absoluteY="405dp">
-    </EditText>
+        tools:layout_editor_absoluteY="405dp"></EditText>
 
     <EditText
         android:id="@+id/end_month"
@@ -124,16 +114,14 @@
         android:layout_height="wrap_content"
         android:hint="MM"
         tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="405dp">
-    </EditText>
+        tools:layout_editor_absoluteY="405dp"></EditText>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/"
         tools:layout_editor_absoluteX="180dp"
-        tools:layout_editor_absoluteY="417dp">
-    </TextView>
+        tools:layout_editor_absoluteY="417dp"></TextView>
 
     <EditText
         android:id="@+id/end_day"
@@ -141,8 +129,7 @@
         android:layout_height="wrap_content"
         android:hint="DD"
         tools:layout_editor_absoluteX="186dp"
-        tools:layout_editor_absoluteY="405dp">
-    </EditText>
+        tools:layout_editor_absoluteY="405dp"></EditText>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
