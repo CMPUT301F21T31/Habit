@@ -47,7 +47,7 @@ EditText t_1t;
         String inname= prefs.getString("firstStartname","");
 
         intent.putExtra("fname", inname);
-        startActivity(intent);
+       // startActivity(intent);
     startActivity(intent);
     }
 }
