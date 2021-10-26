@@ -35,7 +35,7 @@ EditText t_1t;
             String inname= prefs.getString("firstStartname","");
             //String uniqueID =prefs.getString("UID","");
                 //Toast.makeText(tutorial_1.this,inname+uniqueID,Toast.LENGTH_LONG).show();
-              //  putExtra
+
                 opent_2();
 
             }
@@ -43,6 +43,11 @@ EditText t_1t;
     }
 
     private void opent_2() { Intent intent=new Intent(this,tutorial_2usern.class);
+        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
+        String inname= prefs.getString("firstStartname","");
+
+        intent.putExtra("fname", inname);
         startActivity(intent);
+    startActivity(intent);
     }
 }
