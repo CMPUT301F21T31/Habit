@@ -1,10 +1,7 @@
 package com.example.habit;
 
-<<<<<<< Updated upstream:app/src/main/java/com/example/habit/tutorial_1.java
-=======
 import android.os.Bundle;
 
->>>>>>> Stashed changes:app/src/main/java/com/example/habit/addHabit.java
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
