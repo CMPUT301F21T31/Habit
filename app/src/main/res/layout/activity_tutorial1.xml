@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,9 +9,30 @@
 
     <TextView
         android:id="@+id/textView"
+        android:layout_width="170dp"
+        android:layout_height="103dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="238dp"
+        android:text="@string/t_1" />
+
+    <EditText
+        android:id="@+id/t_1t"
+        android:layout_width="273dp"
+        android:layout_height="117dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="271dp"
+        android:ems="10"
+        android:hint="yourname"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/t_1b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="t_1"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="289dp" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="226dp"
+        android:text="Button" />
+</RelativeLayout>

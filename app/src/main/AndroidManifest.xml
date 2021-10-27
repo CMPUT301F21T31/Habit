@@ -6,9 +6,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/apklk_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
+        <activity
+            android:name=".tutorial_5time"
+            android:exported="true" />
+        <activity
+            android:name=".tutorial_4freq"
+            android:exported="true" />
+        <activity
+            android:name=".tutorial_3habit"
+            android:exported="true" />
+        <activity
+            android:name=".tutorial_2usern"
+            android:exported="true" />
         <activity
             android:name=".HabitListActivity"
             android:exported="false" />
