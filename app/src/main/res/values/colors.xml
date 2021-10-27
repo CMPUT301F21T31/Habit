@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--- Habit App Colours -->
+    <color name="Dark_Gray_Background">#171719</color>
+    <color name="Medium_Gray_Background">#232229</color>
+    <color name="Light_Gray_Text_Background">#807F85</color>
+    <color name="Lighter_Gray_Text">#DCDBE0</color>
+    <color name="Green">#48A14D</color>
+    <color name="Yellow">#FFC200</color>
+    <color name="Red">#8A394B</color>
+    <color name="Bright_Blue">#69F2F7</color>
+
+    <!--- Default Android Colours -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
