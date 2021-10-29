@@ -11,5 +11,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_tutorial3enterhabit">tutorial_3enterhabit</string>
     <string name="title_activity_tutorial4freq">tutorial_4freq</string>
-
+    <string name="following_list_title">Following</string>
+    <string name="today_button_text">Today</string>
+    <string name="all_button_text">All</string>
+    <string name="TEMP_habit_list_greeting">Hey, Username</string>
 </resources>
