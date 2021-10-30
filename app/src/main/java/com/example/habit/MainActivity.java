@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
 Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
-    if (firstStart==true ){
+    if (firstStart==true){ // always open for now
+
 
             opentutorial();
             SharedPreferences.Editor editor = prefs.edit();
@@ -41,7 +42,8 @@ Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.
               }
           });
         } else {
-            openHabitList();
+            login();
+            // openHabitList();
         }
     }
 
@@ -57,6 +59,11 @@ Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.
 
     private void openHabitList() {
         Intent intent = new Intent(this, HabitListActivity.class);
+        startActivity(intent);
+    }
+
+    private void login() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

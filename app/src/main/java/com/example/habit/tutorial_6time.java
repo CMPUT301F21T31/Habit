@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class tutorial_5time extends AppCompatActivity {
+public class tutorial_6time extends AppCompatActivity {
 Button t5b;
 
     @Override
