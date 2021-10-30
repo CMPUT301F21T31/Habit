@@ -23,7 +23,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/end_day"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></EditText>
+        app:layout_constraintVertical_bias="0.586">
+    </EditText>
 
     <TextView
         android:id="@+id/textView21"
@@ -35,7 +36,8 @@
         app:layout_constraintEnd_toStartOf="@+id/end_year"
         app:layout_constraintStart_toEndOf="@+id/end_day"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></TextView>
+        app:layout_constraintVertical_bias="0.586">
+    </TextView>
 
     <EditText
         android:id="@+id/end_day"
@@ -51,7 +53,8 @@
         app:layout_constraintEnd_toStartOf="@+id/textView21"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></EditText>
+        app:layout_constraintVertical_bias="0.586">
+    </EditText>
 
     <TextView
         android:id="@+id/textView22"
@@ -63,7 +66,8 @@
         app:layout_constraintEnd_toStartOf="@+id/end_day"
         app:layout_constraintStart_toEndOf="@+id/end_month"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></TextView>
+        app:layout_constraintVertical_bias="0.586">
+    </TextView>
 
     <EditText
         android:id="@+id/end_month"
@@ -80,7 +84,8 @@
         app:layout_constraintEnd_toStartOf="@+id/textView22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></EditText>
+        app:layout_constraintVertical_bias="0.586">
+    </EditText>
 
     <EditText
         android:id="@+id/habit_title"
@@ -90,6 +95,8 @@
         android:background="@drawable/rounded_corners_user_input"
         android:gravity="center"
         android:hint="Habit Title"
+        android:maxLength="20"
+        android:inputType="text"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +104,8 @@
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195"></EditText>
+        app:layout_constraintVertical_bias="0.195">
+    </EditText>
 
     <EditText
         android:id="@+id/habit_reason"
@@ -108,6 +116,8 @@
         android:background="@drawable/rounded_corners_user_input"
         android:gravity="center"
         android:hint="Habit Reason"
+        android:maxLength="30"
+        android:inputType="text"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -147,7 +157,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"></EditText>
+        app:layout_constraintVertical_bias="0.436">
+    </EditText>
 
     <TextView
         android:id="@+id/textView18"
@@ -160,7 +171,8 @@
         app:layout_constraintEnd_toStartOf="@+id/start_day"
         app:layout_constraintStart_toEndOf="@+id/start_month"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"></TextView>
+        app:layout_constraintVertical_bias="0.436">
+    </TextView>
 
     <TextView
         android:id="@+id/textView19"
@@ -173,7 +185,8 @@
         app:layout_constraintEnd_toStartOf="@+id/start_year"
         app:layout_constraintStart_toEndOf="@+id/start_day"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"></TextView>
+        app:layout_constraintVertical_bias="0.436">
+    </TextView>
 
     <EditText
         android:id="@+id/start_day"
@@ -189,7 +202,8 @@
         app:layout_constraintEnd_toStartOf="@+id/textView19"
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"></EditText>
+        app:layout_constraintVertical_bias="0.436">
+    </EditText>
 
     <EditText
         android:id="@+id/start_month"
@@ -206,7 +220,8 @@
         app:layout_constraintEnd_toStartOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436"></EditText>
+        app:layout_constraintVertical_bias="0.436">
+    </EditText>
 
     <TextView
         android:id="@+id/textView20"
