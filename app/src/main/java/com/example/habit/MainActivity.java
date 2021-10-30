@@ -3,13 +3,9 @@ package com.example.habit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         fisrtstartrest.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  Intent intent = new Intent(MainActivity.this, addHabit.class);
-                  startActivity(intent);
+                  startActivity(new Intent(MainActivity.this, addHabit.class));
               }
           });
     }
