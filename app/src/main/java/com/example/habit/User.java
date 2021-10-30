@@ -1,6 +1,17 @@
 package com.example.habit;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -70,8 +81,40 @@ public class User {
     /**
      * @param habit Habit to add to this User's habit list
      */
-    public void addHabit(Habit habit) {
-        this.habits.add(habit);
+    public void addHabit(Habit habit, CollectionReference userColRef, CollectionReference habitColRef) {
+//        this.habits.add(habit);
+
+
+        Map<String, Object> data = new HashMap<>();
+
+        // Add habit data to map
+        data.put("title", habit.getTitle());
+        data.put("reason", habit.getReason());
+        data.put("start", new Timestamp(habit.getStart()));
+        data.put("end", new Timestamp(habit.getEnd()));
+        data.put("daysOfWeek", habit.getDaysOfWeek());
+        data.put("events", habit.getEvents());
+
+        // Add to habits collection
+        habitColRef
+                .document() // Use auto-generated ID
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d(String.valueOf(R.string.db_add_success), "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(String.valueOf(R.string.db_add_fail), "Data could not be added!" + e.toString());
+                    }
+                });
+
+        // Add habit ID to this users habit list
     }
 
     /**

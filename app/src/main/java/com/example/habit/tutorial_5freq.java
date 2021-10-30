@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class tutorial_4freq extends AppCompatActivity {
+public class tutorial_5freq extends AppCompatActivity {
     TextView t4t;
     TextView t4t_2;
     EditText t4et;
@@ -41,7 +41,7 @@ public class tutorial_4freq extends AppCompatActivity {
     }
 
     private void opent5() {
-        Intent intent=new Intent(this,tutorial_5time.class);
+        Intent intent=new Intent(this, tutorial_6time.class);
         startActivity(intent);
     }
 }
