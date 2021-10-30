@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -14,33 +16,36 @@ import java.util.HashMap;
 
 public class HabitListActivity extends AppCompatActivity {
 
-    // Variable references for later
+    // Firebase references
+    private FirebaseAuth auth;
     FirebaseFirestore db;
+    FirebaseUser user;
     CollectionReference usersCollectionRef;
     CollectionReference habitsCollectionRef;
     CollectionReference habitEventsRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_list);
 
-        // Initialize DB
-        db = FirebaseFirestore.getInstance();
+        // Initialize auth
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
-        // Get references to each collection
-        usersCollectionRef = db.collection("users");
-        habitsCollectionRef = db.collection("habits");
-        habitEventsRef = db.collection("habitEvents");
+        if (user == null) {
+            // TODO: Go back to login here
+        }
 
-        // Get user details
+        // @Lewis see testDB() for an example of how to create habits and habit events in DB
+        // testDB();
     }
 
+    /**
+     * Example function for calling User.addHabit
+     */
     private void testDB() {
-        // Instantiate mock users
-        User mockUser1 = new User("John", "jsmith49");
-        User mockUser2 = new User("Karla", "krox99");
-
 
         // Instantiate mock habits
         HashMap<String, Boolean> daysOfWeek1 = null;
@@ -54,16 +59,14 @@ public class HabitListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        // Instantiate mock habits
         Habit mockHabit1 = new Habit("Swimming", "Get fit", new Date(), new Date(), daysOfWeek1);
-        Habit mockHabit2 = new Habit("Reading", "Learn", new Date(), new Date(), daysOfWeek2);
 
         // Instantiate mock habit events
         HabitEvent mockHabitEvent1 = new HabitEvent("Edmonton", "Swam 20 laps");
-        HabitEvent mockHabitEvent2 = new HabitEvent("Bedroom", "Finished chapter 7");
 
-        mockUser1.addHabit(mockHabit1, usersCollectionRef, habitsCollectionRef);
-        mockUser2.addHabit(mockHabit2, usersCollectionRef, habitsCollectionRef);
+        // Add habit to both the habits collection and habit list for this user
+        User.addHabit(user.getUid(), mockHabit1);
     }
 
 

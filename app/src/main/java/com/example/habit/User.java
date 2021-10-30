@@ -8,6 +8,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,42 +82,37 @@ public class User {
     }
 
     /**
-     * @param habit Habit to add to this User's habit list
+     * Add a habit object to the habits collection and add a reference to that habit to a users
+     * habits list.
+     * @param uuid
+     * @param habit
      */
-    public void addHabit(Habit habit, CollectionReference userColRef, CollectionReference habitColRef) {
-//        this.habits.add(habit);
+    public static void addHabit(String uuid, Habit habit) {
+        String habitId = addHabitToHabits(habit);
+        addHabitToUser(uuid, habitId);
+    }
 
+    /**
+     * Add a Habit object to the habits collection. Do not call this directly.
+     * @param habit
+     */
+    private static String addHabitToHabits(Habit habit) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newHabit = db.collection("habits").document();
+        newHabit.set(habit);
+        return newHabit.getId();
+    }
 
-        Map<String, Object> data = new HashMap<>();
-
-        // Add habit data to map
-        data.put("title", habit.getTitle());
-        data.put("reason", habit.getReason());
-        data.put("start", new Timestamp(habit.getStart()));
-        data.put("end", new Timestamp(habit.getEnd()));
-        data.put("daysOfWeek", habit.getDaysOfWeek());
-        data.put("events", habit.getEvents());
-
-        // Add to habits collection
-        habitColRef
-                .document() // Use auto-generated ID
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
-                        Log.d(String.valueOf(R.string.db_add_success), "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.d(String.valueOf(R.string.db_add_fail), "Data could not be added!" + e.toString());
-                    }
-                });
-
-        // Add habit ID to this users habit list
+    /**
+     * Add habit ID to a users habits list. Do not call this directly.
+     * @param uuid
+     * @param habitID
+     */
+    private static void addHabitToUser(String uuid, String habitID) {
+        // String uuid, String habitID
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference thisUser = db.collection("users").document(uuid);
+        thisUser.update("habits", FieldValue.arrayUnion(habitID));
     }
 
     /**
