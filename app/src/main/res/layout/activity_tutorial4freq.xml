@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tutorial_4freq">
+    tools:context=".tutorial_5freq">
 
     <TextView
         android:id="@+id/t4t"

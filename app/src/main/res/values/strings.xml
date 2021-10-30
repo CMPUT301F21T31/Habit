@@ -9,10 +9,21 @@
     <string name="t_1">Hey there!Whats your name?</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="email_tutorial3">Please enter your email:</string>
+    <string name="password_tutorial3">Please enter your password:</string>
     <string name="title_activity_tutorial3enterhabit">tutorial_3enterhabit</string>
     <string name="title_activity_tutorial4freq">tutorial_4freq</string>
     <string name="following_list_title">Following</string>
     <string name="today_button_text">Today</string>
     <string name="all_button_text">All</string>
     <string name="TEMP_habit_list_greeting">Hey, Username</string>
+
+    <!--  Logging tags for database operations  -->
+    <string name="db_add_success">DB ADD SUCCESS</string>
+    <string name="db_add_fail">DB ADD FAIL</string>
+    <string name="db_edit_success">DB EDIT SUCCESS</string>
+    <string name="db_edit_fail">DB EDIT FAIL</string>
+    <string name="db_delete_success">DB DELETE SUCCESS</string>
+    <string name="db_delete_fail">DB DELETE FAIL</string>
+
 </resources>

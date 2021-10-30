@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class tutorial_3habit extends AppCompatActivity {
+public class tutorial_4habit extends AppCompatActivity {
     TextView t3t;
     EditText t3et;
     Button t3b;
@@ -36,7 +36,7 @@ public class tutorial_3habit extends AppCompatActivity {
     }
 
     private void opent_4() {
-        Intent intent=new Intent(this,tutorial_4freq.class);
+        Intent intent=new Intent(this, tutorial_5freq.class);
         String firshabbit = t3et.getText().toString();
         intent.putExtra("habit", firshabbit);
         startActivity(intent);

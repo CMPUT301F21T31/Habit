@@ -3,6 +3,7 @@ package com.example.habit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -101,7 +102,7 @@ public class Habit {
      * @return HashMap with weekday keys and boolean values which indicate if habit occurs that day
      * e.g. {"Monday": true, "Tuesday": false, ... ,"Sunday": true}
      */
-    public HashMap<String, Boolean> getDaysOfWeek() {
+    public Map<String, Boolean> getDaysOfWeek() {
         return daysOfWeek;
     }
 
@@ -111,6 +112,54 @@ public class Habit {
     public void setDaysOfWeek(HashMap<String, Boolean> daysOfWeek) {
         // TODO: Should we do some verification that HashMap contains all 7 days?
         this.daysOfWeek = daysOfWeek;
+    }
+
+    /**
+     * Helper function to convert a list of booleans to a days dictionary for habit constructor
+     * @param days
+     * @throws Exception
+     */
+    public static HashMap<String, Boolean> generateDaysDict(ArrayList<Boolean> days) throws Exception {
+
+        // Must pass in array list of size 7 where each value indicates if habit will occur on that day
+        if (days.size() != 7) {
+            throw new Exception("Must pass in a list of booleans of size 7, one per day in order Monday-Sunday.");
+        }
+
+        // Default day value to false
+        HashMap<String, Boolean> daysMap = new HashMap<String, Boolean>();
+        daysMap.put("Monday", false);
+        daysMap.put("Tuesday", false);
+        daysMap.put("Wednesday", false);
+        daysMap.put("Thursday", false);
+        daysMap.put("Friday", false);
+        daysMap.put("Saturday", false);
+        daysMap.put("Sunday", false);
+
+        // Set values
+        for (int i = 0; i < days.size(); i++) {
+
+            // Set variable for day if element matching it was set to true
+            if (days.get(i)) {
+                switch (i) {
+                    case 0:
+                        daysMap.put("Monday", true);
+                    case 1:
+                        daysMap.put("Tuesday", true);
+                    case 2:
+                        daysMap.put("Wednesday", true);
+                    case 3:
+                        daysMap.put("Thursday", true);
+                    case 4:
+                        daysMap.put("Friday", true);
+                    case 5:
+                        daysMap.put("Saturday", true);
+                    case 6:
+                        daysMap.put("Sunday", true);
+                }
+            }
+        }
+        return daysMap;
     }
 
     /**

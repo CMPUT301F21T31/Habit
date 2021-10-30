@@ -38,7 +38,7 @@ public class tutorial_2usern extends AppCompatActivity {
     }
 
     private void opent_3() {
-        Intent intent=new Intent(this,tutorial_3habit.class);
+        Intent intent=new Intent(this, tutorial_3emailpassword.class);
         startActivity(intent);
     }
 }
