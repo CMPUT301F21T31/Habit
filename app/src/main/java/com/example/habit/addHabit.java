@@ -68,11 +68,18 @@ public class addHabit extends AppCompatActivity {
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
 
+        final boolean[] myButtonIsClicked = {false};
 
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Monday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Monday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
@@ -81,42 +88,78 @@ public class addHabit extends AppCompatActivity {
         Tuesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Tuesday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Wednesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Wednesday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Thursday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Thursday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Friday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Friday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Saturday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Saturday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Sunday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
