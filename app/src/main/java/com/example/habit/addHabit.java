@@ -20,6 +20,8 @@ public class addHabit extends AppCompatActivity {
 
     ImageButton back;
     ImageButton confirm;
+    ImageButton startDate;
+    ImageButton endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class addHabit extends AppCompatActivity {
 
         back = findViewById(R.id.back);
         confirm = findViewById(R.id.confirm);
+        startDate = findViewById(R.id.start_date);
+        endDate = findViewById(R.id.end_date);
 
         // Back to the main screen
         back.setOnClickListener(new View.OnClickListener() {
@@ -36,5 +40,10 @@ public class addHabit extends AppCompatActivity {
                 finish();
             }
         });
+
+        // 1. Click the calendar sign to select the start date
+
+
+        // 2. Click the calendar sign to select the end date
     }
 }

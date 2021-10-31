@@ -7,37 +7,18 @@
     android:background="@color/Dark_Gray_Background"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/end_year"
-        android:layout_width="52dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="120dp"
-        android:background="@drawable/rounded_corners_user_input"
-        android:gravity="center"
-        android:hint="YYYY"
-        android:inputType="date"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textColorHint="@color/Lighter_Gray_Text"
+    <ImageButton
+        android:id="@+id/end_date"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="90dp"
+        android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/end_day"
+        app:layout_constraintStart_toEndOf="@+id/end_year"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586">
-    </EditText>
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="8dp"
-        android:layout_height="25dp"
-        android:text="/"
-        android:textColor="@color/Lighter_Gray_Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/end_year"
-        app:layout_constraintStart_toEndOf="@+id/end_day"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586">
-    </TextView>
+        app:layout_constraintVertical_bias="0.586"
+        app:srcCompat="@android:drawable/ic_menu_today" />
 
     <EditText
         android:id="@+id/end_day"
@@ -53,8 +34,24 @@
         app:layout_constraintEnd_toStartOf="@+id/textView21"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586">
-    </EditText>
+        app:layout_constraintVertical_bias="0.587"></EditText>
+
+    <EditText
+        android:id="@+id/end_month"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="100dp"
+        android:background="@drawable/rounded_corners_user_input"
+        android:gravity="center"
+        android:hint="MM"
+        android:inputType="date"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textColorHint="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.587"></EditText>
 
     <TextView
         android:id="@+id/textView22"
@@ -66,26 +63,36 @@
         app:layout_constraintEnd_toStartOf="@+id/end_day"
         app:layout_constraintStart_toEndOf="@+id/end_month"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586">
-    </TextView>
+        app:layout_constraintVertical_bias="0.587"></TextView>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:text="/"
+        android:textColor="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/end_year"
+        app:layout_constraintStart_toEndOf="@+id/end_day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.586"></TextView>
 
     <EditText
-        android:id="@+id/end_month"
-        android:layout_width="40dp"
+        android:id="@+id/end_year"
+        android:layout_width="52dp"
         android:layout_height="25dp"
-        android:layout_marginStart="130dp"
+        android:layout_marginStart="13dp"
         android:background="@drawable/rounded_corners_user_input"
         android:gravity="center"
-        android:hint="MM"
+        android:hint="YYYY"
         android:inputType="date"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintStart_toEndOf="@+id/end_day"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586">
-    </EditText>
+        app:layout_constraintVertical_bias="0.586"></EditText>
 
     <EditText
         android:id="@+id/habit_title"
@@ -143,36 +150,21 @@
     </TextView>
 
     <EditText
-        android:id="@+id/start_year"
-        android:layout_width="52dp"
+        android:id="@+id/start_month"
+        android:layout_width="40dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginStart="100dp"
         android:background="@drawable/rounded_corners_user_input"
         android:gravity="center"
-        android:hint="YYYY"
+        android:hint="MM"
         android:inputType="date"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintEnd_toStartOf="@+id/textView18"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436">
-    </EditText>
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="8dp"
-        android:layout_height="25dp"
-        android:gravity="center"
-        android:text="/"
-        android:textColor="@color/Lighter_Gray_Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/start_day"
-        app:layout_constraintStart_toEndOf="@+id/start_month"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436">
-    </TextView>
+        app:layout_constraintVertical_bias="0.436"></EditText>
 
     <TextView
         android:id="@+id/textView19"
@@ -185,8 +177,33 @@
         app:layout_constraintEnd_toStartOf="@+id/start_year"
         app:layout_constraintStart_toEndOf="@+id/start_day"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436">
-    </TextView>
+        app:layout_constraintVertical_bias="0.436"></TextView>
+
+    <ImageButton
+        android:id="@+id/start_date"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="96dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/start_year"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.437"
+        app:srcCompat="@android:drawable/ic_menu_today" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:text="/"
+        android:textColor="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/start_day"
+        app:layout_constraintStart_toEndOf="@+id/start_month"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.436"></TextView>
 
     <EditText
         android:id="@+id/start_day"
@@ -202,26 +219,23 @@
         app:layout_constraintEnd_toStartOf="@+id/textView19"
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436">
-    </EditText>
+        app:layout_constraintVertical_bias="0.436"></EditText>
 
     <EditText
-        android:id="@+id/start_month"
-        android:layout_width="40dp"
+        android:id="@+id/start_year"
+        android:layout_width="52dp"
         android:layout_height="25dp"
-        android:layout_marginStart="130dp"
         android:background="@drawable/rounded_corners_user_input"
         android:gravity="center"
-        android:hint="MM"
+        android:hint="YYYY"
         android:inputType="date"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436">
-    </EditText>
+        app:layout_constraintVertical_bias="0.436"></EditText>
 
     <TextView
         android:id="@+id/textView20"
