@@ -2,14 +2,9 @@ package com.example.habit;
 
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-<<<<<<<<< Temporary merge branch 1
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-=========
-import android.os.Build;
->>>>>>>>> Temporary merge branch 2
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,14 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<<<< Temporary merge branch 1
 import java.time.Month;
-=========
+import java.util.ArrayList;
 import java.util.Calendar;
->>>>>>>>> Temporary merge branch 2
 
 
 /**
@@ -70,7 +62,7 @@ public class addHabit extends AppCompatActivity {
         startDay = findViewById(R.id.start_day);
         startYear = findViewById(R.id.start_year);
         endMonth = findViewById(R.id.end_month);
-        endDay = findViewById(R.id.end_day);
+        endDay  = findViewById(R.id.end_day);
         endYear = findViewById(R.id.end_year);
         Monday = findViewById(R.id.monday);
         Tuesday = findViewById(R.id.tuesday);
@@ -80,11 +72,18 @@ public class addHabit extends AppCompatActivity {
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
 
+        final boolean[] myButtonIsClicked = {false};
 
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Monday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Monday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
@@ -93,42 +92,78 @@ public class addHabit extends AppCompatActivity {
         Tuesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Tuesday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Wednesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Wednesday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Thursday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Thursday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Friday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Friday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Saturday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Saturday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
         Sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                if (myButtonIsClicked[0]) {
+                    Sunday.setBackground(getDrawable(R.drawable.round_button));
+                    myButtonIsClicked[0] = false;
+                } else {
+                    Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
+                    myButtonIsClicked[0] = true;
+                }
             }
         });
 
@@ -156,7 +191,7 @@ public class addHabit extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 startYear.setText("" + year);
-                                startMonth.setText("" + month);
+                                startMonth.setText("" + (month + 1));
                                 startDay.setText("" + dayOfMonth);
                             }
                         }, year, month, dayOfMonth);
@@ -178,14 +213,12 @@ public class addHabit extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 endYear.setText("" + year);
-                                endMonth.setText("" + month);
+                                endMonth.setText("" + (month + 1));
                                 endDay.setText("" + dayOfMonth);
                             }
                         }, year, month, dayOfMonth);
                 endDateDialog.show();
             }
         });
-
-
     }
 }
