@@ -1,6 +1,20 @@
 package com.example.habit;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -68,10 +82,37 @@ public class User {
     }
 
     /**
-     * @param habit Habit to add to this User's habit list
+     * Add a habit object to the habits collection and add a reference to that habit to a users
+     * habits list.
+     * @param uuid
+     * @param habit
      */
-    public void addHabit(Habit habit) {
-        this.habits.add(habit);
+    public static void addHabit(String uuid, Habit habit) {
+        String habitId = addHabitToHabits(habit);
+        addHabitToUser(uuid, habitId);
+    }
+
+    /**
+     * Add a Habit object to the habits collection. Do not call this directly.
+     * @param habit
+     */
+    private static String addHabitToHabits(Habit habit) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newHabit = db.collection("habits").document();
+        newHabit.set(habit);
+        return newHabit.getId();
+    }
+
+    /**
+     * Add habit ID to a users habits list. Do not call this directly.
+     * @param uuid
+     * @param habitID
+     */
+    private static void addHabitToUser(String uuid, String habitID) {
+        // String uuid, String habitID
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference thisUser = db.collection("users").document(uuid);
+        thisUser.update("habits", FieldValue.arrayUnion(habitID));
     }
 
     /**
