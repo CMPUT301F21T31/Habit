@@ -89,7 +89,6 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
         app:layout_constraintStart_toEndOf="@+id/end_day"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.586"></EditText>

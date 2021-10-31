@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,12 @@ public class addHabit extends AppCompatActivity {
     ImageButton confirm;
     ImageButton startDate;
     ImageButton endDate;
+    EditText startMonth;
+    EditText startDay;
+    EditText startYear;
+    EditText endMonth;
+    EditText endDay;
+    EditText endYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,13 @@ public class addHabit extends AppCompatActivity {
         confirm = findViewById(R.id.confirm);
         startDate = findViewById(R.id.start_date);
         endDate = findViewById(R.id.end_date);
+        startMonth = findViewById(R.id.start_month);
+        startDay = findViewById(R.id.start_day);
+        startYear = findViewById(R.id.start_year);
+        endMonth = findViewById(R.id.end_month);
+        endDay  = findViewById(R.id.end_day);
+        endYear = findViewById(R.id.end_year);
+
 
         // Back to the main screen
         back.setOnClickListener(new View.OnClickListener() {
