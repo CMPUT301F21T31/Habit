@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 /**
@@ -40,6 +42,8 @@ public class addHabit extends AppCompatActivity {
     Button Friday;
     Button Saturday;
     Button Sunday;
+    EditText title;
+    EditText reason;
     EditText startMonth;
     EditText startDay;
     EditText startYear;
@@ -47,13 +51,17 @@ public class addHabit extends AppCompatActivity {
     EditText endDay;
     EditText endYear;
 
+    HashMap<String, Boolean> selected_date = null;
+    ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
+            Arrays.asList(false, false, false, false, false, false, false));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_habit);
 
-        final RelativeLayout relativeLayout;
-
+        title = findViewById(R.id.habit_title);
+        reason = findViewById(R.id.habit_reason);
         back = findViewById(R.id.back);
         confirm = findViewById(R.id.confirm);
         startDate = findViewById(R.id.start_date);
@@ -81,13 +89,13 @@ public class addHabit extends AppCompatActivity {
                     Monday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(0);
+                    recurrence.add(0, true);
                     Monday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
             }
         });
-
-
 
         Tuesday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +104,8 @@ public class addHabit extends AppCompatActivity {
                     Tuesday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(1);
+                    recurrence.add(1, true);
                     Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
@@ -109,6 +119,8 @@ public class addHabit extends AppCompatActivity {
                     Wednesday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(2);
+                    recurrence.add(2, true);
                     Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
@@ -122,6 +134,8 @@ public class addHabit extends AppCompatActivity {
                     Thursday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(3);
+                    recurrence.add(3, true);
                     Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
@@ -135,6 +149,8 @@ public class addHabit extends AppCompatActivity {
                     Friday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(4);
+                    recurrence.add(4, true);
                     Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
@@ -148,6 +164,8 @@ public class addHabit extends AppCompatActivity {
                     Saturday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(5);
+                    recurrence.add(5, true);
                     Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
@@ -161,13 +179,13 @@ public class addHabit extends AppCompatActivity {
                     Sunday.setBackground(getDrawable(R.drawable.round_button));
                     myButtonIsClicked[0] = false;
                 } else {
+                    recurrence.remove(6);
+                    recurrence.add(6, true);
                     Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
                     myButtonIsClicked[0] = true;
                 }
             }
         });
-
-
 
         // Back to the main screen
         back.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +236,25 @@ public class addHabit extends AppCompatActivity {
                             }
                         }, year, month, dayOfMonth);
                 endDateDialog.show();
+            }
+        });
+
+        // Passing the recurrence to the habit after clicked the confirm button
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1. Get the habit title
+
+
+                // 2. Get the habit reasons
+                // 3. Get the start date
+                // 4. Get the end date
+                // 5. Get the recurrence
+                try {
+                    selected_date = Habit.generateDaysDict(recurrence);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
