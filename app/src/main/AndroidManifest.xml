@@ -25,6 +25,9 @@
             android:name=".tutorial_4habit"
             android:exported="true" />
         <activity
+            android:name=".addHabit"
+            android:exported="false" />
+        <activity
             android:name=".tutorial_2usern"
             android:exported="true" />
         <activity

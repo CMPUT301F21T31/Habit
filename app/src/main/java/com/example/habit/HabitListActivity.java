@@ -2,7 +2,10 @@ package com.example.habit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +26,7 @@ public class HabitListActivity extends AppCompatActivity {
     CollectionReference usersCollectionRef;
     CollectionReference habitsCollectionRef;
     CollectionReference habitEventsRef;
-
+    ImageButton add_habit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,19 @@ public class HabitListActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        add_habit_button = findViewById(R.id.add_habit_button);
+
         if (user == null) {
             // TODO: Go back to login here
         }
+
+        // Direct the user to addHabit interface
+        add_habit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddHabit();
+            }
+        });
 
         // @Lewis see testDB() for an example of how to create habits and habit events in DB
         // testDB();
@@ -69,5 +82,9 @@ public class HabitListActivity extends AppCompatActivity {
         User.addHabit(user.getUid(), mockHabit1);
     }
 
+    private void openAddHabit() {
+        Intent intent = new Intent(this, addHabit.class);
+        startActivity(intent);
+    }
 
 }
