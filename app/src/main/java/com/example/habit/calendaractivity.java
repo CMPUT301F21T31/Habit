@@ -95,8 +95,9 @@ public class calendaractivity extends AppCompatActivity {
         setMonthView();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onItemClick(int position, String dayText)
     {
         if(!dayText.equals(""))

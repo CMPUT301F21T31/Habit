@@ -18,13 +18,13 @@ Button t5b;
         t5b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tomain();
+                tocal();
             }
         });
     }
 
-    private void tomain() {
-        Intent intent=new Intent(this,MainActivity.class);
+    private void tocal() {
+        Intent intent=new Intent(this,calendaractivity.class);
         startActivity(intent);
     }
 }
