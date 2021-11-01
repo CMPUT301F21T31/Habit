@@ -14,15 +14,15 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class calendar extends AppCompatActivity {
-Button calb2;
+public class calendarend extends AppCompatActivity {
+    Button calendb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        setContentView(R.layout.activity_calendarend);
         initOverall();
-        calb2=findViewById(R.id.calb2);
-        calb2.setOnClickListener(new View.OnClickListener() {
+        calendb=findViewById(R.id.calendb);
+        calendb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goback();
@@ -36,8 +36,8 @@ Button calb2;
 
 
     public void initOverall(){
-        final TextView dateTest = (TextView)findViewById(R.id.convert2);
-        final CalendarView calendarView = (CalendarView)findViewById(R.id.calendarView2);
+        final TextView dateTest = (TextView)findViewById(R.id.calendt);
+        final CalendarView calendarView = (CalendarView)findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -46,8 +46,7 @@ Button calb2;
                 dateTest.setText(selectedDates);
                 SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
                 SharedPreferences.Editor editor=prefs.edit();
-                editor.putString("firstdate",selectedDates);
-               // editor.putString("etest",selectedDates);
+                editor.putString("etest",selectedDates);
                 editor.apply();
             }
         });
@@ -55,4 +54,3 @@ Button calb2;
     }
 
 }
-

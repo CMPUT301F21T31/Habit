@@ -4,31 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".calendar">
+    tools:context=".calendarend">
 
     <CalendarView
-        android:id="@+id/calendarView2"
+        android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/convert2"
+    <Button
+        android:id="@+id/calendb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="161dp"
-        android:layout_marginBottom="279dp"
-        android:text="TextView" />
+        android:layout_marginStart="175dp"
+        android:layout_marginBottom="149dp"
+        android:text="Button" />
 
-    <Button
-        android:id="@+id/calb2"
+    <TextView
+        android:id="@+id/calendt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="196dp"
-        android:text="Button" />
+        android:layout_marginBottom="307dp"
+        android:text="TextView" />
 </RelativeLayout>
