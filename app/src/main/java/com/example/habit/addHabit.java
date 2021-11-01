@@ -16,10 +16,12 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -50,6 +52,9 @@ public class addHabit extends AppCompatActivity {
     EditText endMonth;
     EditText endDay;
     EditText endYear;
+    int Syear;
+    int Sday;
+    int Smonth;
 
     HashMap<String, Boolean> selected_date = null;
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
@@ -211,8 +216,12 @@ public class addHabit extends AppCompatActivity {
                                 startYear.setText("" + year);
                                 startMonth.setText("" + (month + 1));
                                 startDay.setText("" + dayOfMonth);
+                                Syear = year;
+                                Smonth = month;
+                                Sday = dayOfMonth;
                             }
                         }, year, month, dayOfMonth);
+                startDateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 startDateDialog.show();
             }
         });
@@ -235,9 +244,12 @@ public class addHabit extends AppCompatActivity {
                                 endDay.setText("" + dayOfMonth);
                             }
                         }, year, month, dayOfMonth);
+                calendar.set(Syear, Smonth, Sday);
+                endDateDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
                 endDateDialog.show();
             }
         });
+
 
         // Passing the recurrence to the habit after clicked the confirm button
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -250,8 +262,9 @@ public class addHabit extends AppCompatActivity {
                 String habit_reason = title.getText().toString();
 
                 // 3. Get the start date
-                
+
                 // 4. Get the end date
+
                 // 5. Get the recurrence
                 try {
                     selected_date = Habit.generateDaysDict(recurrence);
