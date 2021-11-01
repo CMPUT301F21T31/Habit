@@ -244,10 +244,13 @@ public class addHabit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 1. Get the habit title
-
+                String habit_title = title.getText().toString();
 
                 // 2. Get the habit reasons
+                String habit_reason = title.getText().toString();
+
                 // 3. Get the start date
+                
                 // 4. Get the end date
                 // 5. Get the recurrence
                 try {
