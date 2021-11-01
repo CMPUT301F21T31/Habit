@@ -61,6 +61,10 @@ public class addHabit extends AppCompatActivity {
     EditText endDay;
     EditText endYear;
 
+    int Syear;
+    int Smonth;
+    int Sday;
+
     Timestamp startTime;
     Timestamp endTime;
     HashMap<String, Boolean> selected_date = null;
@@ -220,8 +224,12 @@ public class addHabit extends AppCompatActivity {
                                 startMonth.setText("" + (month + 1));
                                 startDay.setText("" + dayOfMonth);
                                 startTime = new Timestamp(calendar.getTimeInMillis());
+                                Sday = dayOfMonth;
+                                Smonth = month;
+                                Syear = year;
                             }
                         }, year, month, dayOfMonth);
+                startDateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 startDateDialog.show();
             }
         });
@@ -245,6 +253,8 @@ public class addHabit extends AppCompatActivity {
                                 endTime = new Timestamp(calendar.getTimeInMillis());
                             }
                         }, year, month, dayOfMonth);
+                calendar.set(Syear, Smonth, Sday);
+                endDateDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
                 endDateDialog.show();
             }
         });
