@@ -1,5 +1,9 @@
 package com.example.habit;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -170,21 +174,66 @@ public class Habit {
     }
 
     /**
-     * @param event HabitEvent object to add to this habit's event list
+     * Add a event object to the habitEvents collection and add a reference to the habitEvent in a
+     * habit's events list.
+     * @param habitId
+     * @param event
      */
-    public void addEvent(HabitEvent event) {
-        this.events.add(event);
+    public static void addEvent(String habitId, HabitEvent event) {
+        String eventId = addEventToEvents(event);
+        addEventToHabit(habitId, eventId);
     }
 
     /**
-     * @param event Habit event to delte
-     * @throws NoSuchElementException Thrown if event to delete is not in list
+     * Add a event ID to the list of event IDs for a particular habit
+     * @param habitId
+     * @param eventId
      */
-    public void deleteEvent(HabitEvent event) throws NoSuchElementException {
-        if (this.events.contains(event)) {
-            this.events.remove(event);
-        } else {
-            throw new NoSuchElementException("Event to be deleted not in events list!");
-        }
+    private static void addEventToHabit(String habitId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference thisHabit = db.collection("habits").document(habitId);
+        thisHabit.update("events", FieldValue.arrayUnion(eventId));
+    }
+
+    /**
+     * Add HabitEvent object to the HabitEvents collection
+     * @param event
+     * @return
+     */
+    private static String addEventToEvents(HabitEvent event) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newEvent = db.collection("habitEvents").document();
+        newEvent.set(event);
+        return newEvent.getId();
+    }
+
+    /**
+     * Delete event from events collection and events list for a habit
+     * @param habitId
+     * @param eventId
+     */
+    public static void deleteEvent(String habitId, String eventId) {
+        deleteEventFromEvents(eventId);
+        deleteEventFromHabit(habitId, eventId);
+    }
+
+    /**
+     * Delete event from events collection
+     * @param eventId
+     */
+    private static void deleteEventFromEvents(String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("habitEvents").document(eventId).delete();
+    }
+
+    /**
+     * Delete event ID from events list for a habit
+     * @param habitId
+     * @param eventId
+     */
+    private static void deleteEventFromHabit(String habitId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference thisUser = db.collection("habits").document(habitId);
+        thisUser.update("events", FieldValue.arrayRemove(eventId));
     }
 }

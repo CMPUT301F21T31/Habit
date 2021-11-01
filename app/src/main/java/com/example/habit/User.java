@@ -109,21 +109,38 @@ public class User {
      * @param habitID
      */
     private static void addHabitToUser(String uuid, String habitID) {
-        // String uuid, String habitID
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference thisUser = db.collection("users").document(uuid);
         thisUser.update("habits", FieldValue.arrayUnion(habitID));
     }
 
     /**
-     * @param habit Habit to delete from this user's list if it exists
-     * @throws NoSuchElementException Thrown if habit does not exist in this User's list
+     * Delete habit from habits collection and habits list for a user
+     * @param uuid
+     * @param habitId
      */
-    public void deleteHabit(Habit habit) {
-        if (this.habits.contains(habit)) {
-            this.habits.remove(habit);
-        } else {
-            throw new NoSuchElementException("Habit to be deleted not found in habits list!");
-        }
+    public static void deleteHabit(String uuid, String habitId) {
+        deleteHabitFromHabits(habitId);
+        deleteHabitFromUser(uuid, habitId);
+    }
+
+    /**
+     * Delete habit from habits collection
+     * @param habitId
+     */
+    private static void deleteHabitFromHabits(String habitId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("habits").document(habitId).delete();
+    }
+
+    /**
+     * Delete habit ID from habits list for a user
+     * @param uuid
+     * @param habitId
+     */
+    private static void deleteHabitFromUser(String uuid, String habitId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference thisUser = db.collection("users").document(uuid);
+        thisUser.update("habits", FieldValue.arrayRemove(habitId));
     }
 }
