@@ -70,7 +70,7 @@ public class tutorial_3emailpassword extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("SIGNUP SUCCESS", "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    FirebaseUser fb_user = mAuth.getCurrentUser();
 //                                    updateUI(user);
 
                                     // Initialize DB
@@ -80,15 +80,12 @@ public class tutorial_3emailpassword extends AppCompatActivity {
                                     CollectionReference usersCollectionRef = db.collection("users");
 
                                     // Create new entry in users collection
-                                    Map<String, Object> data = new HashMap<>();
-                                    data.put("email", email);
-                                    data.put("username", username);
-                                    data.put("displayName", displayName);
+                                    User user = new User(displayName, username, email);
 
                                     // Add to users collection
                                     usersCollectionRef
-                                        .document(user.getUid()) // Use Uid as key for users
-                                        .set(data)
+                                        .document(fb_user.getUid()) // Use Uid as key for users
+                                        .set(user)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
