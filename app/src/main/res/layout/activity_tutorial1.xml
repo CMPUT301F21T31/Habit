@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_tutorial1_scene"
-    tools:context=".tutorial_1">
+    >
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="170dp"
-        android:layout_height="103dp"
+        android:layout_width="264dp"
+        android:layout_height="227dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="238dp"
-        android:text="@string/t_1" />
+        android:layout_marginTop="114dp"
+        android:fontFamily="cursive"
+        android:text="@string/t_1"
+        android:textSize="50dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/t_1t"
@@ -23,8 +26,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="271dp"
+
         android:ems="10"
-        android:hint="yourname"
+        android:hint="Enter your name here"
         android:inputType="textPersonName" />
 
     <Button
@@ -33,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="226dp"
-        android:text="Button" />
+        android:layout_marginBottom="215dp"
+        android:background="@color/Bright_Blue"
+        android:text="->" />
 </RelativeLayout>

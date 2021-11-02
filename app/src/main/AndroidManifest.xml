@@ -4,11 +4,23 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/apklk_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/apklk_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
+        <activity
+            android:name=".splashscreen2"
+            android:exported="true" />
+        <activity
+            android:name=".splashscreen"
+            android:exported="true" />
+        <activity
+            android:name=".calendarend"
+            android:exported="true" />
+        <activity
+            android:name=".calendar"
+            android:exported="true" />
         <activity
             android:name=".tutorial_3emailpassword"
             android:exported="false" />
