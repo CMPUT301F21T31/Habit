@@ -1,5 +1,7 @@
 package com.example.habit;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +23,7 @@ public class Habit {
     private Date end;
     private HashMap<String, Boolean> daysOfWeek;
     private ArrayList<HabitEvent> events;
+    private String habitId;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -39,6 +42,7 @@ public class Habit {
         this.end = end;
         this.daysOfWeek = daysOfWeek;
         this.events = events;
+        this.habitId = null;
     }
 
     /**
@@ -48,6 +52,20 @@ public class Habit {
             Boolean> daysOfWeek) {
         this(title, reason, start, end, daysOfWeek, new ArrayList<HabitEvent>());
     }
+
+    /**
+     * No arg constructors allows us to store and retrieve Habit objects from firebase
+     */
+    public Habit() {}
+
+//    public Habit(Habit habit) {
+//        this.title = habit.getTitle();
+//        this.reason = habit.getReason();
+//        this.start = habit.getStart();
+//        this.end = habit.getEnd();
+//        this.daysOfWeek = (HashMap<String, Boolean>) habit.getDaysOfWeek();
+//        this.events = habit.getEvents();
+//    }
 
     /**
      * @return Title of habit, e.g. Swimming or Reading
@@ -100,6 +118,27 @@ public class Habit {
      */
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getHabitId() {
+        return habitId;
+    }
+
+    /**
+     *
+     * @param habitId
+     */
+    public void setHabitId(String habitId) {
+        // Should only set habitId when it is null
+        if (this.habitId != null) {
+            Log.e("HABIT SET ERROR", "Should not set habitId of habit which already has an ID");
+        } else {
+            this.habitId = habitId;
+        }
     }
 
     /**
