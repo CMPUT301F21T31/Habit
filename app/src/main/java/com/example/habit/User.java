@@ -24,6 +24,7 @@ public class User {
 
     private String displayName;
     private String userName;
+    private String email;
     private ArrayList<Habit> habits;
 
     /**
@@ -31,18 +32,24 @@ public class User {
      * @param displayName Non-unique name used throughout app
      * @param userName Unique name used for adding followers
      * @param habits List of habits
+     * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, ArrayList<Habit> habits) {
+    public User(String displayName, String userName, String email, ArrayList<Habit> habits) {
         this.displayName = displayName;
         this.userName = userName;
+        this.email = email;
         this.habits = habits;
     }
 
     /**
      * Constructor for user with no habits, simply creates user with empty habit list
      */
-    public User(String displayName, String userName) {
-        this(displayName, userName, new ArrayList<Habit>());
+    public User(String displayName, String userName, String email) {
+        this(displayName, userName, email, new ArrayList<Habit>());
+    }
+
+    public User() {
+
     }
 
     /**
@@ -72,6 +79,22 @@ public class User {
     public void setUserName(String userName) {
         // TODO: Check if username exists here, should this be done in user class or another?
         this.userName = userName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     *
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
