@@ -51,6 +51,8 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: Once click the item in the list, then it start to edit the details
+
         // @Lewis see testDB() for an example of how to create habits and habit events in DB
         // testDB();
     }
