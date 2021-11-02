@@ -63,7 +63,7 @@ Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.
     }
 
     private void login() {
-        Intent intent = new Intent(this, calendar.class);
+        Intent intent = new Intent(this, splashscreen.class);
         startActivity(intent);
     }
 }
