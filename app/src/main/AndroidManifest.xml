@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
         <activity
+            android:name=".splashscreen"
+            android:exported="true" />
+        <activity
             android:name=".calendarend"
             android:exported="true" />
         <activity
