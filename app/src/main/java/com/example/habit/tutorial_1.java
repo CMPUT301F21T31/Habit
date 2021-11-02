@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class tutorial_1 extends AppCompatActivity {
-Button t_1b;
-EditText t_1t;
+    Button t_1b;
+    EditText t_1t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,12 @@ EditText t_1t;
             @Override
             public void onClick(View view) {
                 String name = t_1t.getText().toString();
-                 SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-                 SharedPreferences.Editor editor=prefs.edit();
-                 editor.putString("firstStartname",name);
-                  editor.apply();
-            String inname= prefs.getString("firstStartname","");
-            //String uniqueID =prefs.getString("UID","");
+                SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor=prefs.edit();
+                editor.putString("firstStartname",name);
+                editor.apply();
+                String inname= prefs.getString("firstStartname","");
+                //String uniqueID =prefs.getString("UID","");
                 //Toast.makeText(tutorial_1.this,inname+uniqueID,Toast.LENGTH_LONG).show();
 
                 opent_2();
@@ -49,7 +49,7 @@ EditText t_1t;
         String inname= prefs.getString("firstStartname","");
 
         intent.putExtra("fname", inname);
-       // startActivity(intent);
-    startActivity(intent);
+        // startActivity(intent);
+        startActivity(intent);
     }
 }

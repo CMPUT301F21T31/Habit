@@ -21,11 +21,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -35,7 +37,7 @@ import java.util.HashMap;
  * US 01.06.01
  * Create the add habit interface
  */
-public class addHabit extends AppCompatActivity {
+public class editHabit extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseFirestore db;
@@ -74,7 +76,7 @@ public class addHabit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_habit);
+        setContentView(R.layout.edit_habit);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -98,6 +100,39 @@ public class addHabit extends AppCompatActivity {
         Friday = findViewById(R.id.friday);
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
+
+        // After enter the edit interface, the existing information should replace the hints
+        User curr_user = null; // Should pass the user obj from habitList
+        Habit selected_habit = curr_user.getHabits().get(0);
+
+        title.setText(selected_habit.getTitle());
+        reason.setText(selected_habit.getReason());
+
+        Date sDate = selected_habit.getStart();
+        int sd;
+        int sm;
+        int sy;
+
+        sd = sDate.getDay();
+        sm = sDate.getMonth();
+        sy = sDate.getYear();
+
+        startDay.setText(sd);
+        startMonth.setText(sm);
+        startYear.setText(sy);
+
+        Date eDate = selected_habit.getEnd();
+        int ed;
+        int em;
+        int ey;
+
+        ed = sDate.getDay();
+        em = sDate.getMonth();
+        ey = sDate.getYear();
+
+        endDay.setText(ed);
+        endMonth.setText(em);
+        endYear.setText(ey);
 
         final boolean[] myButtonIsClicked = {false};
 
@@ -216,7 +251,7 @@ public class addHabit extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog startDateDialog = new DatePickerDialog(addHabit.this,
+                DatePickerDialog startDateDialog = new DatePickerDialog(editHabit.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -243,7 +278,7 @@ public class addHabit extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog endDateDialog = new DatePickerDialog(addHabit.this,
+                DatePickerDialog endDateDialog = new DatePickerDialog(editHabit.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

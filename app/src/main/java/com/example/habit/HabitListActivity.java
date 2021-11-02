@@ -5,7 +5,9 @@ import static java.lang.Thread.sleep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.widget.ListView;
 
@@ -35,6 +37,7 @@ public class HabitListActivity extends AppCompatActivity {
     // Firebase references
     private FirebaseAuth auth;
     FirebaseFirestore db;
+
     FirebaseUser fb_user;
     User user;
 
@@ -117,6 +120,16 @@ public class HabitListActivity extends AppCompatActivity {
             });
         }
 
+        // Direct the user to addHabit interface
+        add_habit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddHabit();
+            }
+        });
+
+        // TODO: Once click the item in the list, then it start to edit the details
+
         // @Lewis see testDB() for an example of how to create habits and habit events in DB
         // testDB();
     }
@@ -164,5 +177,9 @@ public class HabitListActivity extends AppCompatActivity {
 //        Habit.deleteEvent("F5h5jNzuOCBZx5ptZQ0e", "hJuy8BPeEQ0BH026Mv4W");
     }
 
+    private void openAddHabit() {
+        Intent intent = new Intent(this, addHabit.class);
+        startActivity(intent);
+    }
 
 }
