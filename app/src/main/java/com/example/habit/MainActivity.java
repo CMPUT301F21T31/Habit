@@ -42,7 +42,7 @@ Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.
               }
           });
         } else {
-            login();
+        splashwelcome();
             // openHabitList();
         }
     }
@@ -64,6 +64,10 @@ Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.
 
     private void login() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+    private void splashwelcome(){
+        Intent intent = new Intent(this, splashscreen.class);
         startActivity(intent);
     }
 }

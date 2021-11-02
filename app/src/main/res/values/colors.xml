@@ -21,4 +21,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#777777</color>
     <color name="blue">#2196F3</color>
+    <color name="Blue">#2196F3</color>
+    <color name="lightBlue">#D900BCD4</color>
 </resources>
