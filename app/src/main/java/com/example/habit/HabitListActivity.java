@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -61,7 +65,6 @@ public class HabitListActivity extends AppCompatActivity {
         habitAdapter = new HabitList(this, habitDataList);
         habitList = findViewById(R.id.habit_list);
         habitList.setAdapter(habitAdapter);
-
 
         if (fb_user == null) {
             // Go back to login
@@ -121,6 +124,8 @@ public class HabitListActivity extends AppCompatActivity {
         }
 
         // Direct the user to addHabit interface
+        ImageButton add_habit_button = findViewById(R.id.add_habit_button);
+
         add_habit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +133,13 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Once click the item in the list, then it start to edit the details
+        // Once click the item in the list, then it start to edit the details
+        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                openEditHabit(i);
+            }
+        });
 
         // @Lewis see testDB() for an example of how to create habits and habit events in DB
         // testDB();
@@ -179,6 +190,16 @@ public class HabitListActivity extends AppCompatActivity {
 
     private void openAddHabit() {
         Intent intent = new Intent(this, addHabit.class);
+        startActivity(intent);
+    }
+
+    private void openEditHabit(int i) {
+        ArrayList<Habit> curr = new ArrayList<Habit>();
+        Intent intent = new Intent(this, editHabit.class);
+        Bundle args = new Bundle();
+        args.putSerializable("ARRAYLIST",(Serializable)habitDataList);
+        intent.putExtra("BUNDLE",args);
+        intent.putExtra("item_index", i);
         startActivity(intent);
     }
 

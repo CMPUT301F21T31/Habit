@@ -14,11 +14,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.Time;
@@ -32,10 +37,8 @@ import java.util.HashMap;
 
 
 /**
- * US 01.01.01
- * US 01.02.01
- * US 01.06.01
- * Create the add habit interface
+ * US 01.04.01
+ * Edit habit interface
  */
 public class editHabit extends AppCompatActivity {
 
@@ -102,8 +105,13 @@ public class editHabit extends AppCompatActivity {
         Sunday = findViewById(R.id.sunday);
 
         // After enter the edit interface, the existing information should replace the hints
-        User curr_user = null; // Should pass the user obj from habitList
-        Habit selected_habit = curr_user.getHabits().get(0);
+        User curr_user;
+
+        Intent intent = getIntent();
+        int index = intent.getIntExtra("item_index", 0);
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        ArrayList<Habit> habitList = (ArrayList<Habit>) args.getSerializable("ARRAYLIST");
+        Habit selected_habit = habitList.get(index);
 
         title.setText(selected_habit.getTitle());
         reason.setText(selected_habit.getReason());
