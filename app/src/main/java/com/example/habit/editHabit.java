@@ -102,7 +102,7 @@ public class editHabit extends AppCompatActivity {
         Sunday = findViewById(R.id.sunday);
 
         // After enter the edit interface, the existing information should replace the hints
-        User curr_user;
+        User curr_user = null; // Should pass the user obj from habitList
         Habit selected_habit = curr_user.getHabits().get(0);
 
         title.setText(selected_habit.getTitle());
