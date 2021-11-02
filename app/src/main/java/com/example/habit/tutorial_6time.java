@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class tutorial_6time extends AppCompatActivity {
 Button t5b;
 Button timeend;
+Button timenext;
 TextView enddatet;
     TextView textView2;
     @Override
@@ -24,9 +25,18 @@ TextView enddatet;
         SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
         String firstdate= prefs.getString("firstdate","");
         String etest= prefs.getString("etest","");
+        timenext=findViewById(R.id.timenext);
         textView2.setText("startdate"+firstdate);
         enddatet=findViewById(R.id.enddatet);
         enddatet.setText("enddate"+etest);
+
+        timenext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(tutorial_6time.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         timeend.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {

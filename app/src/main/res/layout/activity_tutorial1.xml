@@ -28,7 +28,7 @@
         android:layout_marginBottom="271dp"
 
         android:ems="10"
-        android:hint="enteryourname"
+        android:hint="Enter your name here"
         android:inputType="textPersonName" />
 
     <Button
@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="226dp"
+        android:layout_marginBottom="215dp"
+        android:background="@color/Bright_Blue"
         android:text="->" />
 </RelativeLayout>
