@@ -25,7 +25,7 @@ public class User {
     private String displayName;
     private String userName;
     private String email;
-    private ArrayList<Habit> habits;
+    private ArrayList<String> habits;
 
     /**
      * Constructor for user with habit list
@@ -34,7 +34,7 @@ public class User {
      * @param habits List of habits
      * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, String email, ArrayList<Habit> habits) {
+    public User(String displayName, String userName, String email, ArrayList<String> habits) {
         this.displayName = displayName;
         this.userName = userName;
         this.email = email;
@@ -45,7 +45,7 @@ public class User {
      * Constructor for user with no habits, simply creates user with empty habit list
      */
     public User(String displayName, String userName, String email) {
-        this(displayName, userName, email, new ArrayList<Habit>());
+        this(displayName, userName, email, new ArrayList<String>());
     }
 
     public User() {
@@ -82,7 +82,7 @@ public class User {
     }
 
     /**
-     *
+     * Get a users email
      * @return
      */
     public String getEmail() {
@@ -90,8 +90,8 @@ public class User {
     }
 
     /**
-     *
-     * @param email
+     * Set a users email
+     * @param email Email address
      */
     public void setEmail(String email) {
         this.email = email;
@@ -100,7 +100,7 @@ public class User {
     /**
      * @return all of User's habits
      */
-    public ArrayList<Habit> getHabits() {
+    public ArrayList<String> getHabits() {
         return habits;
     }
 
@@ -122,6 +122,7 @@ public class User {
     private static String addHabitToHabits(Habit habit) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference newHabit = db.collection("habits").document();
+        habit.setHabitId(newHabit.getId());
         newHabit.set(habit);
         return newHabit.getId();
     }
