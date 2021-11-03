@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -75,7 +73,5 @@ public class HabitTests {
         assertEquals(result2, noDaysExpected);
         assertEquals(result3, oneDayExpected);
         assertEquals(result4, manyDaysExpected);
-
-        assertEquals(1, 1);
     }
 }

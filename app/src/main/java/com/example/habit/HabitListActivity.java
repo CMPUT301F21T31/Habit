@@ -3,6 +3,7 @@ package com.example.habit;
 import static java.lang.Thread.sleep;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,8 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,7 +54,7 @@ public class HabitListActivity extends AppCompatActivity {
     HabitList habitAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_list);
 
@@ -65,6 +68,8 @@ public class HabitListActivity extends AppCompatActivity {
         habitAdapter = new HabitList(this, habitDataList);
         habitList = findViewById(R.id.habit_list);
         habitList.setAdapter(habitAdapter);
+
+        Log.i("HabitList", "In onCreate");
 
         if (fb_user == null) {
             // Go back to login
@@ -85,34 +90,31 @@ public class HabitListActivity extends AppCompatActivity {
                             // Get user object and their habit IDs
                             user = document.toObject(User.class);
                             ArrayList<String> habits = user.getHabits();
+                            Log.i("User habits", habits.toString());
 
-                            // Get each habit for this user and add to list
-                            for (String habitId : habits) {
+                            // On change listener for habits belonging to this user
+                            db.collection("habits")
+                                    .whereEqualTo("userId", fb_user.getUid()) // Only get habits for this user
+                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                                // Query single habit
-                                Log.i("Get habit", "Getting " + habitId.trim());
-                                db.collection("habits")
-                                        .document(habitId.trim())
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult();
-                                                    if (document.exists()) {
-                                                        // Add to list and notify adapter
-                                                        habitDataList.add(document.toObject(Habit.class));
-                                                        habitAdapter.notifyDataSetChanged();
-                                                        Log.d("S", "DocumentSnapshot data: " + document.getData());
-                                                    } else {
-                                                        Log.d("NA", "No such document");
-                                                    }
-                                                } else {
-                                                    Log.d("F", "get failed with ", task.getException());
-                                                }
+                                            // Log failure and exit
+                                            if (error != null) {
+                                                Log.w("FAILED", "Listen failed.", error);
+                                                return;
                                             }
-                                        });
-                            }
+
+                                            // Clear old habits
+                                            habitDataList.clear();
+                                            for (QueryDocumentSnapshot doc : value) {
+                                                    // Get all changed habits and add to list
+                                                    Log.d("CHANGE", doc.toObject(Habit.class).toString());
+                                                    habitDataList.add(doc.toObject(Habit.class));
+                                            }
+                                            habitAdapter.notifyDataSetChanged();
+                                        }
+                                    });
                         } else {
                             Log.d("HABIT NOT EXISTS", "No such document");
                         }
