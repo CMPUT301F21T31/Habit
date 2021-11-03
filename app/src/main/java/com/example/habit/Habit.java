@@ -24,6 +24,7 @@ public class Habit {
     private HashMap<String, Boolean> daysOfWeek;
     private ArrayList<HabitEvent> events;
     private String habitId;
+    private String userId;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -57,15 +58,6 @@ public class Habit {
      * No arg constructors allows us to store and retrieve Habit objects from firebase
      */
     public Habit() {}
-
-//    public Habit(Habit habit) {
-//        this.title = habit.getTitle();
-//        this.reason = habit.getReason();
-//        this.start = habit.getStart();
-//        this.end = habit.getEnd();
-//        this.daysOfWeek = (HashMap<String, Boolean>) habit.getDaysOfWeek();
-//        this.events = habit.getEvents();
-//    }
 
     /**
      * @return Title of habit, e.g. Swimming or Reading
@@ -121,7 +113,7 @@ public class Habit {
     }
 
     /**
-     *
+     * Retrieve habit ID
      * @return
      */
     public String getHabitId() {
@@ -129,7 +121,7 @@ public class Habit {
     }
 
     /**
-     *
+     * Set the habit ID from firestore for this habit
      * @param habitId
      */
     public void setHabitId(String habitId) {
@@ -138,6 +130,26 @@ public class Habit {
             Log.e("HABIT SET ERROR", "Should not set habitId of habit which already has an ID");
         } else {
             this.habitId = habitId;
+        }
+    }
+
+    /**
+     * Retrieve user ID
+     * @return
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * Set the user ID from firestore belonging to this habit, should not be changed and should only be one
+     * @param userId
+     */
+    public void setUserId(String userId) {
+        if (this.userId != null) {
+            Log.e("HABIT SET ERROR", "Should not set userId of habit which already has an ID");
+        } else {
+            this.userId = userId;
         }
     }
 

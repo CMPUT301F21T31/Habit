@@ -111,7 +111,7 @@ public class User {
      * @param habit
      */
     public static void addHabit(String uuid, Habit habit) {
-        String habitId = addHabitToHabits(habit);
+        String habitId = addHabitToHabits(habit, uuid);
         addHabitToUser(uuid, habitId);
     }
 
@@ -119,10 +119,11 @@ public class User {
      * Add a Habit object to the habits collection. Do not call this directly.
      * @param habit
      */
-    private static String addHabitToHabits(Habit habit) {
+    private static String addHabitToHabits(Habit habit, String uuid) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference newHabit = db.collection("habits").document();
         habit.setHabitId(newHabit.getId());
+        habit.setUserId(uuid);
         newHabit.set(habit);
         return newHabit.getId();
     }
