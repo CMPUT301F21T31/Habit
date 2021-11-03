@@ -187,18 +187,25 @@ public class Habit {
                 switch (i) {
                     case 0:
                         daysMap.put("Monday", true);
+                        break;
                     case 1:
                         daysMap.put("Tuesday", true);
+                        break;
                     case 2:
                         daysMap.put("Wednesday", true);
+                        break;
                     case 3:
                         daysMap.put("Thursday", true);
+                        break;
                     case 4:
                         daysMap.put("Friday", true);
+                        break;
                     case 5:
                         daysMap.put("Saturday", true);
+                        break;
                     case 6:
                         daysMap.put("Sunday", true);
+                        break;
                 }
             }
         }
