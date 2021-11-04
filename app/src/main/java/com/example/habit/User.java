@@ -48,9 +48,12 @@ public class User {
         this(displayName, userName, email, new ArrayList<String>());
     }
 
-    public User() {
+    /**
+     * Empty constructor allowing storage of User objects in firestore
+     */
+    public User() {}
 
-    }
+    /* Getters and Setters */
 
     /**
      * @return The display name for the user, not necessarily unique in the system.
@@ -77,7 +80,6 @@ public class User {
      * @param userName Username to check for in system, throw error if it does otherwise set username
      */
     public void setUserName(String userName) {
-        // TODO: Check if username exists here, should this be done in user class or another?
         this.userName = userName;
     }
 
@@ -103,6 +105,8 @@ public class User {
     public ArrayList<String> getHabits() {
         return habits;
     }
+
+    /* Firestore Methods */
 
     /**
      * Add a habit object to the habits collection and add a reference to that habit to a users
