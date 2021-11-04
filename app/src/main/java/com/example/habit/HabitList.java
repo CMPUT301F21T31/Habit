@@ -17,11 +17,13 @@ public class HabitList extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
     private Context context;
+    private Boolean daily;
 
-    public HabitList(Context context, ArrayList<Habit> habits) {
+    public HabitList(Context context, ArrayList<Habit> habits, Boolean daily) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
+        this.daily = daily;
     }
 
     @NonNull
@@ -32,20 +34,37 @@ public class HabitList extends ArrayAdapter<Habit> {
 
         // Get habit element layout
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.habit_content, parent, false);
+            if (daily) {
+                // Use daily habit content view
+                view = LayoutInflater.from(context).inflate(R.layout.daily_habit_content, parent, false);
+            } else {
+                // Use all habit content view
+                view = LayoutInflater.from(context).inflate(R.layout.all_habit_content, parent, false);
+            }
         }
 
+        // Get single habit
         Habit habit = habits.get(position);
 
-        // Get field references
-        TextView habitName = view.findViewById(R.id.habit_name_text);
-        TextView occurence = view.findViewById(R.id.habit_occurence_text);
-        ImageView progress = view.findViewById(R.id.habit_progress_bar);
-
-        // Set fields
-        habitName.setText(habit.getTitle());
-
+        if (daily) {
+            // Get field references
+            TextView habitName = view.findViewById(R.id.habit_name_text);
+            ImageView status = view.findViewById(R.id.habit_status_bar);
+            // Set fields
+            habitName.setText(habit.getTitle());
+        } else {
+            // Get field references
+            TextView habitName = view.findViewById(R.id.habit_name_text);
+            TextView occurence = view.findViewById(R.id.habit_occurence_text);
+            ImageView progress = view.findViewById(R.id.habit_progress_bar);
+            // Set fields
+            habitName.setText(habit.getTitle());
+        }
         return view;
+    }
+
+    public void getDailyHabits() {
+
     }
 
 }

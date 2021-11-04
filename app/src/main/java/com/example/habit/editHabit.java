@@ -49,6 +49,7 @@ public class editHabit extends AppCompatActivity {
     FirebaseUser user;
 
     ImageButton back;
+    ImageButton delete;
     ImageButton confirm;
     ImageButton startDate;
     ImageButton endDate;
@@ -89,6 +90,7 @@ public class editHabit extends AppCompatActivity {
         title = findViewById(R.id.habit_title);
         reason = findViewById(R.id.habit_reason);
         back = findViewById(R.id.back);
+        delete = findViewById(R.id.delete);
         confirm = findViewById(R.id.confirm);
         startDate = findViewById(R.id.start_date);
         endDate = findViewById(R.id.end_date);
@@ -255,6 +257,16 @@ public class editHabit extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        // Delete this habit
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Should we have some kind of confirm alert box?
+                User.deleteHabit(user.getUid(), selected_habit.getHabitId());
                 finish();
             }
         });

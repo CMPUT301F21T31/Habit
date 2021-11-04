@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -292,6 +293,16 @@ public class Habit implements Parcelable {
     }
 
     /**
+     * Check if habit occurs on certain day
+     * @param weekday Day of week string, e.g. "Monday"
+     * @return Boolean, false if day of week doesn't exist in hashmap
+     */
+    public Boolean isOnDay(String weekday) {
+        Boolean result = daysOfWeek.get(weekday);
+        return result != null && result;
+    }
+
+    /**
      * @return Get all the HabitEvents for this Habit
      */
     public ArrayList<String> getEvents() {
@@ -308,6 +319,8 @@ public class Habit implements Parcelable {
         String eventId = addEventToEvents(event);
         addEventToHabit(habitId, eventId);
     }
+
+    /* Firestore Methods */
 
     /**
      * Add a event ID to the list of event IDs for a particular habit

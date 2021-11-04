@@ -5,37 +5,37 @@ import static java.lang.Thread.sleep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -45,13 +45,26 @@ public class HabitListActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     FirebaseFirestore db;
 
+    // User objects
     FirebaseUser fb_user;
     User user;
 
-    // Habit list
-    ListView habitList;
-    ArrayList<Habit> habitDataList;
-    HabitList habitAdapter;
+    // All habits list
+    ListView allHabitsListView;
+    ArrayList<Habit> allHabitsDataList;
+    HabitList allHabitsAdapter;
+
+    // Daily habits list
+    ListView dailyHabitsListView;
+    ArrayList<Habit> dailyHabitsDataList;
+    HabitList dailyHabitsAdapter;
+
+    // Buttons
+    AppCompatButton allButton;
+    AppCompatButton todayButton;
+
+    // Greeting string
+    TextView greeting;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,20 +76,30 @@ public class HabitListActivity extends AppCompatActivity {
         fb_user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        // Initialize habit list
-        habitDataList = new ArrayList<>();
-        habitAdapter = new HabitList(this, habitDataList);
-        habitList = findViewById(R.id.habit_list);
-        habitList.setAdapter(habitAdapter);
+        // Initialize all habits list
+        allHabitsDataList = new ArrayList<>();
+        allHabitsAdapter = new HabitList(this, allHabitsDataList, false);
+        allHabitsListView = findViewById(R.id.all_habits_list);
+        allHabitsListView.setAdapter(allHabitsAdapter);
+
+        // Initialize daily habits list
+        dailyHabitsDataList = new ArrayList<>();
+        dailyHabitsAdapter = new HabitList(this, dailyHabitsDataList, true);
+        dailyHabitsListView = findViewById(R.id.daily_habits_list);
+        dailyHabitsListView.setAdapter(dailyHabitsAdapter);
+
+        // Initialize buttons
+        allButton = findViewById(R.id.habit_list_all_button);
+        todayButton = findViewById(R.id.habit_list_today_button);
+
+        // Initialize greeting
+        greeting = findViewById(R.id.greeting);
 
         Log.i("HabitList", "In onCreate");
 
         if (fb_user == null) {
             // Go back to login
         } else {
-
-            // Add some habits (TEST)
-            // testDB();
 
             // Get User record for logged in user
             DocumentReference docRef = db.collection("users").document(fb_user.getUid());
@@ -89,6 +112,8 @@ public class HabitListActivity extends AppCompatActivity {
 
                             // Get user object and their habit IDs
                             user = document.toObject(User.class);
+                            greeting.setText("Hey, " + user.getDisplayName());
+
                             ArrayList<String> habits = user.getHabits();
                             Log.i("User habits", habits.toString());
 
@@ -105,14 +130,27 @@ public class HabitListActivity extends AppCompatActivity {
                                                 return;
                                             }
 
+                                            // Get today's weekday so we know which habits to add to today list
+                                            String weekday = new SimpleDateFormat("EEEE").format(new Date()).toString();
+                                            Log.i("Today", weekday);
+
                                             // Clear old habits
-                                            habitDataList.clear();
+                                            allHabitsDataList.clear();
+                                            dailyHabitsDataList.clear();
+
                                             for (QueryDocumentSnapshot doc : value) {
-                                                    // Get all changed habits and add to list
-                                                    Log.d("CHANGE", doc.toObject(Habit.class).toString());
-                                                    habitDataList.add(doc.toObject(Habit.class));
+                                                // Get all changed habits and add to list
+                                                Habit habit = doc.toObject(Habit.class);
+                                                Log.d("CHANGE", doc.toObject(Habit.class).toString());
+                                                allHabitsDataList.add(habit);
+
+                                                // Add to daily list if Habit occurs today
+                                                if (habit.isOnDay(weekday)) {
+                                                    dailyHabitsDataList.add(habit);
+                                                }
                                             }
-                                            habitAdapter.notifyDataSetChanged();
+                                            allHabitsAdapter.notifyDataSetChanged();
+                                            dailyHabitsAdapter.notifyDataSetChanged();
                                         }
                                     });
                         } else {
@@ -136,15 +174,31 @@ public class HabitListActivity extends AppCompatActivity {
         });
 
         // Once click the item in the list, then it start to edit the details
-        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        allHabitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 openEditHabit(i);
             }
         });
+        allButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                todayButton.setBackground(getBaseContext().getDrawable(R.drawable.rounded_corners_button_not_clicked));
+                allButton.setBackground(getBaseContext().getDrawable(R.drawable.rounded_corners_button_clicked));
+                dailyHabitsListView.setVisibility(View.INVISIBLE);
+                allHabitsListView.setVisibility(View.VISIBLE);
+            }
+        });
 
-        // @Lewis see testDB() for an example of how to create habits and habit events in DB
-        // testDB();
+        todayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allButton.setBackground(getBaseContext().getDrawable(R.drawable.rounded_corners_button_not_clicked));
+                todayButton.setBackground(getBaseContext().getDrawable(R.drawable.rounded_corners_button_clicked));
+                allHabitsListView.setVisibility(View.INVISIBLE);
+                dailyHabitsListView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**
@@ -198,12 +252,8 @@ public class HabitListActivity extends AppCompatActivity {
     private void openEditHabit(int i) {
         Log.i("Test", "Launching edit habit");
         Intent intent = new Intent(this, editHabit.class);
-        Habit habitToEdit = habitAdapter.getItem(i);
+        Habit habitToEdit = allHabitsAdapter.getItem(i);
         intent.putExtra("habit", habitToEdit);
-//        Bundle args = new Bundle();
-//        args.putSerializable("ARRAYLIST", (Serializable)habitDataList);
-//        intent.putExtra("BUNDLE", args);
-//        intent.putExtra("item_index", i);
         startActivity(intent);
     }
 
