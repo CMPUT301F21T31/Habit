@@ -196,11 +196,10 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     private void openEditHabit(int i) {
-        ArrayList<Habit> curr = new ArrayList<Habit>();
         Intent intent = new Intent(this, editHabit.class);
         Bundle args = new Bundle();
-        args.putSerializable("ARRAYLIST",(Serializable)habitDataList);
-        intent.putExtra("BUNDLE",args);
+        args.putSerializable("ARRAYLIST", (Serializable)habitDataList);
+        intent.putExtra("BUNDLE", args);
         intent.putExtra("item_index", i);
         startActivity(intent);
     }
