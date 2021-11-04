@@ -1,5 +1,7 @@
 package com.example.habit;
 
+import android.util.Log;
+
 /**
  * Class denoting an instance (event) of a particular Habit
  */
