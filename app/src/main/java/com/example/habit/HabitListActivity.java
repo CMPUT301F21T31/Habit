@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -62,6 +63,9 @@ public class HabitListActivity extends AppCompatActivity {
     AppCompatButton allButton;
     AppCompatButton todayButton;
 
+    // Greeting string
+    TextView greeting;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +92,9 @@ public class HabitListActivity extends AppCompatActivity {
         allButton = findViewById(R.id.habit_list_all_button);
         todayButton = findViewById(R.id.habit_list_today_button);
 
+        // Initialize greeting
+        greeting = findViewById(R.id.greeting);
+
         Log.i("HabitList", "In onCreate");
 
         if (fb_user == null) {
@@ -105,6 +112,8 @@ public class HabitListActivity extends AppCompatActivity {
 
                             // Get user object and their habit IDs
                             user = document.toObject(User.class);
+                            greeting.setText("Hey, " + user.getDisplayName());
+
                             ArrayList<String> habits = user.getHabits();
                             Log.i("User habits", habits.toString());
 
