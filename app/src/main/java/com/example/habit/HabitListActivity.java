@@ -127,6 +127,8 @@ public class HabitListActivity extends AppCompatActivity {
 
                                             // Clear old habits
                                             allHabitsDataList.clear();
+                                            dailyHabitsDataList.clear();
+
                                             for (QueryDocumentSnapshot doc : value) {
                                                 // Get all changed habits and add to list
                                                 Habit habit = doc.toObject(Habit.class);
