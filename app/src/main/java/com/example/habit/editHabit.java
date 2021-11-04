@@ -118,37 +118,38 @@ public class editHabit extends AppCompatActivity {
         Habit selected_habit = getIntent().getExtras().getParcelable("habit");
         Log.i("GOT HABIT", selected_habit.toString());
 
-        /*
+
         title.setText(selected_habit.getTitle());
         reason.setText(selected_habit.getReason());
 
         Date sDate = selected_habit.getStart();
+        Calendar cal = Calendar.getInstance(); // Add this
+        cal.setTime(sDate);
         int sd;
         int sm;
         int sy;
 
-        sd = sDate.getDay();
-        sm = sDate.getMonth();
-        sy = sDate.getYear();
+        sd = cal.get(Calendar.DAY_OF_MONTH);
+        sm = cal.get(Calendar.MONTH);
+        sy = cal.get(Calendar.YEAR);
 
-        startDay.setText(sd);
-        startMonth.setText(sm);
-        startYear.setText(sy);
+        startDay.setText(String.valueOf(sd));
+        startMonth.setText(String.valueOf(sm));
+        startYear.setText(String.valueOf(sy));
 
         Date eDate = selected_habit.getEnd();
+        cal.setTime(eDate);
         int ed;
         int em;
         int ey;
 
-        ed = sDate.getDay();
-        em = sDate.getMonth();
-        ey = sDate.getYear();
+        ed = cal.get(Calendar.DAY_OF_MONTH);
+        em = cal.get(Calendar.MONTH);
+        ey = cal.get(Calendar.YEAR);
 
-        endDay.setText(ed);
-        endMonth.setText(em);
-        endYear.setText(ey);
-
-         */
+        endDay.setText(String.valueOf(ed));
+        endMonth.setText(String.valueOf(em));
+        endYear.setText(String.valueOf(ey));
 
         final boolean[] myButtonIsClicked = {false};
 
