@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -346,5 +348,16 @@ public class editHabit extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        // Populate list
+        ListView lvEvents = findViewById(R.id.eventsListView);
+        ArrayList<String> eventIDs = selected_habit.getEvents();
+        ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
+        for (String id : eventIDs) {
+            // Get HabitEvent from firestore, add it to habitEvents List
+        }
+        ArrayAdapter<HabitEvent> eventsAdapter = new ArrayAdapter<HabitEvent>(this, R.layout.edit_habit, habitEvents);
+        lvEvents.setAdapter(eventsAdapter);
     }
 }

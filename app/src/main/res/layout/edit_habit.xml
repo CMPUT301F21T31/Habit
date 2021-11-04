@@ -417,5 +417,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_24" />
 
+    <ListView
+        android:id="@+id/eventsListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monday" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

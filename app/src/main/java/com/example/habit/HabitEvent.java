@@ -46,4 +46,9 @@ public class HabitEvent {
     public void setComments(String comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return location;
+    }
 }

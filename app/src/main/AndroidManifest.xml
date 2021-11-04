@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
         <activity
+            android:name=".HabitEventViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HabitViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".splashscreen2"
             android:exported="true" />
         <activity
