@@ -86,8 +86,8 @@ public class DatabaseTests {
         habitEventsRef = db.collection("habitEvents");
 
         // Instantiate mock users
-        mockUser1 = new User("John", "jsmith49");
-        mockUser2 = new User("Karla", "krox99");
+        // mockUser1 = new User("John", "jsmith49");
+        // mockUser2 = new User("Karla", "krox99");
 
 
         // Instantiate mock habits
