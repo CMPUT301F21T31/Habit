@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
+/**
+ * Tests the functionality of all getter and setter methods, and constructors
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserTests {
 
