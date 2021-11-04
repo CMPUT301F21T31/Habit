@@ -8,6 +8,7 @@
     tools:context=".HabitListActivity">
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -17,8 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/following_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
         <ListView
             android:id="@+id/habit_list"
@@ -27,14 +27,13 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="10.0sp" />
+        <!--        <ListView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:divider="@android:color/transparent"-->
+        <!--            android:dividerHeight="10.0sp" />-->
 
     </FrameLayout>
-
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -48,7 +47,7 @@
         android:textAllCaps="false"
         android:textColor="@color/Lighter_Gray_Text"
         android:textSize="@dimen/button_text_size"
-        app:layout_constraintStart_toStartOf="@+id/habit_list"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.appcompat.widget.AppCompatButton

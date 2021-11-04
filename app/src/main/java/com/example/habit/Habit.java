@@ -1,5 +1,8 @@
 package com.example.habit;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -15,14 +18,14 @@ import java.util.NoSuchElementException;
 /**
  * Class denoting a single Habit, belonging to a single User object and having a list of HabitEvents
  */
-public class Habit {
+public class Habit implements Parcelable {
 
     private String title;
     private String reason;
     private Date start;
     private Date end;
     private HashMap<String, Boolean> daysOfWeek;
-    private ArrayList<HabitEvent> events;
+    private ArrayList<String> events;
     private String habitId;
     private String userId;
 
@@ -36,14 +39,13 @@ public class Habit {
      * @param events Instances of this habit occurring
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, ArrayList<HabitEvent> events) {
+            Boolean> daysOfWeek, ArrayList<String> events) {
         this.title = title;
         this.reason = reason;
         this.start = start;
         this.end = end;
         this.daysOfWeek = daysOfWeek;
         this.events = events;
-        this.habitId = null;
     }
 
     /**
@@ -51,13 +53,78 @@ public class Habit {
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
             Boolean> daysOfWeek) {
-        this(title, reason, start, end, daysOfWeek, new ArrayList<HabitEvent>());
+        this(title, reason, start, end, daysOfWeek, new ArrayList<String>());
     }
 
     /**
      * No arg constructors allows us to store and retrieve Habit objects from firebase
      */
     public Habit() {}
+
+    /* Parcel Methods */
+
+    /**
+     * Constructor building Habit object from Parcel
+     * @param in Parcel passed through intent, containing a Habit object
+     */
+    protected Habit(Parcel in) {
+        title = in.readString();
+        reason = in.readString();
+        start = new Date(in.readLong());
+        end = new Date(in.readLong());
+
+        Bundle bundle = in.readBundle();
+        daysOfWeek = (HashMap<String, Boolean>)bundle.getSerializable("HashMap");
+
+        events = in.createStringArrayList();
+        habitId = in.readString();
+        userId = in.readString();
+    }
+
+    /**
+     * CREATOR field required for Parcelable
+     */
+    public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+        @Override
+        public Habit createFromParcel(Parcel source) {
+            return new Habit(source);
+        }
+
+        @Override
+        public Habit[] newArray(int size) {
+            return new Habit[size];
+        }
+    };
+
+    /**
+     * Required by Parcelable but not used for our application
+     * @return
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Write Habit properties to parcel, must read in same order.
+     * @param dest
+     * @param flags
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(reason);
+        dest.writeLong(start.getTime());
+        dest.writeLong(end.getTime());
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("HashMap", daysOfWeek);
+        dest.writeBundle(bundle);
+
+        dest.writeList(events);
+        dest.writeString(habitId);
+        dest.writeString(userId);
+    }
 
     /**
      * @return Title of habit, e.g. Swimming or Reading
@@ -227,7 +294,7 @@ public class Habit {
     /**
      * @return Get all the HabitEvents for this Habit
      */
-    public ArrayList<HabitEvent> getEvents() {
+    public ArrayList<String> getEvents() {
         return events;
     }
 
