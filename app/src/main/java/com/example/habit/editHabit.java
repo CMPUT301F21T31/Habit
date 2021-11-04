@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.Time;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Month;
 import java.util.ArrayList;
@@ -107,12 +109,16 @@ public class editHabit extends AppCompatActivity {
         // After enter the edit interface, the existing information should replace the hints
         User curr_user;
 
-        Intent intent = getIntent();
-        int index = intent.getIntExtra("item_index", 0);
-        Bundle args = intent.getBundleExtra("BUNDLE");
-        ArrayList<Habit> habitList = (ArrayList<Habit>) args.getSerializable("ARRAYLIST");
-        Habit selected_habit = habitList.get(index);
 
+//        Intent intent = getIntent();
+//        int index = intent.getIntExtra("item_index", 0);
+//        Bundle args = intent.getBundleExtra("BUNDLE");
+//        ArrayList<Habit> habitList = (ArrayList<Habit>) args.getSerializable("ARRAYLIST");
+//        Habit selected_habit = habitList.get(index);
+        Habit selected_habit = getIntent().getExtras().getParcelable("habit");
+        Log.i("GOT HABIT", selected_habit.toString());
+
+        /*
         title.setText(selected_habit.getTitle());
         reason.setText(selected_habit.getReason());
 
@@ -141,6 +147,8 @@ public class editHabit extends AppCompatActivity {
         endDay.setText(ed);
         endMonth.setText(em);
         endYear.setText(ey);
+
+         */
 
         final boolean[] myButtonIsClicked = {false};
 

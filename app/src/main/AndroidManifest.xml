@@ -43,6 +43,9 @@
             android:name=".tutorial_2usern"
             android:exported="true" />
         <activity
+            android:name=".editHabit"
+            android:exported="false" />
+        <activity
             android:name=".HabitListActivity"
             android:exported="false" />
         <activity
