@@ -62,9 +62,4 @@ public class HabitList extends ArrayAdapter<Habit> {
         }
         return view;
     }
-
-    public void getDailyHabits() {
-
-    }
-
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class tutorial_1 extends AppCompatActivity {
     Button t_1b;
+    Button skipToLoginButton;
     EditText t_1t;
 
     @Override
@@ -22,6 +23,7 @@ public class tutorial_1 extends AppCompatActivity {
         setContentView(R.layout.activity_tutorial1);
         t_1t=findViewById(R.id.t_1t);
         t_1b=findViewById(R.id.t_1b);
+        skipToLoginButton = findViewById(R.id.goTo_login_button);
 
 
         //Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
@@ -40,6 +42,14 @@ public class tutorial_1 extends AppCompatActivity {
 
                 opent_2();
 
+            }
+        });
+
+        skipToLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(tutorial_1.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
