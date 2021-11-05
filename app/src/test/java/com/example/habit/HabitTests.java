@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,8 +17,10 @@ public class HabitTests {
 
     Habit mockHabit1;
     Habit mockHabit2;
-    Date now;
-    Date later;
+    Date start1;
+    Date start2;
+    Date end1;
+    Date end2;
     HashMap<String, Boolean> daysOfWeek1;
     HashMap<String, Boolean> daysOfWeek2;
     ArrayList<String> events;
@@ -43,13 +44,18 @@ public class HabitTests {
         }
 
         // Mock dates
-        now = new Date();
-        LocalDate d = LocalDate.parse("2022-11-01");
-        later = Date.from(d.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDate d1 = LocalDate.parse("2021-11-01");
+        LocalDate d2 = LocalDate.parse("2022-06-07");
+        LocalDate d3 = LocalDate.parse("2022-10-21");
+        start1 = new Date();
+        start2 = Date.from(d1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        end1 = Date.from(d2.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        end2 = Date.from(d3.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
 
         // Create mock habits for testing using constructor with and without events
-        mockHabit1 = new Habit("Swimming", "Get fit", now, later, daysOfWeek1, events);
-        mockHabit2 = new Habit("Reading", "Learn", now, later, daysOfWeek2);
+        mockHabit1 = new Habit("Swimming", "Get fit", start1, end1, daysOfWeek1, events);
+        mockHabit2 = new Habit("Reading", "Learn", start1, end1, daysOfWeek2);
 
     }
 
@@ -137,33 +143,33 @@ public class HabitTests {
     @Test
     void setReason() {
         mockHabit2.setReason("For fun");
-        assertNotEquals("Get fit", mockHabit2);
-        assertEquals("For fun", mockHabit2);
+        assertNotEquals("Get fit", mockHabit2.getReason());
+        assertEquals("For fun", mockHabit2.getReason());
     }
 
     @Test
     void getStart() {
-        assertEquals(now, mockHabit1.getStart());
+        assertEquals(start1, mockHabit1.getStart());
     }
 
-//    @Test
-//    void setStart() {
-//        mockHabit2.setStart();
-//        assertNotEquals("", mockHabit2);
-//        assertEquals("", mockHabit2);
-//    }
+    @Test
+    void setStart() {
+        mockHabit2.setStart(start2);
+        assertNotEquals(start1, mockHabit2.getStart());
+        assertEquals(start2, mockHabit2.getStart());
+    }
 
     @Test
     void getEnd() {
-        assertEquals(later, mockHabit1.getEnd());
+        assertEquals(end1, mockHabit1.getEnd());
     }
 
-//    @Test
-//    void setEnd() {
-//        mockHabit2.set();
-//        assertNotEquals("", mockHabit2);
-//        assertEquals("", mockHabit2);
-//    }
+    @Test
+    void setEnd() {
+        mockHabit2.setEnd(end2);
+        assertNotEquals(end1, mockHabit2.getEnd());
+        assertEquals(end2, mockHabit2.getEnd());
+    }
 
     @Test
     void getHabitId() {
@@ -187,27 +193,36 @@ public class HabitTests {
         assertNull(mockHabit1.getUserId());
     }
 
-//    @Test
-//    void setUserId() {
-//        mockHabit2.set();
-//        assertNotEquals("", mockHabit2);
-//        assertEquals("", mockHabit2);
-//    }
+    @Test
+    void setUserId() {
+        mockHabit2.setUserId("jlk5432lkjf");
+        assertNotNull(mockHabit2.getUserId());
+        assertEquals("jlk5432lkjf", mockHabit2.getUserId());
+
+        // User ID shouldn't change once it is set
+        mockHabit2.setUserId("fasfsafklj3");
+        assertNotEquals("fasfsafklj3", mockHabit2.getUserId());
+        assertEquals("jlk5432lkjf", mockHabit2.getUserId());
+    }
 
     @Test
     void getDaysOfWeek() {
         assertEquals(daysOfWeek1, mockHabit1.getDaysOfWeek());
     }
 
-//    @Test
-//    void setDaysOfWeek() {
-//        mockHabit2.set();
-//        assertNotEquals("", mockHabit2);
-//        assertEquals("", mockHabit2);
-//    }
+    @Test
+    void setDaysOfWeek() {
+        mockHabit2.setDaysOfWeek(daysOfWeek2);
+        assertNotEquals(daysOfWeek1, mockHabit2.getDaysOfWeek());
+        assertEquals(daysOfWeek2, mockHabit2.getDaysOfWeek());
+    }
 
     @Test
     void isOnDay() {
+        assertTrue(mockHabit2.isOnDay("Monday"));
+        assertTrue(mockHabit2.isOnDay("Thursday"));
+        assertFalse(mockHabit2.isOnDay("Saturday"));
+        assertFalse(mockHabit2.isOnDay("notAValidDay"));
     }
 
     @Test
