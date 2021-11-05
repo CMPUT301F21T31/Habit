@@ -14,9 +14,10 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/Lighter_Gray_Text"
         android:ems="10"
+        android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
+        android:hint="Email"
         android:inputType="textPersonName"
-        android:text="Email"
         android:textColor="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toTopOf="@+id/passwordInput"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,9 +30,10 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/Lighter_Gray_Text"
         android:ems="10"
+        android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
+        android:hint="Password"
         android:inputType="textPassword"
-        android:text="Password"
         android:textColor="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,5 +58,48 @@
         android:text="Signup"
         app:layout_constraintStart_toStartOf="@+id/passwordInput"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+
+    <TextView
+        android:id="@+id/display_name_prompt"
+        android:layout_width="253dp"
+        android:layout_height="132dp"
+        android:layout_marginTop="180dp"
+        android:fontFamily="@font/lato_bold"
+        android:gravity="center"
+        android:text="Welcome to Habit! What should we call you?"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/signupContinueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/Dark_Gray_Background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <EditText
+        android:id="@+id/displayNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/Lighter_Gray_Text"
+        android:ems="10"
+        android:fontFamily="@font/lato"
+        android:foregroundTint="@color/Lighter_Gray_Text"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/signupContinueButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display_name_prompt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
