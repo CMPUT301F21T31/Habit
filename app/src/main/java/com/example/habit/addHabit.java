@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -263,23 +265,37 @@ public class addHabit extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 1. Get and set the habit title
-                String habit_title = title.getText().toString();
-
-                // 2. Get and set the habit reasons
-                String habit_reason = reason.getText().toString();
-
-                // 3. Set the recurrence
-                try {
-                    selected_date = Habit.generateDaysDict(recurrence);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // Let user enter the title, start and end date
+                if (title.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please enter the title", Toast.LENGTH_LONG).show();
                 }
+                else if (reason.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please enter the reason", Toast.LENGTH_LONG).show();
+                }
+                else if (startYear.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please select the start date", Toast.LENGTH_LONG).show();
+                }
+                else if (endYear.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please select the end date", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    // 1. Get and set the habit title
+                    String habit_title = title.getText().toString();
 
-                Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date);
-                User.addHabit(user.getUid(), curr_habit);
+                    // 2. Get and set the habit reasons
+                    String habit_reason = reason.getText().toString();
 
-                finish();
+                    // 3. Set the recurrence
+                    try {
+                        selected_date = Habit.generateDaysDict(recurrence);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date);
+                    User.addHabit(user.getUid(), curr_habit);
+                    finish();
+                }
             }
         });
     }
