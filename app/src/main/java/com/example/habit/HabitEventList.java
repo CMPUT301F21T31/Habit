@@ -14,11 +14,19 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * List containing all HabitEvents for a given Habit
+ */
 public class HabitEventList extends ArrayAdapter<HabitEvent> {
 
     private ArrayList<HabitEvent> habitEvents;
     private Context context;
 
+    /**
+     * Create a HabitEventList
+     * @param context Context of where this is created
+     * @param habitEvents List of events to display
+     */
     public HabitEventList(Context context, ArrayList<HabitEvent> habitEvents) {
         super(context, 0, habitEvents);
         Log.i("EVENT VIEW NOTE", "CREATING HabitEventList");
@@ -26,6 +34,13 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
         this.context = context;
     }
 
+    /**
+     * Get view for element in list
+     * @param position int position of element
+     * @param convertView view to use
+     * @param parent parent viewgroup of list element
+     * @return View for HabitEvent element
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

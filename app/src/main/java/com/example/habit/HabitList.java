@@ -14,12 +14,21 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Displays either all user habits or only today's with a different view for each
+ */
 public class HabitList extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
     private Context context;
     private Boolean daily;
 
+    /**
+     * Create a new HabitList to display either daily or all habits
+     * @param context Context of where this is created
+     * @param habits ArrayList of habits to display
+     * @param daily Is this a daily list
+     */
     public HabitList(Context context, ArrayList<Habit> habits, Boolean daily) {
         super(context, 0, habits);
         this.habits = habits;
@@ -27,6 +36,13 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.daily = daily;
     }
 
+    /**
+     * Get a View for element in list
+     * @param position Integer position in list
+     * @param convertView View to use
+     * @param parent Parent view of the element
+     * @return View for element
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

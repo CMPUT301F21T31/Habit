@@ -202,53 +202,17 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     /**
-     * Example function for calling User.addHabit
+     * Open the add habit screen
      */
-    private void testDB() {
-
-        // Instantiate mock habits
-        HashMap<String, Boolean> daysOfWeek1 = null;
-        HashMap<String, Boolean> daysOfWeek2 = null;
-        try {
-            daysOfWeek1 = Habit.generateDaysDict(new ArrayList<Boolean>(
-                    Arrays.asList(false, true, false, false, true, false, false)));
-            daysOfWeek2 = Habit.generateDaysDict(new ArrayList<Boolean>(
-                    Arrays.asList(true, false, false, true, false, false, true)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Instantiate mock habits
-        Habit mockHabit1 = new Habit("Swimming", "Get fit", new Date(), new Date(), daysOfWeek1);
-        Habit mockHabit2 = new Habit("Reading", "Read 3 books", new Date(), new Date(), daysOfWeek1);
-        Habit mockHabit3 = new Habit("Eating", "Eat a salad", new Date(), new Date(), daysOfWeek1);
-        Habit mockHabit4 = new Habit("Studying", "Get an A+", new Date(), new Date(), daysOfWeek1);
-
-        // Instantiate mock habit events
-        HabitEvent mockHabitEvent1 = new HabitEvent("Edmonton", "Swam 20 laps");
-
-        // Add habit to both the habits collection and habit list for this user
-        User.addHabit(fb_user.getUid(), mockHabit1);
-        User.addHabit(fb_user.getUid(), mockHabit2);
-        User.addHabit(fb_user.getUid(), mockHabit3);
-        User.addHabit(fb_user.getUid(), mockHabit4);
-//        Habit.addEvent("F5h5jNzuOCBZx5ptZQ0e", mockHabitEvent1);
-//        User.deleteHabit("Ac5hod5NHwQUTo40T3Wf");
-//        User.addHabit(user.getUid(), mockHabit1);
-//        try {
-//            sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        User.deleteHabit(user.getUid(),"QBQabjShu9C0l2gZVrT6");
-//        Habit.deleteEvent("F5h5jNzuOCBZx5ptZQ0e", "hJuy8BPeEQ0BH026Mv4W");
-    }
-
     private void openAddHabit() {
         Intent intent = new Intent(this, addHabit.class);
         startActivity(intent);
     }
 
+    /**
+     * Open the edit/view habit screen
+     * @param i Index of habit to edit/view
+     */
     private void openEditHabit(int i) {
         Log.i("Test", "Launching edit habit");
         Intent intent = new Intent(this, editHabit.class);
