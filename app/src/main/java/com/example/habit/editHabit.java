@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,7 +29,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
 import java.io.Serializable;
@@ -70,6 +76,9 @@ public class editHabit extends AppCompatActivity {
     EditText endMonth;
     EditText endDay;
     EditText endYear;
+    ListView habitEventsListView;
+    ArrayList<HabitEvent> habitEventsDataList;
+    HabitEventList habitEventAdapter;
 
     int Syear;
     int Smonth;
@@ -86,6 +95,7 @@ public class editHabit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_habit);
 
+        db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -110,15 +120,15 @@ public class editHabit extends AppCompatActivity {
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
 
+        // Setup habit events list
+        habitEventsDataList = new ArrayList<>();
+        habitEventAdapter = new HabitEventList(this, habitEventsDataList);
+        habitEventsListView = findViewById(R.id.habit_event_list);
+        habitEventsListView.setAdapter(habitEventAdapter);
+
         // After enter the edit interface, the existing information should replace the hints
         User curr_user;
 
-
-//        Intent intent = getIntent();
-//        int index = intent.getIntExtra("item_index", 0);
-//        Bundle args = intent.getBundleExtra("BUNDLE");
-//        ArrayList<Habit> habitList = (ArrayList<Habit>) args.getSerializable("ARRAYLIST");
-//        Habit selected_habit = habitList.get(index);
         Habit selected_habit = getIntent().getExtras().getParcelable("habit");
         Log.i("GOT HABIT", selected_habit.toString());
 
@@ -349,16 +359,42 @@ public class editHabit extends AppCompatActivity {
                 finish();
             }
         });
+        Log.i("Habit event info", selected_habit.getHabitId());
+        db.collection("habitEvents")
+                .whereEqualTo("habitId", selected_habit.getHabitId())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
+                        // Log failure and exit
+                        if (error != null) {
+                            Log.w("FAILED", "Listen failed.", error);
+                            return;
+                        }
 
-        // Populate list
-        ListView lvEvents = findViewById(R.id.eventsListView);
-        ArrayList<String> eventIDs = selected_habit.getEvents();
-        ArrayList<HabitEvent> habitEvents = new ArrayList<HabitEvent>();
-        for (String id : eventIDs) {
-            // Get HabitEvent from firestore, add it to habitEvents List
-        }
-        ArrayAdapter<HabitEvent> eventsAdapter = new ArrayAdapter<HabitEvent>(this, R.layout.edit_habit, habitEvents);
-        lvEvents.setAdapter(eventsAdapter);
+                        Log.i("Habit event info", "CHANGE");
+
+                        // Clear old events
+                        habitEventsDataList.clear();
+                        Log.i("CHANGE HABIT EVENT", "After clear");
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.i("CHANGE HABIT EVENT", "IN LOOP");
+                            HabitEvent habitEvent = doc.toObject(HabitEvent.class);
+                            Log.i("CHANGE HABIT EVENT", habitEvent.toString());
+                            habitEventsDataList.add(habitEvent);
+                        }
+                        Log.i("CHANGE HABIT EVENT", "Notify adapter");
+                        habitEventAdapter.notifyDataSetChanged();
+                    }
+                });
+
+        habitEventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("HABIT EVENT", "Item clicked");
+                new ViewEditHabitEventFragment(habitEventAdapter.getItem(position), selected_habit).show(getSupportFragmentManager(), "VIEW/EDIT_HabitEvent");
+            }
+        });
     }
 }

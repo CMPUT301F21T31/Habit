@@ -7,42 +7,33 @@
     android:background="@color/Dark_Gray_Background"
     android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/end_date"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="90dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/end_year"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"
-        app:srcCompat="@android:drawable/ic_menu_today" />
-
     <EditText
-        android:id="@+id/end_day"
-        android:layout_width="40dp"
-        android:layout_height="25dp"
+        android:id="@+id/habit_title"
+        android:layout_width="149dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="23dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato_bold"
         android:gravity="center"
-        android:hint="DD"
-        android:inputType="number"
-        android:maxLength="2"
+        android:hint="Habit Title"
+        android:inputType="text"
+        android:maxLength="20"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView21"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.587"></EditText>
+        app:layout_constraintVertical_bias="0.117"></EditText>
 
     <EditText
-        android:id="@+id/end_month"
+        android:id="@+id/start_month"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="100dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:hint="MM"
         android:inputType="number"
@@ -50,40 +41,17 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintEnd_toStartOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.587"></EditText>
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="8dp"
-        android:layout_height="25dp"
-        android:text="/"
-        android:textColor="@color/Lighter_Gray_Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/end_day"
-        app:layout_constraintStart_toEndOf="@+id/end_month"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.587"></TextView>
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="8dp"
-        android:layout_height="25dp"
-        android:text="/"
-        android:textColor="@color/Lighter_Gray_Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/end_year"
-        app:layout_constraintStart_toEndOf="@+id/end_day"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></TextView>
+        app:layout_constraintVertical_bias="0.338"></EditText>
 
     <EditText
-        android:id="@+id/end_year"
+        android:id="@+id/start_year"
         android:layout_width="52dp"
         android:layout_height="25dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:hint="YYYY"
         android:inputType="number"
@@ -91,64 +59,186 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/end_date"
-        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintEnd_toStartOf="@+id/start_date"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586"></EditText>
+        app:layout_constraintVertical_bias="0.338"></EditText>
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="Recurrence"
+        android:textColor="@color/Light_Gray_Text_Background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.485"></TextView>
+
+    <Button
+        android:id="@+id/thursday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="T"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/friday"
+        app:layout_constraintStart_toEndOf="@+id/wednesday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
+
+    <Button
+        android:id="@+id/friday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="F"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/saturday"
+        app:layout_constraintStart_toEndOf="@+id/thursday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
+
+    <Button
+        android:id="@+id/sunday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="S"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/saturday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
+
+    <Button
+        android:id="@+id/wednesday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="W"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/thursday"
+        app:layout_constraintStart_toEndOf="@+id/tuesday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
+
+    <Button
+        android:id="@+id/saturday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="S"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sunday"
+        app:layout_constraintStart_toEndOf="@+id/friday"
+        app:layout_constraintTop_toBottomOf="@+id/habit_reason"
+        app:layout_constraintVertical_bias="0.335" />
+
+    <Button
+        android:id="@+id/monday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="M"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tuesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
+
+    <Button
+        android:id="@+id/tuesday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="T"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/wednesday"
+        app:layout_constraintStart_toEndOf="@+id/monday"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.528" />
 
     <EditText
-        android:id="@+id/habit_title"
-        android:layout_width="149dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="23dp"
+        android:id="@+id/start_day"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
-        android:hint="Habit Title"
-        android:maxLength="20"
-        android:inputType="text"
+        android:hint="DD"
+        android:inputType="number"
+        android:maxLength="2"
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView19"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195">
-    </EditText>
+        app:layout_constraintVertical_bias="0.338"></EditText>
 
-    <EditText
-        android:id="@+id/habit_reason"
-        android:layout_width="254dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginBottom="41dp"
-        android:background="@drawable/rounded_corners_user_input"
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/lato"
         android:gravity="center"
-        android:hint="Habit Reason"
-        android:maxLength="30"
-        android:inputType="text"
+        android:text="/"
         android:textColor="@color/Lighter_Gray_Text"
-        android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/start_day"
+        app:layout_constraintStart_toEndOf="@+id/start_month"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295">
-    </EditText>
+        app:layout_constraintVertical_bias="0.338"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:text="Start"
         android:textColor="@color/Light_Gray_Text_Background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.5
+"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.407"></TextView>
+        app:layout_constraintVertical_bias="0.309"></TextView>
 
     <ImageButton
         android:id="@+id/start_date"
@@ -160,14 +250,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/start_year"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"
+        app:layout_constraintVertical_bias="0.338"
         app:srcCompat="@android:drawable/ic_menu_today" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="End"
+        android:textColor="@color/Light_Gray_Text_Background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.395"></TextView>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/lato"
+        android:text="/"
+        android:textColor="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/end_year"
+        app:layout_constraintStart_toEndOf="@+id/end_day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.427"></TextView>
+
     <EditText
-        android:id="@+id/start_year"
+        android:id="@+id/end_year"
         android:layout_width="52dp"
         android:layout_height="25dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:hint="YYYY"
         android:inputType="number"
@@ -175,29 +293,43 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/start_date"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintEnd_toStartOf="@+id/end_date"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"></EditText>
+        app:layout_constraintVertical_bias="0.427"></EditText>
+
+    <ImageButton
+        android:id="@+id/end_date"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/end_year"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.427"
+        app:srcCompat="@android:drawable/ic_menu_today" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textView22"
         android:layout_width="8dp"
         android:layout_height="25dp"
-        android:gravity="center"
+        android:fontFamily="@font/lato"
         android:text="/"
         android:textColor="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/start_year"
-        app:layout_constraintStart_toEndOf="@+id/start_day"
+        app:layout_constraintEnd_toStartOf="@+id/end_day"
+        app:layout_constraintStart_toEndOf="@+id/end_month"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"></TextView>
+        app:layout_constraintVertical_bias="0.427"></TextView>
 
     <EditText
-        android:id="@+id/start_day"
+        android:id="@+id/end_day"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:hint="DD"
         android:inputType="number"
@@ -205,30 +337,18 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView19"
-        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintEnd_toStartOf="@+id/textView21"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"></EditText>
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="8dp"
-        android:layout_height="25dp"
-        android:gravity="center"
-        android:text="/"
-        android:textColor="@color/Lighter_Gray_Text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/start_day"
-        app:layout_constraintStart_toEndOf="@+id/start_month"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"></TextView>
+        app:layout_constraintVertical_bias="0.427"></EditText>
 
     <EditText
-        android:id="@+id/start_month"
+        android:id="@+id/end_month"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="100dp"
         android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
         android:hint="MM"
         android:inputType="number"
@@ -236,145 +356,62 @@
         android:textColor="@color/Lighter_Gray_Text"
         android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView18"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"></EditText>
+        app:layout_constraintVertical_bias="0.427"></EditText>
 
     <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/textView19"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:fontFamily="@font/lato"
         android:gravity="center"
-        android:text="Recurrence"
-        android:textColor="@color/Light_Gray_Text_Background"
+        android:text="/"
+        android:textColor="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/start_year"
+        app:layout_constraintStart_toEndOf="@+id/start_day"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.338"></TextView>
+
+    <ListView
+        android:id="@+id/habit_event_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.669">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/habit_reason"
+        android:layout_width="254dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="41dp"
+        android:background="@drawable/rounded_corners_user_input"
+        android:fontFamily="@font/lato"
         android:gravity="center"
-        android:text="End"
-        android:textColor="@color/Light_Gray_Text_Background"
+        android:hint="Habit Reason"
+        android:inputType="text"
+        android:maxLength="30"
+        android:textColor="@color/Lighter_Gray_Text"
+        android:textColorHint="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5
+"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.554">
-    </TextView>
-
-    <Button
-        android:id="@+id/monday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="25dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="M"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tuesday"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
-
-    <Button
-        android:id="@+id/friday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="F"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/saturday"
-        app:layout_constraintStart_toEndOf="@+id/thursday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
-
-    <Button
-        android:id="@+id/sunday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="S"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/saturday"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
-
-    <Button
-        android:id="@+id/thursday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="T"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/friday"
-        app:layout_constraintStart_toEndOf="@+id/wednesday"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
-
-    <Button
-        android:id="@+id/saturday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="S"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sunday"
-        app:layout_constraintStart_toEndOf="@+id/friday"
-        app:layout_constraintTop_toBottomOf="@+id/habit_reason"
-        app:layout_constraintVertical_bias="0.586" />
-
-    <Button
-        android:id="@+id/tuesday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="T"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/wednesday"
-        app:layout_constraintStart_toEndOf="@+id/monday"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
-
-    <Button
-        android:id="@+id/wednesday"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:gravity="center"
-        android:text="W"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/thursday"
-        app:layout_constraintStart_toEndOf="@+id/tuesday"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
+        app:layout_constraintVertical_bias="0.21"></EditText>
 
     <ImageButton
         android:id="@+id/back"
@@ -417,18 +454,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_24" />
 
-    <ListView
-        android:id="@+id/eventsListView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Events"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/thursday" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="28dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="228dp"
+        android:backgroundTint="@color/Dark_Gray_Background"
+        android:foregroundTint="@color/Lighter_Gray_Text"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monday" />
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        app:tint="@color/Lighter_Gray_Text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

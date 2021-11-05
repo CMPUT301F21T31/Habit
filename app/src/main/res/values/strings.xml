@@ -25,5 +25,7 @@
     <string name="db_edit_fail">DB EDIT FAIL</string>
     <string name="db_delete_success">DB DELETE SUCCESS</string>
     <string name="db_delete_fail">DB DELETE FAIL</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
