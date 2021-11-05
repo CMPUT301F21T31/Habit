@@ -331,20 +331,21 @@ public class editHabit extends AppCompatActivity {
             public void onClick(View v) {
                 // 1. Get and set the habit title
                 String habit_title = title.getText().toString();
+                selected_habit.setTitle(habit_title);
 
                 // 2. Get and set the habit reasons
                 String habit_reason = reason.getText().toString();
+                selected_habit.setReason(habit_reason);
 
                 // 3. Set the recurrence
                 try {
                     selected_date = Habit.generateDaysDict(recurrence);
+                    selected_habit.setDaysOfWeek(selected_date);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date);
-                User.addHabit(user.getUid(), curr_habit);
-
+                User.updateHabit(selected_habit.getHabitId(), selected_habit);
                 finish();
             }
         });

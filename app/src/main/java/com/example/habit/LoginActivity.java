@@ -90,11 +90,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 // Get username and password
+                String displayName = ""; // TODO: ADD THIS
+                String username = ""; // TODO: ADD THIS
                 String email =  emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                // Create new user
+                // Setup auth for this user
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -102,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("SIGNUP SUCCESS", "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    FirebaseUser fb_user = mAuth.getCurrentUser();
 //                                    updateUI(user);
 
                                     // Initialize DB
@@ -112,12 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                                     CollectionReference usersCollectionRef = db.collection("users");
 
                                     // Create new entry in users collection
-                                    Map<String, Object> data = new HashMap<>();
+                                    User user = new User(displayName, username, email);
 
-                                    // Add to habits collection
+                                    // Add to users collection
                                     usersCollectionRef
-                                            .document() // Use auto-generated ID
-                                            .set(data)
+                                            .document(fb_user.getUid()) // Use Uid as key for users
+                                            .set(user)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -133,17 +136,18 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                             });
 
+                                    // Move to next stage of tutorial
+                                    Intent intent = new Intent(LoginActivity.this, HabitListActivity.class);
+                                    startActivity(intent);
 
                                 } else {
-                                    // If sign in fails, display a message to the user.
+                                    // If sign up fails, display a message to the user.
                                     Log.w("SIGNUP FAIL", "createUserWithEmail:failure", task.getException());
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-//                                    updateUI(null);
                                 }
                             }
                         });
-
             }
         });
     }
