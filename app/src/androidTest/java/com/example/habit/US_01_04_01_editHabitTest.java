@@ -39,7 +39,7 @@ public class US_01_04_01_editHabitTest {
     @Test
     public void uS_01_04_01_editHabitTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.goTo_login_button), withText("Skip to Login"),
+                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
