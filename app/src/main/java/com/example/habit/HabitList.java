@@ -1,6 +1,7 @@
 package com.example.habit;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class HabitList extends ArrayAdapter<Habit> {
 
         // Get habit element layout
         if (view == null) {
+            Log.i("HABIT VIEW NOTE", "VIEW NULL");
             if (daily) {
                 // Use daily habit content view
                 view = LayoutInflater.from(context).inflate(R.layout.daily_habit_content, parent, false);

@@ -23,6 +23,8 @@ public class HabitEvent {
         this.comments = comments;
     }
 
+    public HabitEvent() {}
+
     /** Get location of this habit event
      * @return String location
      */
@@ -92,8 +94,8 @@ public class HabitEvent {
         }
     }
 
-    @Override
-    public String toString() {
-        return location;
-    }
+//    @Override
+//    public String toString() {
+//        return location;
+//    }
 }
