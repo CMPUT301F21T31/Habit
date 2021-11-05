@@ -44,7 +44,7 @@ public class US_01_06_01_titleAndReasonLengthTest {
     @Test
     public void uS_01_06_01_titleAndReasonLengthTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.goTo_login_button), withText("Skip to Login"),
+                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
