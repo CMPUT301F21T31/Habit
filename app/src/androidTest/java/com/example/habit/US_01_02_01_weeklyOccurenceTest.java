@@ -97,8 +97,6 @@ public class US_01_02_01_weeklyOccurenceTest {
         
          */
 
-         */
-
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.add_habit_button),
                         childAtPosition(
