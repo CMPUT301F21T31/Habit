@@ -265,8 +265,14 @@ public class addHabit extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Let user set the start and end date
-                if (startYear.getText().toString().equals("")) {
+                // Let user enter the title, start and end date
+                if (title.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please enter the title", Toast.LENGTH_LONG).show();
+                }
+                else if (reason.getText().toString().equals("")) {
+                    Toast.makeText(addHabit.this,"Please enter the reason", Toast.LENGTH_LONG).show();
+                }
+                else if (startYear.getText().toString().equals("")) {
                     Toast.makeText(addHabit.this,"Please select the start date", Toast.LENGTH_LONG).show();
                 }
                 else if (endYear.getText().toString().equals("")) {
