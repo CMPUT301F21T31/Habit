@@ -15,37 +15,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * Fragment to display a HabitEvent
+ */
 public class ViewEditHabitEventFragment extends DialogFragment {
 
     private HabitEvent habitEvent;
     private Habit habit;
 
+    /**
+     * Get a new fragment to display a HabitEvent
+     * @param habitEvent HabitEvent to display
+     * @param habit Parent habit
+     */
     public ViewEditHabitEventFragment(HabitEvent habitEvent, Habit habit) {
         this.habitEvent = habitEvent;
         this.habit = habit;
     }
 
-//    public AddCityFragment(HabitEvent habitEvent, int prevCityIndex) {
-//        editMode = true;
-//        this.prevCity = prevCity;
-//        this.prevCityIndex = prevCityIndex;
-//    }
-
-//    public interface OnFragmentInteractionListener {
-//        void onOkPressed(City newCity, int prevCityIndex);
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            listener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + "Must implement OnFragmentInteractionListener");
-//        }
-//    }
-
+    /**
+     * Set fields in fragment view
+     * @param savedInstanceState Previous state
+     * @return Dialog view of HabitEvent
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -62,26 +54,16 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-//                .setTitle("Event")
-//                .setNegativeButton("Cancel", null)
-//                .setPositiveButton("OK", null)
                 .create();
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        String city = cityName.getText().toString();
-//                        String province = provinceName.getText().toString();
-//                        if (editMode) {
-//                            prevCity.setCity(city);
-//                            prevCity.setProvince(province);
-//                            listener.onOkPressed(prevCity, prevCityIndex);
-//                        } else {
-//                            listener.onOkPressed(new City(city, province), prevCityIndex);
-//                        }
-//                    }
-//                }).create();
     }
 
+    /**
+     * Create a new fragment view
+     * @param inflater Inflater to use
+     * @param container Container for dialog
+     * @param savedInstanceState Previous state
+     * @return View for HabitEvent fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

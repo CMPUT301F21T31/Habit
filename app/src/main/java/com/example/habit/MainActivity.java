@@ -26,10 +26,6 @@ public class MainActivity extends AppCompatActivity {
 Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
     if (true){ // always open for now
 
-//        if (BuildConfig.BUILD_TYPE.equals("debug")) {
-//            login();
-//        }
-
             opentutorial();
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false);

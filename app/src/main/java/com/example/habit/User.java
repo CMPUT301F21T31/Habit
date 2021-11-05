@@ -42,7 +42,7 @@ public class User {
     }
 
     /**
-     * Constructor for user with no habits, simply creates user with empty habit list
+     * Constructor for user with no habits, creates user with empty habit list
      */
     public User(String displayName, String userName, String email) {
         this(displayName, userName, email, new ArrayList<String>());
@@ -56,7 +56,8 @@ public class User {
     /* Getters and Setters */
 
     /**
-     * @return The display name for the user, not necessarily unique in the system.
+     * Get display name for the user, not necessarily unique in the system.
+     * @return String with display name
      */
     public String getDisplayName() {
         return displayName;
@@ -70,22 +71,28 @@ public class User {
     }
 
     /**
-     * @return Username of user, which is unique in the system.
+     * Get username of user, which is unique in the system
+     * NOTE: Removing this as email is already unique
+     * @return String with username
      */
+    @Deprecated
     public String getUserName() {
         return userName;
     }
 
     /**
-     * @param userName Username to check for in system, throw error if it does otherwise set username
+     * Set username for user, should have already checked if unique
+     * NOTE: Removing this as email is already unique
+     * @param userName String username to set
      */
+    @Deprecated
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     /**
      * Get a users email
-     * @return
+     * @return String with user email
      */
     public String getEmail() {
         return email;
@@ -111,8 +118,8 @@ public class User {
     /**
      * Add a habit object to the habits collection and add a reference to that habit to a users
      * habits list.
-     * @param uuid
-     * @param habit
+     * @param uuid String id of user to add habit to
+     * @param habit Habit object to add
      */
     public static void addHabit(String uuid, Habit habit) {
         String habitId = addHabitToHabits(habit, uuid);
@@ -121,7 +128,8 @@ public class User {
 
     /**
      * Add a Habit object to the habits collection. Do not call this directly.
-     * @param habit
+     * @param habit Habit object to add
+     * @param uuid String id of user to add to
      */
     private static String addHabitToHabits(Habit habit, String uuid) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -134,8 +142,8 @@ public class User {
 
     /**
      * Add habit ID to a users habits list. Do not call this directly.
-     * @param uuid
-     * @param habitID
+     * @param uuid String id of user to add to
+     * @param habitID String id of habit to add
      */
     private static void addHabitToUser(String uuid, String habitID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -145,8 +153,8 @@ public class User {
 
     /**
      * Update habit fields
-     * @param habitId String ID of habit to update
-     * @param habit Habit object
+     * @param habitId String id of habit to update
+     * @param habit Habit object with updated field(s)
      */
     public static void updateHabit(String habitId, Habit habit) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -157,8 +165,8 @@ public class User {
 
     /**
      * Delete habit from habits collection and habits list for a user
-     * @param uuid
-     * @param habitId
+     * @param uuid String id to delete from
+     * @param habitId String id of habit to delete
      */
     public static void deleteHabit(String uuid, String habitId) {
         deleteHabitFromHabits(habitId);
@@ -167,7 +175,7 @@ public class User {
 
     /**
      * Delete habit from habits collection
-     * @param habitId
+     * @param habitId String id of habit to delete
      */
     private static void deleteHabitFromHabits(String habitId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -176,8 +184,8 @@ public class User {
 
     /**
      * Delete habit ID from habits list for a user
-     * @param uuid
-     * @param habitId
+     * @param uuid String id of user to delete from
+     * @param habitId String id of habit to delete
      */
     private static void deleteHabitFromUser(String uuid, String habitId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
