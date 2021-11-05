@@ -1,8 +1,8 @@
 # Habit App
 
 ### Notes for midway checkpoint
-- HabitEvent view is complete but addHabit event is not, therefor can only view HabitsEvents if added view database
-  - This is because adding habit events was part of our finalcheckpoint, but view was in the midway
+- HabitEvent view is complete but addHabit event was planned for the final checkpoint, therefore can only view HabitsEvents if added through firestore
+  - We have tested HabitEvents added view this method and both the list and event view is working
 
 ### Test Cases
 - Unit tests created for all entity classes (User, Habit, and HabitEvent)
