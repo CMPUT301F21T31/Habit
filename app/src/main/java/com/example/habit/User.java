@@ -144,6 +144,18 @@ public class User {
     }
 
     /**
+     * Update habit fields
+     * @param habitId String ID of habit to update
+     * @param habit Habit object
+     */
+    public static void updateHabit(String habitId, Habit habit) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("habits")
+                .document(habitId)
+                .set(habit);
+    }
+
+    /**
      * Delete habit from habits collection and habits list for a user
      * @param uuid
      * @param habitId
