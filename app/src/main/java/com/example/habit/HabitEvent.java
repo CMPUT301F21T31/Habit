@@ -15,8 +15,8 @@ public class HabitEvent {
 
     /**
      *
-     * @param location
-     * @param comments
+     * @param location String location for this HabitEvent
+     * @param comments String comments for this HabitEvent
      */
     public HabitEvent(String location, String comments) {
         this.location = location;

@@ -99,7 +99,7 @@ public class Habit implements Parcelable {
 
     /**
      * Required by Parcelable but not used for our application
-     * @return
+     * @return int describing contents
      */
     @Override
     public int describeContents() {
@@ -108,8 +108,8 @@ public class Habit implements Parcelable {
 
     /**
      * Write Habit properties to parcel, must read in same order.
-     * @param dest
-     * @param flags
+     * @param dest destination parcel to send
+     * @param flags parcel flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -128,7 +128,8 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * @return Title of habit, e.g. Swimming or Reading
+     * Get title of habit, e.g. Swimming or Reading
+     * @return String containing title
      */
     public String getTitle() {
         return title;
@@ -139,20 +140,23 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * @return Goal/motivation for this habit
+     * Reason (motivation) for this habit
+     * @return String containing reason
      */
     public String getReason() {
         return reason;
     }
 
     /**
-     * @param reason New goal/motivation for this habit
+     * Set new reason (motivation) for this habit
+     * @param reason String with new reason for this habit
      */
     public void setReason(String reason) {
         this.reason = reason;
     }
 
     /**
+     * Get date this habit started
      * @return Date object containing start date for habit
      */
     public Date getStart() {
@@ -160,6 +164,7 @@ public class Habit implements Parcelable {
     }
 
     /**
+     * Set new start date for habit
      * @param start Date object containing new start date for habit
      */
     public void setStart(Date start) {
@@ -167,6 +172,7 @@ public class Habit implements Parcelable {
     }
 
     /**
+     * Get date this habit ended
      * @return Date object containing end date for habit
      */
     public Date getEnd() {
@@ -174,6 +180,7 @@ public class Habit implements Parcelable {
     }
 
     /**
+     * Set new end date for habit
      * @param end Date object containing new end date for habit
      */
     public void setEnd(Date end) {
@@ -181,16 +188,16 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * Retrieve habit ID
-     * @return
+     * Retrieve habit ID, used in database methods
+     * @return String containing habit ID
      */
     public String getHabitId() {
         return habitId;
     }
 
     /**
-     * Set the habit ID from firestore for this habit
-     * @param habitId
+     * Set the habit ID from firestore for this habit, can only set if not already
+     * @param habitId String containing habitId
      */
     public void setHabitId(String habitId) {
         // Should only set habitId when it is null
@@ -202,16 +209,16 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * Retrieve user ID
-     * @return
+     * Retrieve user ID for user that this habit belongs to
+     * @return String containing userId
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     * Set the user ID from firestore belonging to this habit, should not be changed and should only be one
-     * @param userId
+     * Set the user ID belonging to this habit, should not be changed and should only be one
+     * @param userId String id to set
      */
     public void setUserId(String userId) {
         if (this.userId != null) {
@@ -230,17 +237,17 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * @param daysOfWeek HashMap with new days of week this habit should occur
+     * Set days of week this habit should occur
+     * @param daysOfWeek Hashmap of days, e.g. {"Monday": true, ... ,"Sunday": true}
      */
     public void setDaysOfWeek(HashMap<String, Boolean> daysOfWeek) {
-        // TODO: Should we do some verification that HashMap contains all 7 days?
         this.daysOfWeek = daysOfWeek;
     }
 
     /**
      * Helper function to convert a list of booleans to a days dictionary for habit constructor
-     * @param days
-     * @throws Exception
+     * @param days List of booleans in order of Monday, Tuesday, ... Sunday e.g. (True, ... , False)
+     * @throws Exception Thrown if days array passed in is not of length 7
      */
     public static HashMap<String, Boolean> generateDaysDict(ArrayList<Boolean> days) throws Exception {
 
@@ -303,29 +310,30 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * @return Get all the HabitEvents for this Habit
+     * Get all the HabitEvents IDs for this Habit
+     * @return ArrayList of string event IDs for this habit
      */
     public ArrayList<String> getEvents() {
         return events;
     }
 
+    /* Firestore Methods */
+
     /**
      * Add a event object to the habitEvents collection and add a reference to the habitEvent in a
      * habit's events list.
-     * @param habitId
-     * @param event
+     * @param habitId String id of the habit to add event to
+     * @param event HabitEvent object to add
      */
     public static void addEvent(String habitId, HabitEvent event) {
         String eventId = addEventToEvents(event);
         addEventToHabit(habitId, eventId);
     }
 
-    /* Firestore Methods */
-
     /**
      * Add a event ID to the list of event IDs for a particular habit
-     * @param habitId
-     * @param eventId
+     * @param habitId String id of Habit to add event ID to
+     * @param eventId String id of HabitEvent to add
      */
     private static void addEventToHabit(String habitId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -335,8 +343,8 @@ public class Habit implements Parcelable {
 
     /**
      * Add HabitEvent object to the HabitEvents collection
-     * @param event
-     * @return
+     * @param event HabitEvent object to add
+     * @return String ID of event added
      */
     private static String addEventToEvents(HabitEvent event) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -347,8 +355,8 @@ public class Habit implements Parcelable {
 
     /**
      * Delete event from events collection and events list for a habit
-     * @param habitId
-     * @param eventId
+     * @param habitId String containing habit ID to delete event from
+     * @param eventId String containing event ID to delete
      */
     public static void deleteEvent(String habitId, String eventId) {
         deleteEventFromEvents(eventId);
@@ -357,7 +365,7 @@ public class Habit implements Parcelable {
 
     /**
      * Delete event from events collection
-     * @param eventId
+     * @param eventId String ID of HabitEvent to delete from collection
      */
     private static void deleteEventFromEvents(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -366,8 +374,8 @@ public class Habit implements Parcelable {
 
     /**
      * Delete event ID from events list for a habit
-     * @param habitId
-     * @param eventId
+     * @param habitId String Habit ID to delete HabitEvent ID from
+     * @param eventId String Habit Event ID to delete
      */
     private static void deleteEventFromHabit(String habitId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
