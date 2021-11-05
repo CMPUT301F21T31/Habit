@@ -33,6 +33,7 @@
         android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
         android:hint="Password"
+        android:inputType="textPassword"
         android:textColor="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
