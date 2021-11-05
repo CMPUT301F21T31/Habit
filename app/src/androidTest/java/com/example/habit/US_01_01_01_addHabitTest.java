@@ -44,7 +44,7 @@ public class US_01_01_01_addHabitTest {
     @Test
     public void uS_01_01_01_addHabitTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.goTo_login_button), withText("Skip to Login"),
+                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -104,6 +104,12 @@ public class US_01_01_01_addHabitTest {
         }
 
          */
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.add_habit_button),
@@ -185,6 +191,12 @@ public class US_01_01_01_addHabitTest {
                         isDisplayed()));
         appCompatEditText5.perform(replaceText("improve gpa"), closeSoftKeyboard());
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withId(R.id.start_date),
                         childAtPosition(
@@ -195,8 +207,14 @@ public class US_01_01_01_addHabitTest {
                         isDisplayed()));
         appCompatImageButton2.perform(click());
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
+                allOf(withText("OK"),
                         childAtPosition(
                                 allOf(withClassName(is("android.widget.LinearLayout")),
                                         childAtPosition(
@@ -205,6 +223,12 @@ public class US_01_01_01_addHabitTest {
                                 3),
                         isDisplayed()));
         appCompatButton3.perform(click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ViewInteraction appCompatImageButton3 = onView(
                 allOf(withId(R.id.end_date),
@@ -216,6 +240,12 @@ public class US_01_01_01_addHabitTest {
                         isDisplayed()));
         appCompatImageButton3.perform(click());
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
                         childAtPosition(
@@ -226,6 +256,12 @@ public class US_01_01_01_addHabitTest {
                                 3),
                         isDisplayed()));
         appCompatButton4.perform(click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ViewInteraction appCompatImageButton4 = onView(
                 allOf(withId(R.id.confirm),

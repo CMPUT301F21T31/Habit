@@ -36,7 +36,7 @@ public class US_01_02_01_weeklyOccurenceTest {
     @Test
     public void uS_01_02_01_weeklyOccurenceTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.goTo_login_button), withText("Skip to Login"),
+                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -94,6 +94,8 @@ public class US_01_02_01_weeklyOccurenceTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
+         */
 
          */
 
