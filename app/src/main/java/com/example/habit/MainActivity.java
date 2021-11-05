@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
 Toast.makeText(MainActivity.this,"firststart?"+String.valueOf(firstStart),Toast.LENGTH_LONG).show();
-    if (firstStart==true){ // always open for now
+    if (true){ // always open for now
 
 
             opentutorial();
