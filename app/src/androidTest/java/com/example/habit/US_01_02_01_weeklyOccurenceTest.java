@@ -45,6 +45,7 @@ public class US_01_02_01_weeklyOccurenceTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        /*
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.emailInput),
                         childAtPosition(
@@ -93,6 +94,8 @@ public class US_01_02_01_weeklyOccurenceTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+         */
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.add_habit_button),

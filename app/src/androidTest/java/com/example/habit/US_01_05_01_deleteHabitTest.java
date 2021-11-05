@@ -51,7 +51,7 @@ public class US_01_05_01_deleteHabitTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-
+        /*
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.emailInput),
                         childAtPosition(
@@ -101,7 +101,7 @@ public class US_01_05_01_deleteHabitTest {
             e.printStackTrace();
         }
 
-
+         */
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.greeting), withText("Hey, Lewis"),

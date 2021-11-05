@@ -48,6 +48,7 @@ public class US_01_03_01_habitViewTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        /*
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.emailInput),
                         childAtPosition(
@@ -96,6 +97,8 @@ public class US_01_03_01_habitViewTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+         */
 
         DataInteraction relativeLayout = onData(anything())
                 .inAdapterView(allOf(withId(R.id.all_habits_list),

@@ -53,6 +53,7 @@ public class US_01_06_01_titleAndReasonLengthTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        /*
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.emailInput),
                         childAtPosition(
@@ -101,6 +102,8 @@ public class US_01_06_01_titleAndReasonLengthTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+         */
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.add_habit_button),
