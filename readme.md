@@ -16,3 +16,6 @@
 
 ### User StoryBoard, UML, and CRC cards
 - View in Wiki tab
+
+### Documentation
+- We were unable to generate Javadoc but all code should have Javadoc style comments
