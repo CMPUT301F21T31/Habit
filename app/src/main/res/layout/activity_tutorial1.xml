@@ -19,6 +19,19 @@
         android:textSize="50dp"
         android:textStyle="bold" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation"
+        android:layout_width="292dp"
+        android:layout_height="371dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="318dp"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="63819-fireworks.json"
+
+        app:lottie_loop="true"
+        app:lottie_speed="0.2"></com.airbnb.lottie.LottieAnimationView>
+
     <EditText
         android:id="@+id/t_1t"
         android:layout_width="273dp"
