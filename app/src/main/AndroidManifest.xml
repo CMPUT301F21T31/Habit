@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit">
         <activity
+            android:name=".HabitEventViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HabitViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".splashscreen2"
             android:exported="true" />
         <activity
@@ -37,8 +43,14 @@
             android:name=".tutorial_4habit"
             android:exported="true" />
         <activity
+            android:name=".addHabit"
+            android:exported="false" />
+        <activity
             android:name=".tutorial_2usern"
             android:exported="true" />
+        <activity
+            android:name=".editHabit"
+            android:exported="false" />
         <activity
             android:name=".HabitListActivity"
             android:exported="false" />
