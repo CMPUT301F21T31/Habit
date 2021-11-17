@@ -35,12 +35,16 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton continueButton;
     private EditText emailInput;
     private EditText passwordInput;
+
+    private Button bypasslogin;
+
     private EditText displayNameInput;
     private TextView displayNamePrompt;
 
     String email;
     String password;
     String displayName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         displayNameInput = findViewById(R.id.displayNameInput);
         loginButton = findViewById(R.id.login_button);
         signupButton = findViewById(R.id.signup_button);
+
+        bypasslogin = findViewById(R.id.bypasslogin);
+
         continueButton = findViewById(R.id.signupContinueButton);
         displayNamePrompt = findViewById(R.id.display_name_prompt);
+
 
         // Check if user is logged in --> Change this to determine which activity to load
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -97,7 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
-
+        bypasslogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHabits();
+            }
+        });
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void goToHabits() {
         Intent intent = new Intent(this, HabitListActivity.class);
