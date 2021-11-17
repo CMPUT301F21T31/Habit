@@ -70,5 +70,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-alpha03'
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-firestore'
-    implementation "com.airbnb.android:lottie:4.2.1"
+    implementation 'com.airbnb.android:lottie:4.2.1'
 }
