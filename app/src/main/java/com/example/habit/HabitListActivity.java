@@ -83,6 +83,9 @@ public class HabitListActivity extends AppCompatActivity {
     // Buttons
     AppCompatButton allButton;
     AppCompatButton todayButton;
+    ImageButton feedButton;
+    ImageButton homeButton;
+    ImageButton friendsButton;
 
     // Greeting string
     TextView greeting;
@@ -112,6 +115,9 @@ public class HabitListActivity extends AppCompatActivity {
         // Initialize buttons
         allButton = findViewById(R.id.habit_list_all_button);
         todayButton = findViewById(R.id.habit_list_today_button);
+        feedButton = findViewById(R.id.feedButton);
+        homeButton = findViewById(R.id.homeButton);
+        friendsButton = findViewById(R.id.friendsButton);
 
         // Initialize greeting
         greeting = findViewById(R.id.greeting);
@@ -287,6 +293,9 @@ public class HabitListActivity extends AppCompatActivity {
                 openEditHabit(i);
             }
         });
+
+        /* Button listeners */
+
         allButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,6 +313,27 @@ public class HabitListActivity extends AppCompatActivity {
                 todayButton.setBackground(getBaseContext().getDrawable(R.drawable.rounded_corners_button_clicked));
                 allHabitsListView.setVisibility(View.INVISIBLE);
                 dailyHabitsListView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        feedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFeed();
+            }
+        });
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        friendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFriends();
             }
         });
     }
@@ -325,6 +355,16 @@ public class HabitListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, editHabit.class);
         Habit habitToEdit = allHabitsAdapter.getItem(i);
         intent.putExtra("habit", habitToEdit);
+        startActivity(intent);
+    }
+
+    private void openFeed() {
+        Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
+    }
+
+    private void openFriends() {
+        Intent intent = new Intent(this, FriendsActivity.class);
         startActivity(intent);
     }
 
