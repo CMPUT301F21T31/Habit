@@ -463,11 +463,11 @@
         android:text="Events"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/addHabitEventButton2"
         app:layout_constraintTop_toBottomOf="@+id/thursday" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/addHabitEventButton2"
         android:layout_width="28dp"
         android:layout_height="24dp"
         android:layout_marginStart="228dp"
