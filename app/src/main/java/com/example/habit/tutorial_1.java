@@ -10,10 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class tutorial_1 extends AppCompatActivity {
-    Button t_1b;
+    ImageButton t_1b;
     Button skipToLoginButton;
     EditText t_1t;
 
