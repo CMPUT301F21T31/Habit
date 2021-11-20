@@ -65,8 +65,14 @@ public class tutorial_1 extends AppCompatActivity {
 
     private void gotomap() {
 
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-       fragmentTransaction.replace(R.id.map,new MapsFragment()).commit();
+        Intent intent=new Intent(this,MapsActivity.class);
+        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
+        String inname= prefs.getString("firstStartname","");
+
+        intent.putExtra("fname", inname);
+        // startActivity(intent);
+        startActivity(intent);
+
 
     }
 
