@@ -3,6 +3,7 @@ package com.example.habit;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -61,14 +62,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng hubmall = new LatLng(53.52378596312784, -113.52028200057022);
+        mMap.addMarker(new MarkerOptions().position(hubmall).title("Marker in hubmall"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hubmall,15));
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+       // mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.setMyLocationEnabled(true);
     }
 
 
