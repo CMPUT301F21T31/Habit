@@ -12,6 +12,7 @@ public class HabitEvent {
     private String comments;
     private String habitId;
     private String habitEventId;
+    private int state; // 1=pending, 2=complete, 3=incomplete
 
     /**
      *
@@ -21,6 +22,24 @@ public class HabitEvent {
     public HabitEvent(String location, String comments) {
         this.location = location;
         this.comments = comments;
+    }
+
+    /**
+     *
+     * @param location String location for this HabitEvent
+     * @param comments String comments for this HabitEvent
+     * @param state String state for this HabitEvent, 1=pending, 2=complete, 3=incomplete
+     */
+    public HabitEvent(String location, String comments, int state) {
+        this.location = location;
+        this.comments = comments;
+
+        // Default state to "pending" if invalid one is passed in
+        if (state < 1 || state > 3) {
+            this.state = 1;
+        } else {
+            this.state = state;
+        }
     }
 
     public HabitEvent() {}
@@ -94,8 +113,13 @@ public class HabitEvent {
         }
     }
 
-//    @Override
-//    public String toString() {
-//        return location;
-//    }
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        if (state > 0 && state < 4) {
+            this.state = state;
+        }
+    }
 }
