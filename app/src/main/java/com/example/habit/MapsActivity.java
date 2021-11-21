@@ -3,10 +3,6 @@ package com.example.habit;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
-<<<<<<< Updated upstream
-import android.annotation.SuppressLint;
-=======
->>>>>>> Stashed changes
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,10 +61,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-<<<<<<< Updated upstream
-    @SuppressLint("MissingPermission")
-=======
->>>>>>> Stashed changes
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -78,11 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(hubmall).title("Marker in hubmall"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hubmall,15));
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-<<<<<<< Updated upstream
-       // mMap.getUiSettings().setMyLocationButtonEnabled(true);
-=======
         // mMap.getUiSettings().setMyLocationButtonEnabled(true);
->>>>>>> Stashed changes
         mMap.setMyLocationEnabled(true);
     }
 
