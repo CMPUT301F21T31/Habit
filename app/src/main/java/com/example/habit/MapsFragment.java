@@ -17,9 +17,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends Fragment {
-
+    private GoogleMap mMap;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
+        boolean isPersmissionGranter;
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -31,9 +31,16 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+
+            // Add a marker in Sydney and move the camera
+            LatLng hubmall = new LatLng(53.52378596312784, -113.52028200057022);
+            mMap.addMarker(new MarkerOptions().position(hubmall).title("Marker in hubmall"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hubmall,15));
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            // mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(true);
         }
     };
 
