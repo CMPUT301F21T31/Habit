@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,12 +57,12 @@ public class addHabit extends AppCompatActivity {
     Button Sunday;
     EditText title;
     EditText reason;
-    EditText startMonth;
-    EditText startDay;
-    EditText startYear;
-    EditText endMonth;
-    EditText endDay;
-    EditText endYear;
+    TextView startMonth;
+    TextView startDay;
+    TextView startYear;
+    TextView endMonth;
+    TextView endDay;
+    TextView endYear;
 
     int Syear;
     int Smonth;

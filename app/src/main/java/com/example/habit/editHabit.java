@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,12 +72,12 @@ public class editHabit extends AppCompatActivity {
     Button Sunday;
     EditText title;
     EditText reason;
-    EditText startMonth;
-    EditText startDay;
-    EditText startYear;
-    EditText endMonth;
-    EditText endDay;
-    EditText endYear;
+    TextView startMonth;
+    TextView startDay;
+    TextView startYear;
+    TextView endMonth;
+    TextView endDay;
+    TextView endYear;
     ListView habitEventsListView;
     ArrayList<HabitEvent> habitEventsDataList;
     HabitEventList habitEventAdapter;

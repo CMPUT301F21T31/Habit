@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.117"></EditText>
 
-    <EditText
+    <TextView
         android:id="@+id/start_month"
         android:layout_width="40dp"
         android:layout_height="25dp"
@@ -44,9 +44,9 @@
         app:layout_constraintEnd_toStartOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338"></EditText>
+        app:layout_constraintVertical_bias="0.338"></TextView>
 
-    <EditText
+    <TextView
         android:id="@+id/start_year"
         android:layout_width="52dp"
         android:layout_height="25dp"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@+id/start_date"
         app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338"></EditText>
+        app:layout_constraintVertical_bias="0.338"></TextView>
 
     <TextView
         android:id="@+id/textView20"
@@ -193,7 +193,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.528" />
 
-    <EditText
+    <TextView
         android:id="@+id/start_day"
         android:layout_width="40dp"
         android:layout_height="25dp"
@@ -209,7 +209,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView19"
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338"></EditText>
+        app:layout_constraintVertical_bias="0.338"></TextView>
 
     <TextView
         android:id="@+id/textView18"
@@ -280,7 +280,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.427"></TextView>
 
-    <EditText
+    <TextView
         android:id="@+id/end_year"
         android:layout_width="52dp"
         android:layout_height="25dp"
@@ -296,7 +296,7 @@
         app:layout_constraintEnd_toStartOf="@+id/end_date"
         app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427"></EditText>
+        app:layout_constraintVertical_bias="0.427"></TextView>
 
     <ImageButton
         android:id="@+id/end_date"
@@ -324,7 +324,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.427"></TextView>
 
-    <EditText
+    <TextView
         android:id="@+id/end_day"
         android:layout_width="40dp"
         android:layout_height="25dp"
@@ -340,9 +340,9 @@
         app:layout_constraintEnd_toStartOf="@+id/textView21"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427"></EditText>
+        app:layout_constraintVertical_bias="0.427"></TextView>
 
-    <EditText
+    <TextView
         android:id="@+id/end_month"
         android:layout_width="40dp"
         android:layout_height="25dp"
@@ -359,7 +359,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427"></EditText>
+        app:layout_constraintVertical_bias="0.427"></TextView>
 
     <TextView
         android:id="@+id/textView19"
