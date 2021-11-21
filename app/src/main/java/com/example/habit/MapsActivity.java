@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private boolean checkGoogleplaServices() {
+    public boolean checkGoogleplaServices() {
         GoogleApiAvailability googleApiAvailability=GoogleApiAvailability.getInstance();
         int result=googleApiAvailability.isGooglePlayServicesAvailable(this);
         if(result== ConnectionResult.SUCCESS){
@@ -84,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }return false;
     }
 
-    private void checkpermission() {
+    public void checkpermission() {
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,9 +16,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapsFragment extends Fragment {
     private GoogleMap mMap;
+    FloatingActionButton floatsearch;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         boolean isPersmissionGranter;
         /**
@@ -41,6 +44,10 @@ public class MapsFragment extends Fragment {
             // mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(true);
+           // FloatingActionButton floatsearch = (FloatingActionButton) getView().findViewById(R.id.floatingActionButton);
+
+
+
         }
     };
 
@@ -49,7 +56,10 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_maps, container, false);
+
+
     }
 
     @Override
@@ -57,8 +67,15 @@ public class MapsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+
+
         }
+
+
+
+
     }
 }
