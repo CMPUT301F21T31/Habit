@@ -10,7 +10,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,16 +69,17 @@ public class Habit implements Parcelable {
      * @param in Parcel passed through intent, containing a Habit object
      */
     protected Habit(Parcel in) {
-        this.title = in.readString();
-        this.reason = in.readString();
-        this.start = new Date(in.readLong());
-        this.end = new Date(in.readLong());
-        this.habitId = in.readString();
-        this.userId = in.readString();
-        Bundle b1 = in.readBundle();
-        this.daysOfWeek = (HashMap<String, Boolean>)b1.getSerializable("HashMap");
-        Bundle b2 = in.readBundle();
-        this.events = b2.getStringArrayList("Events"); // TODO: NOT WORKING
+        title = in.readString();
+        reason = in.readString();
+        start = new Date(in.readLong());
+        end = new Date(in.readLong());
+
+        Bundle bundle = in.readBundle();
+        daysOfWeek = (HashMap<String, Boolean>)bundle.getSerializable("HashMap");
+
+        events = in.createStringArrayList();
+        habitId = in.readString();
+        userId = in.readString();
     }
 
     /**
@@ -117,14 +117,14 @@ public class Habit implements Parcelable {
         dest.writeString(reason);
         dest.writeLong(start.getTime());
         dest.writeLong(end.getTime());
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("HashMap", daysOfWeek);
+        dest.writeBundle(bundle);
+
+        dest.writeList(events);
         dest.writeString(habitId);
         dest.writeString(userId);
-        Bundle b1 = new Bundle();
-        b1.putSerializable("HashMap", daysOfWeek);
-        dest.writeBundle(b1);
-        Bundle b2 = new Bundle();
-        b2.putStringArrayList("Events", events);
-        dest.writeBundle(b2);
     }
 
     /**
@@ -317,10 +317,6 @@ public class Habit implements Parcelable {
         return events;
     }
 
-//    public Boolean completedToday() {
-//
-//    }
-
     /* Firestore Methods */
 
     /**
@@ -330,7 +326,7 @@ public class Habit implements Parcelable {
      * @param event HabitEvent object to add
      */
     public static void addEvent(String habitId, HabitEvent event) {
-        String eventId = addEventToEvents(event, habitId);
+        String eventId = addEventToEvents(event);
         addEventToHabit(habitId, eventId);
     }
 
@@ -348,14 +344,11 @@ public class Habit implements Parcelable {
     /**
      * Add HabitEvent object to the HabitEvents collection
      * @param event HabitEvent object to add
-     * @param habitId String id of parent habit
      * @return String ID of event added
      */
-    private static String addEventToEvents(HabitEvent event, String habitId) {
+    private static String addEventToEvents(HabitEvent event) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference newEvent = db.collection("habitEvents").document();
-        event.setHabitEventId(newEvent.getId());
-        event.setHabitId(habitId);
         newEvent.set(event);
         return newEvent.getId();
     }
@@ -368,18 +361,6 @@ public class Habit implements Parcelable {
     public static void deleteEvent(String habitId, String eventId) {
         deleteEventFromEvents(eventId);
         deleteEventFromHabit(habitId, eventId);
-    }
-
-    /**
-     * Update an existing habitEvent in DB
-     * @param habitEventId
-     * @param habitEvent
-     */
-    public static void updateHabitEvent(String habitEventId, HabitEvent habitEvent) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("habitEvents")
-                .document(habitEventId)
-                .set(habitEvent);
     }
 
     /**
