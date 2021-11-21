@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class addHabit extends AppCompatActivity {
     Button Friday;
     Button Saturday;
     Button Sunday;
+    Switch addPublic;
     EditText title;
     EditText reason;
     TextView startMonth;
@@ -101,6 +103,7 @@ public class addHabit extends AppCompatActivity {
         Friday = findViewById(R.id.friday);
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
+        addPublic = findViewById(R.id.add_public);
 
         final boolean[] myButtonIsClicked = {false};
 
@@ -259,6 +262,14 @@ public class addHabit extends AppCompatActivity {
                 calendar.set(Syear, Smonth, Sday);
                 endDateDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
                 endDateDialog.show();
+            }
+        });
+
+        // Checked the switch for public habit
+        addPublic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
