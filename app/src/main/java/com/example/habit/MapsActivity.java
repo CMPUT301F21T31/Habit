@@ -1,6 +1,5 @@
 package com.example.habit;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -9,8 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,7 +27,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -113,33 +109,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }).check();
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-        
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if (item.getItemId()==R.id.nonemap){
-           mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-       }
-        if (item.getItemId()==R.id.normalmap){
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        }
-        if (item.getItemId()==R.id.satellite){
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        }
-        if (item.getItemId()==R.id.MapHybrid){
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        }
-        if (item.getItemId()==R.id.MapTerrain){
-            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-}
+    }}
