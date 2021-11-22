@@ -67,7 +67,7 @@ public class HabitList extends ArrayAdapter<Habit> {
         if (daily) {
             // Get field references
             TextView habitName = view.findViewById(R.id.habit_name_text);
-            ImageView status = view.findViewById(R.id.habit_status_bar);
+            ImageView status = view.findViewById(R.id.habit_status_bar_daily);
             // Set fields
             habitName.setText(habit.getTitle());
         } else {
