@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="title_text_size">24sp</dimen>
+    <dimen name="list_title_text_size">20sp</dimen>
     <dimen name="button_text_size">18sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="habitEvent_fragment_width">325dp</dimen>
+    <dimen name="habitEvent_fragment_height">335dp</dimen>
 </resources>

@@ -21,17 +21,19 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
 
     private ArrayList<HabitEvent> habitEvents;
     private Context context;
+    private Habit parentHabit;
 
     /**
      * Create a HabitEventList
      * @param context Context of where this is created
      * @param habitEvents List of events to display
      */
-    public HabitEventList(Context context, ArrayList<HabitEvent> habitEvents) {
+    public HabitEventList(Context context, ArrayList<HabitEvent> habitEvents, Habit parentHabit) {
         super(context, 0, habitEvents);
         Log.i("EVENT VIEW NOTE", "CREATING HabitEventList");
         this.habitEvents = habitEvents;
         this.context = context;
+        this.parentHabit = parentHabit;
     }
 
     /**
@@ -54,7 +56,7 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
             view = LayoutInflater.from(context).inflate(R.layout.habit_event_content, parent, false);
         }
 
-        // Get single habit
+        // Get single habit event
         HabitEvent habitEvent = habitEvents.get(position);
 
         // Get field references
@@ -63,7 +65,8 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
         ImageView habitEventStatus = view.findViewById(R.id.habit_event_status_bar);
 
         // Set fields
-        habitEventTitle.setText(habitEvent.getComments());
+        habitEventTitle.setText(parentHabit.getTitle() + " Event");
+        // habitEventTitle.setText(habitEvent.getComments());
 
         return view;
     }

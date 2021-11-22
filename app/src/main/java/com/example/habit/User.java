@@ -1,22 +1,21 @@
 package com.example.habit;
 
-import android.content.Context;
-import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Class denoting a single User, having a list of Habits
@@ -27,9 +26,6 @@ public class User {
     private String userName;
     private String email;
     private ArrayList<String> habits;
-    private ArrayList<String> followers;
-    private ArrayList<String> following;
-    private ArrayList<String> requests;
 
     /**
      * Constructor for user with habit list
@@ -117,14 +113,6 @@ public class User {
         return habits;
     }
 
-    public ArrayList<String> getFollowers() {
-        return followers;
-    }
-
-    public ArrayList<String> getFollowing() {
-        return following;
-    }
-
     /* Firestore Methods */
 
     /**
@@ -164,7 +152,7 @@ public class User {
     }
 
     /**
-     * Update habit fields
+     * Update an existing habit in DB
      * @param habitId String id of habit to update
      * @param habit Habit object with updated field(s)
      */
@@ -203,77 +191,5 @@ public class User {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference thisUser = db.collection("users").document(uuid);
         thisUser.update("habits", FieldValue.arrayRemove(habitId));
-    }
-
-    /**
-     * Add uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
-     */
-    private static void addFollowing(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayUnion(uuid2));
-        uuid2User.update("followers", FieldValue.arrayUnion(uuid1));
-    }
-
-    /**
-     * Remove uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
-     */
-    private static void removeFollowing(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("followers", FieldValue.arrayRemove(uuid1));
-    }
-
-    // uuid1 removes uuid2 as a follower
-    // Not sure if this is needed
-    private static void removeFollower(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("followers", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("following", FieldValue.arrayRemove(uuid1));
-    }
-
-    /**
-     * Send a follow request
-     * @param context Context for displaying alert messages
-     * @param requesterUuid String uuid of requester
-     * @param email Email address to request
-     */
-    private static void sendRequest(Context context, String requesterUuid, String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-
-                                // Check if there is an already a request for this user
-                                ArrayList<String> currentRequests = document.get("requests", ArrayList.class);
-                                if (currentRequests.contains(requesterUuid)) {
-                                    Toast.makeText(context, "You already have a pending request for this user!", Toast.LENGTH_SHORT);
-                                }
-
-                                // Add requesterUuid to requested user's requests list
-                                DocumentReference requestedUser = document.getReference();
-                                requestedUser.update("requests", FieldValue.arrayUnion(requesterUuid));
-                            }
-                        } else {
-                            // Email not found
-                            Toast.makeText(context, "Could not find a user with that email!", Toast.LENGTH_SHORT);
-                        }
-                    }
-                });
     }
 }

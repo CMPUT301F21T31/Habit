@@ -1,0 +1,253 @@
+package com.example.habit;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
+import java.util.ArrayList;
+
+public class FriendsActivity extends AppCompatActivity {
+
+    // Buttons
+    ImageButton feedButton;
+    ImageButton homeButton;
+    ImageButton friendsButton;
+    ImageButton followRequestButton;
+
+    // Lists
+    ArrayList<User> followingListData;
+    ArrayList<User> followRequestListData;
+    FriendsList followingListAdapter;
+    FriendsList followRequestListAdapter;
+    SwipeMenuListView followingListView;
+    SwipeMenuListView followRequestListView;
+    SwipeMenuCreator followingSwipeCreator;
+    SwipeMenuCreator followRequestSwipeCreator;
+    RelativeLayout userBackground;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_friends);
+
+        // Initialize buttons
+        feedButton = findViewById(R.id.feedButton);
+        homeButton = findViewById(R.id.homeButton);
+        friendsButton = findViewById(R.id.friendsButton);
+        followRequestButton = findViewById(R.id.new_follow_request_button);
+
+        // Initialize lists data, views, and adapters
+        followingListData = new ArrayList<User>();
+        followRequestListData = new ArrayList<User>();
+        followingListAdapter = new FriendsList(this, 0, followingListData, 0);
+        followRequestListAdapter = new FriendsList(this, 0, followRequestListData, 1);
+        followingListView = findViewById(R.id.following_list);
+        followRequestListView = findViewById(R.id.follow_requests_list);
+        followingListView.setAdapter(followingListAdapter);
+        followRequestListView.setAdapter(followRequestListAdapter);
+
+        /* Swipe Menu Components */
+
+        followingSwipeCreator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+
+                // Create habit not complete item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.Red)));
+                deleteItem.setWidth(dp2px(90));
+                deleteItem.setIcon(R.drawable.ic_baseline_remove_circle_outline_24);
+                menu.addMenuItem(deleteItem);
+
+                // Create spacer item
+                SwipeMenuItem spacer = new SwipeMenuItem(getApplicationContext());
+                spacer.setBackground(new ColorDrawable(getResources().getColor(R.color.Dark_Gray_Background)));
+                spacer.setWidth(dp2px(3));
+                menu.addMenuItem(spacer);
+
+                // Create habit complete item
+                SwipeMenuItem openItem = new SwipeMenuItem(getApplicationContext());
+                openItem.setBackground(R.drawable.half_rectangle_grey);
+                openItem.setWidth(dp2px(90));
+                openItem.setIcon(R.drawable.ic_baseline_person_search_24);
+                menu.addMenuItem(openItem);
+            }
+        };
+
+        followRequestSwipeCreator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+
+                // Create habit not complete item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.Red)));
+                deleteItem.setWidth(dp2px(90));
+                deleteItem.setIcon(R.drawable.ic_baseline_not_interested_24);
+                menu.addMenuItem(deleteItem);
+
+                // Create spacer item
+                SwipeMenuItem spacer = new SwipeMenuItem(getApplicationContext());
+                spacer.setBackground(new ColorDrawable(getResources().getColor(R.color.Dark_Gray_Background)));
+                spacer.setWidth(dp2px(3));
+                menu.addMenuItem(spacer);
+
+                // Create habit complete item
+                SwipeMenuItem openItem = new SwipeMenuItem(getApplicationContext());
+                openItem.setBackground(R.drawable.half_rectangle_green);
+                openItem.setWidth(dp2px(90));
+                openItem.setIcon(R.drawable.ic_baseline_playlist_add_check_24);
+                menu.addMenuItem(openItem);
+            }
+        };
+
+        followingListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                // Reset background
+                userBackground = followingListView
+                        .getChildAt(position)
+                        .findViewById(R.id.following_user_content_holder);
+                userBackground.setBackground(new ColorDrawable(getResources()
+                        .getColor(R.color.Dark_Gray_Background)));
+
+                // TODO: Following click stuff
+
+                return false;
+            }
+        });
+
+        followRequestListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+
+                // Reset background
+                userBackground = followRequestListView
+                        .getChildAt(position)
+                        .findViewById(R.id.follow_request_user_content_holder);
+                userBackground.setBackground(new ColorDrawable(getResources()
+                        .getColor(R.color.Dark_Gray_Background)));
+
+                // TODO: Follow request click stuff
+
+                // Close list
+                return false;
+            }
+        });
+
+        followingListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                userBackground = followingListView
+                        .getChildAt(position)
+                        .findViewById(R.id.following_user_content_holder);
+                userBackground.setBackgroundResource(R.drawable.habit_list_item_swiped);
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {}
+        });
+
+        followRequestListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                userBackground = followRequestListView
+                        .getChildAt(position)
+                        .findViewById(R.id.follow_request_user_content_holder);
+                userBackground.setBackgroundResource(R.drawable.habit_list_item_swiped);
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {}
+        });
+
+        followingListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
+            @Override
+            public void onMenuOpen(int position) {}
+
+            @Override
+            public void onMenuClose(int position) {
+                userBackground = followingListView
+                        .getChildAt(position)
+                        .findViewById(R.id.following_user_content_holder);
+                userBackground.setBackground(new ColorDrawable(getResources()
+                        .getColor(R.color.Dark_Gray_Background)));
+            }
+        });
+
+        followRequestListView.setOnMenuStateChangeListener(new SwipeMenuListView.OnMenuStateChangeListener() {
+            @Override
+            public void onMenuOpen(int position) {}
+
+            @Override
+            public void onMenuClose(int position) {
+                userBackground = followRequestListView
+                        .getChildAt(position)
+                        .findViewById(R.id.follow_request_user_content_holder);
+                userBackground.setBackground(new ColorDrawable(getResources()
+                        .getColor(R.color.Dark_Gray_Background)));
+            }
+        });
+
+        // Set creators
+        followingListView.setMenuCreator(followingSwipeCreator);
+        followRequestListView.setMenuCreator(followRequestSwipeCreator);
+
+        /* Button listeners */
+
+        feedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFeed();
+            }
+        });
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHome();
+            }
+        });
+
+        followRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new sendRequest().show(getSupportFragmentManager(), "send request");
+            }
+        });
+
+        // Add some test users
+        User user1 = new User("Justin", "testUsername1", "testEmail1@gmail.com");
+        User user2 = new User("Lewis", "testUsername1", "testEmail1@gmail.com");
+        followingListAdapter.add(user1);
+        followingListAdapter.add(user2);
+        followRequestListAdapter.add(user1);
+        followRequestListAdapter.add(user2);
+    }
+
+    private void openFeed() {
+        Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
+    }
+
+    private void openHome() {
+        Intent intent = new Intent(this, HabitListActivity.class);
+        startActivity(intent);
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
+}
