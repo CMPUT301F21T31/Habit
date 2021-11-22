@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/user_content_holder"
+    android:id="@+id/following_user_content_holder"
     android:layout_width="match_parent"
     android:layout_height="60dp" >
 
     <RelativeLayout
-        android:id="@+id/user_list_content"
+        android:id="@+id/following_user_list_content"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/habit_list_item">

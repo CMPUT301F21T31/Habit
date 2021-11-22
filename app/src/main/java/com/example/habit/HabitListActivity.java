@@ -5,31 +5,17 @@ import static java.lang.Thread.sleep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
-import android.text.format.Time;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,15 +35,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class HabitListActivity extends AppCompatActivity {
 
@@ -211,7 +192,7 @@ public class HabitListActivity extends AppCompatActivity {
 
                 // Create habit complete item
                 SwipeMenuItem openItem = new SwipeMenuItem(getApplicationContext());
-                openItem.setBackground(R.drawable.half_rectangle);
+                openItem.setBackground(R.drawable.half_rectangle_green);
                 openItem.setWidth(dp2px(90));
                 openItem.setIcon(R.drawable.ic_baseline_playlist_add_check_24);
                 menu.addMenuItem(openItem);
@@ -253,7 +234,9 @@ public class HabitListActivity extends AppCompatActivity {
         dailyHabitsListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
             @Override
             public void onSwipeStart(int position) {
-                dailyHabitBackground = findViewById(R.id.daily_habit_content_holder);
+                dailyHabitBackground = dailyHabitsListView
+                        .getChildAt(position)
+                        .findViewById(R.id.daily_habit_content_holder);
                 dailyHabitBackground.setBackgroundResource(R.drawable.habit_list_item_swiped);
             }
 
@@ -267,7 +250,9 @@ public class HabitListActivity extends AppCompatActivity {
 
             @Override
             public void onMenuClose(int position) {
-                dailyHabitBackground = findViewById(R.id.daily_habit_content_holder);
+                dailyHabitBackground = dailyHabitsListView
+                        .getChildAt(position)
+                        .findViewById(R.id.daily_habit_content_holder);
                 dailyHabitBackground.setBackground(new ColorDrawable(getResources()
                         .getColor(R.color.Dark_Gray_Background)));
             }
@@ -320,13 +305,6 @@ public class HabitListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openFeed();
-            }
-        });
-
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 

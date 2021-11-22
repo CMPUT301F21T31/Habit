@@ -24,9 +24,10 @@ public class FriendsList extends ArrayAdapter<User> {
      * @param context Context about where the list is located
      * @param resource Resource number
      * @param users User objects in list
+     * @param type 0 == following list, 1 == follow request list
      */
-    public FriendsList(@NonNull Context context, int resource, ArrayList<User> users) {
-        super(context, resource);
+    public FriendsList(@NonNull Context context, int resource, ArrayList<User> users, int type) {
+        super(context, 0, users);
         this.context = context;
         this.users = users;
         this.type = type;
@@ -48,7 +49,11 @@ public class FriendsList extends ArrayAdapter<User> {
         // Get element layout
         if (view == null) {
             Log.i("HABIT VIEW NOTE", "VIEW NULL");
-            view = LayoutInflater.from(context).inflate(R.layout.user_list_content, parent, false);
+            if (type == 0 ) {
+                view = LayoutInflater.from(context).inflate(R.layout.following_user_list_content, parent, false);
+            } else {
+                view = LayoutInflater.from(context).inflate(R.layout.follow_request_user_list_content, parent, false);
+            }
         }
 
         // Get single User
