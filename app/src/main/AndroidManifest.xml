@@ -43,12 +43,6 @@
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".HabitEventViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HabitViewActivity"
-            android:exported="true" />
-        <activity
             android:name=".splashscreen2"
             android:exported="true" />
         <activity
