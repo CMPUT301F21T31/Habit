@@ -220,6 +220,13 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
 
+        followRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new sendRequest().show(getSupportFragmentManager(), "send request");
+            }
+        });
+
         // Add some test users
         User user1 = new User("Justin", "testUsername1", "testEmail1@gmail.com");
         User user2 = new User("Lewis", "testUsername1", "testEmail1@gmail.com");

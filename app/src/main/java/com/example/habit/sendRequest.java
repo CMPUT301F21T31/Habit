@@ -8,17 +8,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * US 05.01.01
  */
 public class sendRequest extends DialogFragment {
+
+    private final ArrayList<String> enteredEmail = new ArrayList<>();
 
     @NonNull
     @Override
@@ -41,7 +45,18 @@ public class sendRequest extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String getEmail = friendEmail.getText().toString();
-                Objects.requireNonNull(getDialog()).dismiss();
+
+                if (getEmail.equals("")) {
+                    Toast.makeText(getContext(),"Please enter the email", Toast.LENGTH_LONG).show();
+                }
+                else if (enteredEmail.contains(getEmail)) {
+                    Toast.makeText(getContext(),"You've sent the request to this user", Toast.LENGTH_LONG).show();
+                    friendEmail.setText("");
+                }
+                else {
+                    enteredEmail.add(getEmail);
+                    Objects.requireNonNull(getDialog()).dismiss();
+                }
             }
         });
 
