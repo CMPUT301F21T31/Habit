@@ -164,7 +164,7 @@ public class User {
     }
 
     /**
-     * Update an existing habit in DB
+     * Update habit fields
      * @param habitId String id of habit to update
      * @param habit Habit object with updated field(s)
      */
