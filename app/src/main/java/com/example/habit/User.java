@@ -38,18 +38,28 @@ public class User {
      * @param habits List of habits
      * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, String email, ArrayList<String> habits) {
+    public User(String displayName, String userName, String email, ArrayList<String> habits,
+                ArrayList<String> followers, ArrayList<String> following, ArrayList<String> requests) {
         this.displayName = displayName;
         this.userName = userName;
         this.email = email;
         this.habits = habits;
+        this.followers = followers;
+        this.following = following;
+        this.requests = requests;
+    }
+
+    public User(String displayName, String userName, String email, ArrayList<String> habits) {
+        this(displayName, userName, email, habits, new ArrayList<String>(), new ArrayList<String>(),
+                new ArrayList<String>());
     }
 
     /**
      * Constructor for user with no habits, creates user with empty habit list
      */
     public User(String displayName, String userName, String email) {
-        this(displayName, userName, email, new ArrayList<String>());
+        this(displayName, userName, email, new ArrayList<String>(), new ArrayList<String>(),
+                new ArrayList<String>(), new ArrayList<String>());
     }
 
     /**
@@ -123,6 +133,10 @@ public class User {
 
     public ArrayList<String> getFollowing() {
         return following;
+    }
+
+    public ArrayList<String> getRequests() {
+        return requests;
     }
 
     /* Firestore Methods */
