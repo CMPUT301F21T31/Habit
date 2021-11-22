@@ -13,6 +13,7 @@ public class FriendsActivity extends AppCompatActivity {
     ImageButton feedButton;
     ImageButton homeButton;
     ImageButton friendsButton;
+    ImageButton newFollow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class FriendsActivity extends AppCompatActivity {
         feedButton = findViewById(R.id.feedButton);
         homeButton = findViewById(R.id.homeButton);
         friendsButton = findViewById(R.id.friendsButton);
-
+        newFollow = findViewById(R.id.new_follow_request_button);
 
         // TODO: Friends list stuff
 
@@ -41,6 +42,13 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openHome();
+            }
+        });
+
+        newFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new sendRequest().show(getSupportFragmentManager(), "Send friend request");
             }
         });
     }

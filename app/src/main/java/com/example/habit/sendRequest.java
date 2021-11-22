@@ -20,14 +20,6 @@ import java.util.Objects;
  */
 public class sendRequest extends DialogFragment {
 
-    private User email;
-    private User uid;
-
-    public sendRequest(User email, User uid) {
-        this.email = email;
-        this.uid = uid;
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -49,7 +41,7 @@ public class sendRequest extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String getEmail = friendEmail.getText().toString();
-
+                Objects.requireNonNull(getDialog()).dismiss();
             }
         });
 
