@@ -173,6 +173,30 @@ public class editHabit extends AppCompatActivity {
 
         final boolean[] myButtonIsClicked = {false};
 
+        // Get the occurrence status
+        if (selected_habit.getDaysOfWeek().get("Monday")) {
+            Monday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Tuesday")) {
+            Tuesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Wednesday")) {
+            Wednesday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Thursday")) {
+            Thursday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Friday")) {
+            Friday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Saturday")) {
+            Saturday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+        if (selected_habit.getDaysOfWeek().get("Sunday")) {
+            Sunday.setBackground(getDrawable(R.drawable.round_button_clicked));
+        }
+
+
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
