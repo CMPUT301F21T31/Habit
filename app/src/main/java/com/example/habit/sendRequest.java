@@ -14,6 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,11 +26,15 @@ import java.util.Objects;
  */
 public class sendRequest extends DialogFragment {
 
-    private final ArrayList<String> enteredEmail = new ArrayList<>();
+    private FirebaseAuth auth;
+    FirebaseUser user;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         // Inflate the layout for this fragment
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_send_friend_request, null);
@@ -49,12 +57,8 @@ public class sendRequest extends DialogFragment {
                 if (getEmail.equals("")) {
                     Toast.makeText(getContext(),"Please enter the email", Toast.LENGTH_LONG).show();
                 }
-                else if (enteredEmail.contains(getEmail)) {
-                    Toast.makeText(getContext(),"You've sent the request to this user", Toast.LENGTH_LONG).show();
-                    friendEmail.setText("");
-                }
                 else {
-                    enteredEmail.add(getEmail);
+                    User.sendRequest(getContext(), user.getUid(), getEmail);
                     Objects.requireNonNull(getDialog()).dismiss();
                 }
             }

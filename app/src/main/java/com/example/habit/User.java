@@ -261,7 +261,7 @@ public class User {
      * @param requesterUuid String uuid of requester
      * @param email Email address to request
      */
-    private static void sendRequest(Context context, String requesterUuid, String email) {
+    public static void sendRequest(Context context, String requesterUuid, String email) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
                 .whereEqualTo("email", email)

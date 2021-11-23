@@ -106,6 +106,7 @@ public class addHabit extends AppCompatActivity {
         addPublic = findViewById(R.id.add_public);
 
         final boolean[] myButtonIsClicked = {false};
+        //boolean ifPublic = false;
 
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,13 +266,6 @@ public class addHabit extends AppCompatActivity {
             }
         });
 
-        // Checked the switch for public habit
-        addPublic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         // Passing the recurrence to the habit after clicked the confirm button
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -304,7 +298,7 @@ public class addHabit extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date);
+                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date, addPublic.isChecked());
                     User.addHabit(user.getUid(), curr_habit);
                     finish();
                 }
