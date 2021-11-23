@@ -76,7 +76,7 @@ public class tutorial_1 extends AppCompatActivity {
 
     }
 
-    private void opent_2() { Intent intent=new Intent(this,tutorial_2usern.class);
+    private void opent_2() { Intent intent=new Intent(this,tutorial_3emailpassword.class);
         SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
         String inname= prefs.getString("firstStartname","");
 

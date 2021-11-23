@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/t3t"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="39dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="51dp"
         android:fontFamily="cursive"
         android:text="enter habit"
         android:textSize="25dp" />
@@ -24,21 +25,23 @@
         android:layout_height="103dp"
         android:layout_below="@+id/t3t"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="51dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="49dp"
         android:ems="10"
         android:hint="enter the habit you want to record"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/t3b"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/t3et"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="212dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="154dp"
         android:layout_marginTop="26dp"
-        android:layout_marginEnd="105dp"
+        android:layout_marginEnd="163dp"
         android:text="Next" />
 </RelativeLayout>
