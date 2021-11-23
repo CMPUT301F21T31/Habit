@@ -1,9 +1,12 @@
 package com.example.habit;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -83,6 +86,7 @@ public class Habit implements Parcelable {
         this.daysOfWeek = (HashMap<String, Boolean>)b1.getSerializable("HashMap");
         Bundle b2 = in.readBundle();
         this.events = b2.getStringArrayList("Events"); // TODO: NOT WORKING
+        this.ifPublic = in.readBoolean();
     }
 
     /**
@@ -122,6 +126,7 @@ public class Habit implements Parcelable {
         dest.writeLong(end.getTime());
         dest.writeString(habitId);
         dest.writeString(userId);
+        dest.writeBoolean(ifPublic);
         Bundle b1 = new Bundle();
         b1.putSerializable("HashMap", daysOfWeek);
         dest.writeBundle(b1);
