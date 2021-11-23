@@ -12,11 +12,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +72,7 @@ public class editHabit extends AppCompatActivity {
     Button Friday;
     Button Saturday;
     Button Sunday;
+    Switch ifPublic;
     EditText title;
     EditText reason;
     TextView startMonth;
@@ -122,6 +125,7 @@ public class editHabit extends AppCompatActivity {
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
         addHabitEventButton = findViewById(R.id.addHabitEventButton2);
+        ifPublic = findViewById(R.id.edit_public);
 
         // After enter the edit interface, the existing information should replace the hints
         User curr_user;
@@ -345,6 +349,11 @@ public class editHabit extends AppCompatActivity {
                         .show(getSupportFragmentManager(), "ADD_HabitEvent");
             }
         });
+
+        // Get the current public status
+        Boolean publicStatus = selected_habit.getIfPublic();
+        System.out.println(selected_habit.getIfPublic());
+        //ifPublic.setChecked(true);
 
         // Passing the recurrence to the habit after clicked the confirm button
         confirm.setOnClickListener(new View.OnClickListener() {

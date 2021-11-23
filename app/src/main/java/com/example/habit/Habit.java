@@ -88,6 +88,7 @@ public class Habit implements Parcelable {
         this.end = new Date(in.readLong());
         this.habitId = in.readString();
         this.userId = in.readString();
+        this.ifPublic = in.readBoolean();
         Bundle b1 = in.readBundle();
         this.daysOfWeek = (HashMap<String, Boolean>)b1.getSerializable("HashMap");
         Bundle b2 = in.readBundle();
@@ -132,6 +133,7 @@ public class Habit implements Parcelable {
         dest.writeLong(end.getTime());
         dest.writeString(habitId);
         dest.writeString(userId);
+        dest.writeBoolean(ifPublic);
         Bundle b1 = new Bundle();
         b1.putSerializable("HashMap", daysOfWeek);
         dest.writeBundle(b1);
