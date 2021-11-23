@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                     CollectionReference usersCollectionRef = db.collection("users");
 
                     // Create new entry in users collection
-                    User user = new User(displayName, "", email);
+                    User user = new User(displayName, "", email, fb_user.getUid());
 
                     // Add to users collection
                     usersCollectionRef
