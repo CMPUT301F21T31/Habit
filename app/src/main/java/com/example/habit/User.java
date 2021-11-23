@@ -261,7 +261,7 @@ public class User {
      * @param requesterUuid String uuid of requester
      * @param email Email address to request
      */
-    private static void sendRequest(Context context, String requesterUuid, String email) {
+    public static void sendRequest(Context context, String requesterUuid, String email) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
                 .whereEqualTo("email", email)
@@ -274,7 +274,7 @@ public class User {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
 
                                 // Check if there is an already a request for this user
-                                ArrayList<String> currentRequests = document.get("requests", ArrayList.class);
+                                ArrayList<String> currentRequests = (ArrayList<String>) document.get("requests");
                                 if (currentRequests.contains(requesterUuid)) {
                                     Toast.makeText(context, "You already have a pending request for this user!", Toast.LENGTH_SHORT);
                                 }

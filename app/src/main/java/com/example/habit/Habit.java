@@ -30,6 +30,7 @@ public class Habit implements Parcelable {
     private ArrayList<String> events;
     private String habitId;
     private String userId;
+    private Boolean ifPublic;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -41,21 +42,23 @@ public class Habit implements Parcelable {
      * @param events Instances of this habit occurring
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, ArrayList<String> events) {
+            Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic) {
         this.title = title;
         this.reason = reason;
         this.start = start;
         this.end = end;
         this.daysOfWeek = daysOfWeek;
         this.events = events;
+        this.ifPublic = ifPublic;
     }
+
 
     /**
      * Habit constructor without events, will create Habit with empty events array
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek) {
-        this(title, reason, start, end, daysOfWeek, new ArrayList<String>());
+            Boolean> daysOfWeek, Boolean ifPublic) {
+        this(title, reason, start, end, daysOfWeek, new ArrayList<String>(), ifPublic);
     }
 
     /**
@@ -242,6 +245,14 @@ public class Habit implements Parcelable {
      */
     public void setDaysOfWeek(HashMap<String, Boolean> daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
+    }
+
+    public Boolean getIfPublic() {
+        return ifPublic;
+    }
+
+    public void setIfPublic(Boolean ifPublic) {
+        this.ifPublic = ifPublic;
     }
 
     /**
