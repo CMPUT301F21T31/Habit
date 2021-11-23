@@ -67,6 +67,7 @@ public class HabitListActivity extends AppCompatActivity {
     ImageButton feedButton;
     ImageButton homeButton;
     ImageButton friendsButton;
+    ImageButton logoutButton;
 
     // Greeting string
     TextView greeting;
@@ -99,6 +100,7 @@ public class HabitListActivity extends AppCompatActivity {
         feedButton = findViewById(R.id.feedButton);
         homeButton = findViewById(R.id.homeButton);
         friendsButton = findViewById(R.id.friendsButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
         // Initialize greeting
         greeting = findViewById(R.id.greeting);
@@ -222,11 +224,14 @@ public class HabitListActivity extends AppCompatActivity {
 //                    Habit.updateHabitEvent();
 
                 } else {
-                    // Habit occurrence completed - add habit event + mark done
+                    // Habit occurrence completed - increment completed count + add event
+                    habit.addCompleted();
+                    User.updateHabit(habit.getHabitId(), habit);
                     new AddHabitEventFragment(habit)
                             .show(getSupportFragmentManager(), "ADD_HabitEvent");
                 }
-// false : close the menu; true : not close the menu
+
+                // Close the menu
                 return false;
             }
         });
@@ -314,6 +319,13 @@ public class HabitListActivity extends AppCompatActivity {
                 openFriends();
             }
         });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
     }
 
     /**
@@ -338,6 +350,12 @@ public class HabitListActivity extends AppCompatActivity {
 
     private void openFeed() {
         Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
+    }
+
+    private void logout() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("logoutClicked", true);
         startActivity(intent);
     }
 

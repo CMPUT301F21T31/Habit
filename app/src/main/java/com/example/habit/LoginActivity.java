@@ -66,10 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         continueButton = findViewById(R.id.signupContinueButton);
         displayNamePrompt = findViewById(R.id.display_name_prompt);
 
+        // Check if user is here because they clicked the logout button
+        Intent intent = getIntent();
+        Boolean logoutClicked  = intent.getBooleanExtra("logoutClicked", false);
 
         // Check if user is logged in --> Change this to determine which activity to load
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
+        if (currentUser != null && !logoutClicked) {
             Toast.makeText(this,"Logged in",Toast.LENGTH_LONG).show();
             Toast.makeText(this, currentUser.getUid(),Toast.LENGTH_LONG).show();
             goToHabits();
