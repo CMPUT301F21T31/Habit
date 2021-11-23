@@ -2,34 +2,29 @@ package com.example.habit;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
-import android.content.Intent;
-import android.net.Uri;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ZoomControls;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.example.habit.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.habit.databinding.ActivityMapsBinding;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
+
+
+import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    boolean isPersmissionGranter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,75 +32,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        checkpermission();
-        if (isPersmissionGranter) {
-            if (checkGoogleplaServices()) {
-                Toast.makeText(this, "Google playservices Available", Toast.LENGTH_SHORT).show();
 
+        ZoomControls zoom = (ZoomControls) findViewById(R.id.zoom);
+        zoom.setOnZoomOutClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
+        zoom.setOnZoomInClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
+
+        final Button btn_MapType = (Button) findViewById(R.id.btn_Sat);
+        btn_MapType.setOnClickListener(view -> {
+            if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                btn_MapType.setText("Normal View");
             } else {
-                Toast.makeText(this, "Google playservices NOT Available", Toast.LENGTH_SHORT).show();
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                btn_MapType.setText("Satellite View");
             }
-        }
+        });
+
+        Button btnGo = (Button) findViewById(R.id.btn_Go);
+
+        btnGo.setOnClickListener(view -> {
+            EditText etLocation = (EditText) findViewById(R.id.et_location);
+            String location = etLocation.getText().toString();
+            if (location != null && !location.equals("")) {
+                List<Address> adressList = null;
+                Geocoder geocoder = new Geocoder(MapsActivity.this);
+                try {
+                    adressList = geocoder.getFromLocationName(location, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Address address = adressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Location " + location));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+        });
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng hubmall = new LatLng(53.52378596312784, -113.52028200057022);
-        mMap.addMarker(new MarkerOptions().position(hubmall).title("Marker in hubmall"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hubmall,15));
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        // mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMapToolbarEnabled(true);
+        LatLng turkey = new LatLng(41.015137	, 28.979530);
+        mMap.addMarker(new MarkerOptions().position(turkey).title("Marker in Turkey"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(turkey));
     }
-
-
-    public boolean checkGoogleplaServices() {
-        GoogleApiAvailability googleApiAvailability=GoogleApiAvailability.getInstance();
-        int result=googleApiAvailability.isGooglePlayServicesAvailable(this);
-        if(result== ConnectionResult.SUCCESS){
-            return true;
-        }return false;
-    }
-
-    public void checkpermission() {
-        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
-            @Override
-            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                isPersmissionGranter = true;
-                Toast.makeText(MapsActivity.this, "permission Granter", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getPackageName(), "");
-                intent.setData(uri);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-
-            }
-        }).check();
-
-    }}
+}

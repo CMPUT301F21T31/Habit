@@ -65,7 +65,7 @@ public class tutorial_1 extends AppCompatActivity {
 
     private void gotomap() {
 
-        Intent intent=new Intent(this,camera.class);
+        Intent intent=new Intent(this,MapsActivity.class);
         SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
         String inname= prefs.getString("firstStartname","");
 
