@@ -352,8 +352,7 @@ public class editHabit extends AppCompatActivity {
 
         // Get the current public status
         Boolean publicStatus = selected_habit.getIfPublic();
-        System.out.println(selected_habit.getIfPublic());
-        //ifPublic.setChecked(true);
+        ifPublic.setChecked(publicStatus);
 
         // Passing the recurrence to the habit after clicked the confirm button
         confirm.setOnClickListener(new View.OnClickListener() {
