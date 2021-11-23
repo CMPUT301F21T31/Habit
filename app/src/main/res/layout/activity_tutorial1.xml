@@ -82,4 +82,13 @@
         android:layout_marginBottom="77dp"
         android:text="test_map" />
 
+    <Button
+        android:id="@+id/cameratest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp"
+        android:text="cameratest" />
+
 </RelativeLayout>

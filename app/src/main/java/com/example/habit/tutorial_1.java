@@ -19,6 +19,7 @@ public class tutorial_1 extends AppCompatActivity {
     Button skipToLoginButton;
     EditText t_1t;
     Button testmap;
+    Button cameratest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,14 @@ public class tutorial_1 extends AppCompatActivity {
         t_1b = findViewById(R.id.t_1b);
         testmap = findViewById(R.id.test_map);
         skipToLoginButton = findViewById(R.id.goTo_login_button);
+        cameratest=findViewById(R.id.cameratest);
+        cameratest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(tutorial_1.this, camera.class);
+                startActivity(intent);
+            }
+        });
         testmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
