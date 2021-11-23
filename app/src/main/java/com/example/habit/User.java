@@ -32,6 +32,7 @@ public class User {
     private String displayName;
     private String userName;
     private String email;
+    private String uuid;
     private ArrayList<String> habits;
     private ArrayList<String> followers;
     private ArrayList<String> following;
@@ -44,27 +45,28 @@ public class User {
      * @param habits List of habits
      * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, String email, ArrayList<String> habits,
+    public User(String displayName, String userName, String email, String uuid, ArrayList<String> habits,
                 ArrayList<String> followers, ArrayList<String> following, ArrayList<String> requests) {
         this.displayName = displayName;
         this.userName = userName;
         this.email = email;
+        this.uuid = uuid;
         this.habits = habits;
         this.followers = followers;
         this.following = following;
         this.requests = requests;
     }
 
-    public User(String displayName, String userName, String email, ArrayList<String> habits) {
-        this(displayName, userName, email, habits, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String userName, String email, String uuid, ArrayList<String> habits) {
+        this(displayName, userName, email, uuid, habits, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>());
     }
 
     /**
      * Constructor for user with no habits, creates user with empty habit list
      */
-    public User(String displayName, String userName, String email) {
-        this(displayName, userName, email, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String userName, String email, String uuid) {
+        this(displayName, userName, email, uuid, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>(), new ArrayList<String>());
     }
 
@@ -124,6 +126,14 @@ public class User {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Get a user's ID
+     * @return
+     */
+    public String getUuid() {
+        return uuid;
     }
 
     /**
@@ -226,42 +236,6 @@ public class User {
     }
 
     /**
-     * Add uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
-     */
-    private static void addFollowing(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayUnion(uuid2));
-        uuid2User.update("followers", FieldValue.arrayUnion(uuid1));
-    }
-
-    /**
-     * Remove uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
-     */
-    private static void removeFollowing(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("followers", FieldValue.arrayRemove(uuid1));
-    }
-
-    // uuid1 removes uuid2 as a follower
-    // Not sure if this is needed
-    private static void removeFollower(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("followers", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("following", FieldValue.arrayRemove(uuid1));
-    }
-
-    /**
      * Send a follow request
      * @param context Context for displaying alert messages
      * @param requesterUuid String uuid of requester
@@ -295,5 +269,60 @@ public class User {
                         }
                     }
                 });
+    }
+
+    /**
+     * Uuid1 declines a follow request from uuid2
+     * @param uuid1
+     * @param uuid2
+     */
+    public static void declineRequest(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+
+        // Remove request from uuid1
+        uuid1User.update("requests", FieldValue.arrayRemove(uuid2));
+    }
+
+    /**
+     * uuid1 accepts the follow request from uuid2
+     * @param uuid1
+     */
+    public static void acceptRequest(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+        DocumentReference uuid2User = db.collection("users").document(uuid2);
+
+        // Remove request from uuid1
+        uuid1User.update("requests", FieldValue.arrayRemove(uuid2));
+
+        // Add uuid1 to uuid2's following list
+        uuid2User.update("following", FieldValue.arrayUnion(uuid1));
+
+        // Add uuid2 to uuid1's followers list
+        uuid1User.update("followers", FieldValue.arrayUnion(uuid2));
+    }
+
+    /**
+     * uuid1 stops following uuid2
+     * @param uuid1
+     */
+    public static void stopFollowing(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+        DocumentReference uuid2User = db.collection("users").document(uuid2);
+
+        // Remove uuid2 from uuid1's following list
+        uuid1User.update("following", FieldValue.arrayRemove(uuid2));
+
+        // Remove uuid1 from uuid2's followers list
+        uuid2User.update("followers", FieldValue.arrayRemove(uuid1));
+
     }
 }

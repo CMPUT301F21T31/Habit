@@ -1,11 +1,14 @@
 package com.example.habit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,10 +18,26 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FriendsActivity extends AppCompatActivity {
+
+    // Auth and db
+    FirebaseAuth auth;
+    FirebaseUser fb_user;
+    FirebaseFirestore db;
+    User user;
 
     // Buttons
     ImageButton feedButton;
@@ -42,6 +61,11 @@ public class FriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+        // Initialize auth and db
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser fb_user = auth.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         // Initialize buttons
         feedButton = findViewById(R.id.feedButton);
         homeButton = findViewById(R.id.homeButton);
@@ -57,6 +81,91 @@ public class FriendsActivity extends AppCompatActivity {
         followRequestListView = findViewById(R.id.follow_requests_list);
         followingListView.setAdapter(followingListAdapter);
         followRequestListView.setAdapter(followRequestListAdapter);
+
+        /* Firebase listeners */
+
+        db.collection("users")
+                .document(fb_user.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        // Store user object
+                        user = Objects.requireNonNull(task.getResult()).toObject(User.class);
+
+                        // On change listeners for user document
+                        task.getResult()
+                                .getReference()
+                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                System.out.println("In snapshot listener!");
+
+                                // Store new user object
+                                user = value.toObject(User.class);
+
+                                followingListData.clear();
+
+                                // Populate following list
+                                for (String uuid : user.getFollowing()) {
+
+                                    db.collection("users")
+                                            .document(uuid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                                    if (task.isSuccessful()) {
+
+                                                        // Add to list
+                                                        followingListData.add(task.getResult()
+                                                                .toObject(User.class));
+                                                        followingListAdapter.notifyDataSetChanged();
+
+                                                    } else {
+
+                                                        Log.e("FollowingList",
+                                                                "Error getting user " + uuid);
+                                                    }
+                                                }
+                                            });
+                                }
+                                followingListAdapter.notifyDataSetChanged();
+
+                                followRequestListData.clear();
+                                // Populate request list
+                                for (String uuid : user.getRequests()) {
+
+                                    db.collection("users")
+                                            .document(uuid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                                    if (task.isSuccessful()) {
+
+                                                        // Add to list
+                                                        followRequestListData.add(task.getResult()
+                                                                .toObject(User.class));
+                                                        followRequestListAdapter.notifyDataSetChanged();
+
+                                                    } else {
+                                                        Log.e("FollowingRequestList",
+                                                                "Error getting user " + uuid);
+                                                    }
+                                                }
+                                            });
+                                }
+                                followRequestListAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                });
+
 
         /* Swipe Menu Components */
 
@@ -115,6 +224,7 @@ public class FriendsActivity extends AppCompatActivity {
         followingListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+
                 // Reset background
                 userBackground = followingListView
                         .getChildAt(position)
@@ -122,7 +232,20 @@ public class FriendsActivity extends AppCompatActivity {
                 userBackground.setBackground(new ColorDrawable(getResources()
                         .getColor(R.color.Dark_Gray_Background)));
 
-                // TODO: Following click stuff
+                // Get clicked user
+                User clickedUser = followingListAdapter.getItem(position);
+
+                // Delete or view a user you follow
+                switch (index) {
+
+                    case 0:
+                        User.stopFollowing(user.getUuid(), clickedUser.getUuid());
+
+                    case 2:
+                        // TODO: @Lewis this should lead to habits of followed user
+                        break;
+
+                }
 
                 return false;
             }
@@ -139,7 +262,21 @@ public class FriendsActivity extends AppCompatActivity {
                 userBackground.setBackground(new ColorDrawable(getResources()
                         .getColor(R.color.Dark_Gray_Background)));
 
-                // TODO: Follow request click stuff
+                // Get clicked user
+                User clickedUser = followRequestListAdapter.getItem(position);
+
+                System.out.println("In onMenuItemClick, pos: " + String.valueOf(position) + ", Index: " + String.valueOf(index));
+                // Deny or accept follow request
+                switch (index) {
+
+                    case 0:
+                        User.declineRequest(user.getUuid(), clickedUser.getUuid());
+                        break;
+
+                    case 2:
+                        User.acceptRequest(user.getUuid(), clickedUser.getUuid());
+                        break;
+                }
 
                 // Close list
                 return false;
@@ -226,14 +363,6 @@ public class FriendsActivity extends AppCompatActivity {
                 new sendRequest().show(getSupportFragmentManager(), "send request");
             }
         });
-
-        // Add some test users
-        User user1 = new User("Justin", "testUsername1", "testEmail1@gmail.com");
-        User user2 = new User("Lewis", "testUsername1", "testEmail1@gmail.com");
-        followingListAdapter.add(user1);
-        followingListAdapter.add(user2);
-        followRequestListAdapter.add(user1);
-        followRequestListAdapter.add(user2);
     }
 
     private void openFeed() {
