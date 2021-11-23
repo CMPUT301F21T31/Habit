@@ -1,19 +1,27 @@
 package com.example.habit;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -30,6 +38,7 @@ public class Habit implements Parcelable {
     private ArrayList<String> events;
     private String habitId;
     private String userId;
+    private int completed;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -79,7 +88,8 @@ public class Habit implements Parcelable {
         Bundle b1 = in.readBundle();
         this.daysOfWeek = (HashMap<String, Boolean>)b1.getSerializable("HashMap");
         Bundle b2 = in.readBundle();
-        this.events = b2.getStringArrayList("Events"); // TODO: NOT WORKING
+        this.events = b2.getStringArrayList("Events");
+        this.completed = in.readInt();
     }
 
     /**
@@ -125,6 +135,7 @@ public class Habit implements Parcelable {
         Bundle b2 = new Bundle();
         b2.putStringArrayList("Events", events);
         dest.writeBundle(b2);
+        dest.writeInt(completed);
     }
 
     /**
@@ -317,9 +328,47 @@ public class Habit implements Parcelable {
         return events;
     }
 
-//    public Boolean completedToday() {
+    public int getCompleted() {
+        return completed;
+    }
+
+    public void addCompleted() {
+        completed++;
+    }
+
+    //    public Boolean completedToday() {
 //
 //    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private int totalPlanned() {
+
+        int planned = 0;
+
+        // Convert dates to local dates
+        LocalDate s = start.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate e = end.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        // Loop through all days between start and end, incrementing counter
+        LocalDate localDate = s;
+        while (localDate.isBefore(e)) {
+            DayOfWeek dow = localDate.getDayOfWeek();
+            if (this.isOnDay(dow.getDisplayName(TextStyle.FULL, Locale.getDefault()))) {
+                planned++;
+            }
+        }
+
+        return planned;
+    }
+
+    private int totalCompleted() {
+        // TODO: Maybe we should just store this and increment when a habit is completed?
+        return 0;
+    }
 
     /* Firestore Methods */
 
