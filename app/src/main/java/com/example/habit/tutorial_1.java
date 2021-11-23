@@ -24,9 +24,9 @@ public class tutorial_1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial1);
-        t_1t=findViewById(R.id.t_1t);
-        t_1b=findViewById(R.id.t_1b);
-        testmap=findViewById(R.id.test_map);
+        t_1t = findViewById(R.id.t_1t);
+        t_1b = findViewById(R.id.t_1b);
+        testmap = findViewById(R.id.test_map);
         skipToLoginButton = findViewById(R.id.goTo_login_button);
         testmap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,11 +41,11 @@ public class tutorial_1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = t_1t.getText().toString();
-                SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-                SharedPreferences.Editor editor=prefs.edit();
-                editor.putString("firstStartname",name);
+                SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("firstStartname", name);
                 editor.apply();
-                String inname= prefs.getString("firstStartname","");
+                String inname = prefs.getString("firstStartname", "");
                 //String uniqueID =prefs.getString("UID","");
                 //Toast.makeText(tutorial_1.this,inname+uniqueID,Toast.LENGTH_LONG).show();
 
@@ -57,7 +57,7 @@ public class tutorial_1 extends AppCompatActivity {
         skipToLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(tutorial_1.this, LoginActivity.class);
+                Intent intent = new Intent(tutorial_1.this, splashscreen.class);
                 startActivity(intent);
             }
         });
@@ -65,9 +65,9 @@ public class tutorial_1 extends AppCompatActivity {
 
     private void gotomap() {
 
-        Intent intent=new Intent(this,MapsActivity.class);
-        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-        String inname= prefs.getString("firstStartname","");
+        Intent intent = new Intent(this, MapsActivity.class);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String inname = prefs.getString("firstStartname", "");
 
         intent.putExtra("fname", inname);
         // startActivity(intent);
@@ -76,12 +76,18 @@ public class tutorial_1 extends AppCompatActivity {
 
     }
 
-    private void opent_2() { Intent intent=new Intent(this,tutorial_3emailpassword.class);
-        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-        String inname= prefs.getString("firstStartname","");
+    private void opent_2() {
+        Intent intent = new Intent(this, tutorial_4habit.class);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String inname = prefs.getString("firstStartname", "");
 
         intent.putExtra("fname", inname);
         // startActivity(intent);
+        startActivity(intent);
+    }
+
+    private void splashwelcome() {
+        Intent intent = new Intent(tutorial_1.this, splashscreen.class);
         startActivity(intent);
     }
 }
