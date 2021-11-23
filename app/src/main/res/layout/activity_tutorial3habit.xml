@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="51dp"
-        android:fontFamily="cursive"
+
         android:text="enter habit"
         android:textSize="25dp" />
 
