@@ -49,7 +49,7 @@ public class tutorial_1 extends AppCompatActivity {
         skipToLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(tutorial_1.this, LoginActivity.class);
+                Intent intent = new Intent(tutorial_1.this, splashscreen.class);
                 startActivity(intent);
             }
         });
