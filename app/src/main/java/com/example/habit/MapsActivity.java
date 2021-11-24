@@ -1,5 +1,7 @@
 package com.example.habit;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ZoomControls;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.habit.databinding.ActivityMapsBinding;
@@ -24,7 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,5 +80,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng turkey = new LatLng(41.015137	, 28.979530);
         mMap.addMarker(new MarkerOptions().position(turkey).title("Marker in Turkey"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(turkey));
+        enableMyLocation();
+        mMap.setMyLocationEnabled(true);
+    }
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (mMap != null) {
+                mMap.setMyLocationEnabled(true);
+            }
+        } else {
+            // Permission to access the location is missing. Show rationale and request permission
+            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        }
     }
 }
