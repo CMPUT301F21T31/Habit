@@ -5,6 +5,7 @@ import static android.graphics.Bitmap.CompressFormat.PNG;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -67,6 +68,8 @@ public class AddHabitEventFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(getActivity(), camera.class);
+                startActivity(intent);
                 // photo = ...; // TODO: @qg Properly get and set photo here
                 String location = locationEditText.getText().toString(); // TODO: @qg Properly get and set location here, will have to change from string
                 String comments = commentsEditText.getText().toString();
@@ -94,6 +97,8 @@ public class AddHabitEventFragment extends DialogFragment {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), camera.class);
+                startActivity(intent);
                 // TODO: @qg Add what happens when use clicks the photo button in HabitEvent fragment
             }
         });
