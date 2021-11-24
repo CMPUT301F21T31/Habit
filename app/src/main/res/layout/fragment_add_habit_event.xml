@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="57dp"
+        android:layout_height="58dp"
         android:layout_marginBottom="24dp"
         android:background="@color/Medium_Gray_Background"
         android:src="@drawable/circle"
@@ -122,4 +122,12 @@
         app:layout_constraintBottom_toTopOf="@+id/habit_event_title"
         app:layout_constraintEnd_toStartOf="@+id/habit_event_title"
         app:tint="@color/Lighter_Gray_Text" />
+
+    <Button
+        android:id="@+id/locationb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="location"
+        tools:layout_editor_absoluteX="218dp"
+        tools:layout_editor_absoluteY="480dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

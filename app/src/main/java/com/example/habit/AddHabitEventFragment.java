@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ public class AddHabitEventFragment extends DialogFragment {
     private HabitEvent habitEvent;
     private EditText locationEditText; // TODO: @qg change this
     private EditText commentsEditText;
+    private Button locationb;
+
+
 
     ImageButton addButton;
     ImageButton backButton;
@@ -61,9 +65,16 @@ public class AddHabitEventFragment extends DialogFragment {
         // Get EditTexts
         locationEditText = view.findViewById(R.id.location_edit_text);
         commentsEditText = view.findViewById(R.id.comments_edit_text);
-
+        locationb=view.findViewById(R.id.locationb);
         // Set add button
         addButton = view.findViewById(R.id.addHabitEventButton);
+        locationb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
