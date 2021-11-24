@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,13 +69,18 @@ public class HabitList extends ArrayAdapter<Habit> {
             // Get field references
             TextView habitName = view.findViewById(R.id.habit_name_text);
             ImageView status = view.findViewById(R.id.habit_status_bar_daily);
+
             // Set fields
             habitName.setText(habit.getTitle());
         } else {
             // Get field references
             TextView habitName = view.findViewById(R.id.habit_name_text);
             TextView occurence = view.findViewById(R.id.habit_occurence_text);
-            ImageView progress = view.findViewById(R.id.habit_progress_bar);
+            ProgressBar progress = view.findViewById(R.id.habit_progress_bar);
+            progressbaranimation baranimation = new progressbaranimation(progress, 0, 100);
+            baranimation.setDuration(1000);
+            progress.startAnimation(baranimation);
+            //
             // Set fields
             habitName.setText(habit.getTitle());
         }

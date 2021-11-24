@@ -5,6 +5,7 @@ import static android.graphics.Bitmap.CompressFormat.PNG;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -30,6 +32,9 @@ public class AddHabitEventFragment extends DialogFragment {
     private HabitEvent habitEvent;
     private EditText locationEditText; // TODO: @qg change this
     private EditText commentsEditText;
+    private Button locationb;
+
+
 
     ImageButton addButton;
     ImageButton backButton;
@@ -60,13 +65,22 @@ public class AddHabitEventFragment extends DialogFragment {
         // Get EditTexts
         locationEditText = view.findViewById(R.id.location_edit_text);
         commentsEditText = view.findViewById(R.id.comments_edit_text);
-
+        locationb=view.findViewById(R.id.locationb);
         // Set add button
         addButton = view.findViewById(R.id.addHabitEventButton);
+        locationb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(getActivity(), camera.class);
+                startActivity(intent);
                 // photo = ...; // TODO: @qg Properly get and set photo here
                 String location = locationEditText.getText().toString(); // TODO: @qg Properly get and set location here, will have to change from string
                 String comments = commentsEditText.getText().toString();
@@ -94,6 +108,8 @@ public class AddHabitEventFragment extends DialogFragment {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), camera.class);
+                startActivity(intent);
                 // TODO: @qg Add what happens when use clicks the photo button in HabitEvent fragment
             }
         });
