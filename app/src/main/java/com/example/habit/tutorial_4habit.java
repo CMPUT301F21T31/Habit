@@ -27,6 +27,7 @@ public class tutorial_4habit extends AppCompatActivity {
         SharedPreferences.Editor editor=prefs.edit();
         editor.putString("firshabbit",firshabbit);
         editor.apply();
+        //ghgh
         t3b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
