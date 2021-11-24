@@ -30,9 +30,9 @@ import java.util.Objects;
 public class User {
 
     private String displayName;
-    private String userName;
     private String email;
     private String uuid;
+    private Boolean stayLoggedIn;
     private ArrayList<String> habits;
     private ArrayList<String> followers;
     private ArrayList<String> following;
@@ -41,32 +41,31 @@ public class User {
     /**
      * Constructor for user with habit list
      * @param displayName Non-unique name used throughout app
-     * @param userName Unique name used for adding followers
      * @param habits List of habits
      * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, String email, String uuid, ArrayList<String> habits,
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits,
                 ArrayList<String> followers, ArrayList<String> following, ArrayList<String> requests) {
         this.displayName = displayName;
-        this.userName = userName;
         this.email = email;
         this.uuid = uuid;
+        this.stayLoggedIn = stayLoggedIn;
         this.habits = habits;
         this.followers = followers;
         this.following = following;
         this.requests = requests;
     }
 
-    public User(String displayName, String userName, String email, String uuid, ArrayList<String> habits) {
-        this(displayName, userName, email, uuid, habits, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits) {
+        this(displayName, email, uuid, stayLoggedIn, habits, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>());
     }
 
     /**
      * Constructor for user with no habits, creates user with empty habit list
      */
-    public User(String displayName, String userName, String email, String uuid) {
-        this(displayName, userName, email, uuid, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn) {
+        this(displayName, email, uuid, stayLoggedIn, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>(), new ArrayList<String>());
     }
 
@@ -93,26 +92,6 @@ public class User {
     }
 
     /**
-     * Get username of user, which is unique in the system
-     * NOTE: Removing this as email is already unique
-     * @return String with username
-     */
-    @Deprecated
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * Set username for user, should have already checked if unique
-     * NOTE: Removing this as email is already unique
-     * @param userName String username to set
-     */
-    @Deprecated
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    /**
      * Get a users email
      * @return String with user email
      */
@@ -136,6 +115,14 @@ public class User {
         return uuid;
     }
 
+    public Boolean getStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(Boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
     /**
      * @return all of User's habits
      */
@@ -156,6 +143,16 @@ public class User {
     }
 
     /* Firestore Methods */
+
+    /**
+     * Update a user object
+     * @param uuid
+     * @param user
+     */
+    public static void updateUser(String uuid, User user) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Users").document(uuid).set(user);
+    }
 
     /**
      * Add a habit object to the habits collection and add a reference to that habit to a users

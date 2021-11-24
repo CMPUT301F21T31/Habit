@@ -9,13 +9,12 @@
     app:layoutDescription="@xml/activity_tutorial1_scene">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginPrompt"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/lato"
-        android:text="@string/t_1"
         android:textAlignment="center"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -44,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/loginPrompt" />
 
     <ImageButton
         android:id="@+id/t_1b"
