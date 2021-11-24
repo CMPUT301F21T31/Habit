@@ -71,6 +71,7 @@ public class tutorial_3emailpassword extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("SIGNUP SUCCESS", "createUserWithEmail:success");
                                     FirebaseUser fb_user = mAuth.getCurrentUser();
+//                                    updateUI(user);
 
                                     // Initialize DB
                                     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -79,7 +80,7 @@ public class tutorial_3emailpassword extends AppCompatActivity {
                                     CollectionReference usersCollectionRef = db.collection("users");
 
                                     // Create new entry in users collection
-                                    User user = new User(displayName, username, email, fb_user.getUid());
+                                    User user = new User(displayName, username, email);
 
                                     // Add to users collection
                                     usersCollectionRef
