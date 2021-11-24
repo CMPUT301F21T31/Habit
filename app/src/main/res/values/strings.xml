@@ -6,7 +6,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="t_1">Hey there!\n\nWhat\'s your name?</string>
+    <string name="login_greeting">Hey there!\n\nPlease sign up or log in.</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="email_tutorial3">Please enter your email:</string>
@@ -29,5 +29,7 @@
     <string name="db_delete_fail">DB DELETE FAIL</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_hint">Email</string>
+    <string name="display_name_prompt">Welcome to Habit!\n\nWhat should we call you?</string>
 
 </resources>

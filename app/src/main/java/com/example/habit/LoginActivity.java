@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -30,21 +33,26 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
+    private EditText emailInput;
+    private EditText passwordInput;
+    private EditText displayNameInput;
+    private TextView displayNamePrompt;
+    private TextView loginPrompt;
+
     private Button loginButton;
     private Button signupButton;
     private ImageButton continueButton;
-    private EditText emailInput;
-    private EditText passwordInput;
 
-    private Button bypasslogin;
-
-    private EditText displayNameInput;
-    private TextView displayNamePrompt;
+    private CheckBox rememberUserView;
 
     String email;
     String password;
     String displayName;
+    Boolean rememberUser = false; // Default to false
 
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +62,61 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize input references
+        // Initialize views
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         displayNameInput = findViewById(R.id.displayNameInput);
+        displayNamePrompt = findViewById(R.id.display_name_prompt);
+        loginPrompt = findViewById(R.id.loginPrompt);
+
+        // Initialize buttons
         loginButton = findViewById(R.id.login_button);
         signupButton = findViewById(R.id.signup_button);
-
-        bypasslogin = findViewById(R.id.bypasslogin);
-
         continueButton = findViewById(R.id.signupContinueButton);
-        displayNamePrompt = findViewById(R.id.display_name_prompt);
+
+        // Initialize checkbox
+        rememberUserView = findViewById(R.id.rememberUser);
 
         // Check if user is here because they clicked the logout button
         Intent intent = getIntent();
         Boolean logoutClicked  = intent.getBooleanExtra("logoutClicked", false);
 
-        // Check if user is logged in --> Change this to determine which activity to load
+        // Check if user is logged in
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null && !logoutClicked) {
-            Toast.makeText(this,"Logged in",Toast.LENGTH_LONG).show();
-            Toast.makeText(this, currentUser.getUid(),Toast.LENGTH_LONG).show();
-            goToHabits();
+
+            // Get user from DB
+            db = FirebaseFirestore.getInstance();
+            db.collection("users")
+                    .document(mAuth.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                // Set user
+                                user = task.getResult().toObject(User.class);
+
+                                // Handle potential error if user has an old account
+                                if (user == null || user.getStayLoggedIn() == null) {
+                                    return;
+                                } else if (user.getStayLoggedIn()) {
+                                    // Go to habits if this user has checked remember me in the past
+                                    goToHabits();
+                                } else if (user.getEmail() != null) {
+                                    // Otherwise just fill in email
+                                    emailInput.setText(user.getEmail());
+                                }
+
+                            } else {
+
+                                // Display error if we couldn't get user object
+                                Toast.makeText(getBaseContext(),"Error getting user info. Please signup or login again.",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +124,25 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Get username and password
-                String email =  emailInput.getText().toString();
-                String password = passwordInput.getText().toString();
+                email =  emailInput.getText().toString();
+                password = passwordInput.getText().toString();
+                rememberUser = rememberUserView.isChecked();
+
+                // Ensure user entered an email and password. Tell them to if not.
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter an email and password.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else if (email.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter an email.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                } else if (password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter a password.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // Attempt login
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -92,37 +150,53 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
                                     Log.d("LOGIN SUCCESS", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                        goToHabits();
-//                                    updateUI(user);
+
+                                    // Update user object if checked "Remember me"
+                                    if (rememberUser || user.getStayLoggedIn() == null) {
+                                        db.collection("users")
+                                                .document(currentUser.getUid())
+                                                .update("stayLoggedIn", rememberUser);
+                                    }
+
+                                    // Go to main page
+                                    goToHabits();
+
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("LOGIN FAIL", "signInWithEmail:failure", task.getException());
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-//                                    updateUI(null);
                                 }
                             }
                         });
             }
         });
-        bypasslogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToHabits();
-            }
-        });
+
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
                 // Get username and password
-                String username = ""; // TODO: ADD THIS
                 email =  emailInput.getText().toString();
                 password = passwordInput.getText().toString();
+                rememberUser = rememberUserView.isChecked();
+
+                // Ensure user entered an email and password. Tell them to if not.
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter an email and password.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else if (email.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter an email.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                } else if (password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter a password.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // Setup auth for this user
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -136,6 +210,9 @@ public class LoginActivity extends AppCompatActivity {
                                     signupButton.setVisibility(View.INVISIBLE);
                                     emailInput.setVisibility(View.INVISIBLE);
                                     passwordInput.setVisibility(View.INVISIBLE);
+                                    rememberUserView.setVisibility(View.INVISIBLE);
+                                    loginPrompt.setVisibility(View.INVISIBLE);
+
                                     continueButton.setVisibility(View.VISIBLE);
                                     displayNamePrompt.setVisibility(View.VISIBLE);
                                     displayNameInput.setVisibility(View.VISIBLE);
@@ -174,7 +251,7 @@ public class LoginActivity extends AppCompatActivity {
                     CollectionReference usersCollectionRef = db.collection("users");
 
                     // Create new entry in users collection
-                    User user = new User(displayName, "", email, fb_user.getUid());
+                    User user = new User(displayName, email, fb_user.getUid(), rememberUser);
 
                     // Add to users collection
                     usersCollectionRef
@@ -195,16 +272,40 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
 
-                    // Move to next stage of tutorial
-                    Intent intent = new Intent(LoginActivity.this, HabitListActivity.class);
-                    startActivity(intent);
-
+                    // After successful signup, go to main page
+                    goToHabits();
                 }
+            }
+        });
 
+        signupButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    signupButton.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button_clicked));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    signupButton.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button_not_clicked));
+                    v.performClick();
+                }
+                return true;
+            }
+        });
+
+        loginButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    loginButton.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button_clicked));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    loginButton.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button_not_clicked));
+                    v.performClick();
+                }
+                return true;
             }
         });
     }
-
 
     private void goToHabits() {
         Intent intent = new Intent(this, HabitListActivity.class);

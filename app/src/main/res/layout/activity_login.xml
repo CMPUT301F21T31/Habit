@@ -7,112 +7,137 @@
     android:background="@color/Dark_Gray_Background"
     tools:context=".LoginActivity">
 
+    <TextView
+        android:id="@+id/loginPrompt"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:fontFamily="@font/lato"
+        android:text="@string/login_greeting"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/emailInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/Lighter_Gray_Text"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_box"
+        android:backgroundTint="@color/Medium_Gray_Background"
         android:ems="10"
         android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
-        android:hint="Email"
-        android:inputType="textPersonName"
+        android:hint="@string/email_hint"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="10dp"
         android:textColor="@color/Lighter_Gray_Text"
         app:layout_constraintBottom_toTopOf="@+id/passwordInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/passwordInput" />
 
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/Lighter_Gray_Text"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_box"
+        android:backgroundTint="@color/Medium_Gray_Background"
         android:ems="10"
         android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="@color/Lighter_Gray_Text"
+        android:paddingHorizontal="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_corners_button_not_clicked"
+        android:fontFamily="@font/lato_bold"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="@+id/passwordInput"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+        app:layout_constraintTop_toTopOf="@+id/signup_button" />
 
     <Button
         android:id="@+id/signup_button"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/rounded_corners_button_not_clicked"
+        android:fontFamily="@font/lato_bold"
         android:text="Signup"
         app:layout_constraintStart_toStartOf="@+id/passwordInput"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
-
-
-    <Button
-        android:id="@+id/bypasslogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="do it later"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_button" />
+        app:layout_constraintTop_toBottomOf="@+id/rememberUser" />
 
     <TextView
         android:id="@+id/display_name_prompt"
         android:layout_width="253dp"
-        android:layout_height="132dp"
-        android:layout_marginTop="180dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:gravity="center"
-        android:text="Welcome to Habit! What should we call you?"
-        android:textSize="24sp"
+        android:text="@string/display_name_prompt"
+        android:textSize="34sp"
         android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@+id/loginPrompt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/signupContinueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:backgroundTint="@color/Dark_Gray_Background"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/signup_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
         app:tint="@color/Lighter_Gray_Text" />
 
     <EditText
         android:id="@+id/displayNameInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/Lighter_Gray_Text"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_box"
+        android:backgroundTint="@color/Medium_Gray_Background"
         android:ems="10"
         android:fontFamily="@font/lato"
         android:foregroundTint="@color/Lighter_Gray_Text"
+        android:hint="e.g. JavaGod99"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:paddingHorizontal="10dp"
         android:textColor="@color/Lighter_Gray_Text"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/signupContinueButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display_name_prompt" />
+        app:layout_constraintStart_toStartOf="@+id/passwordInput"
+        app:layout_constraintTop_toTopOf="@+id/passwordInput" />
+
+    <CheckBox
+        android:id="@+id/rememberUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:buttonTint="@color/Light_Gray_Text_Background"
+        android:fontFamily="@font/lato"
+        android:text="Stay logged in"
+        android:textColor="@color/Light_Gray_Text_Background"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/passwordInput"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
