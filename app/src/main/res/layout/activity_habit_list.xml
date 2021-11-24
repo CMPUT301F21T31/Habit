@@ -133,9 +133,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/Dark_Gray_Background"
-        android:tint="@color/Lighter_Gray_Text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_logout_24" />
+        app:srcCompat="@drawable/ic_baseline_logout_24"
+        app:tint="@color/Lighter_Gray_Text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
