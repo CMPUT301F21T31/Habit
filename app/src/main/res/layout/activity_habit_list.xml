@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/following_label"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/habit_list_all_button">
@@ -25,15 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10.0sp" />
+            android:dividerHeight="10.0sp"
+            android:visibility="visible" />
 
-        <ListView
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/daily_habits_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </FrameLayout>
 
@@ -70,36 +71,14 @@
         android:id="@+id/greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lato_bold"
         android:text="@string/TEMP_habit_list_greeting"
         android:textColor="@color/Lighter_Gray_Text"
         android:textSize="@dimen/title_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/following_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/following_list_title"
-        android:textColor="@color/Lighter_Gray_Text"
-        android:textSize="@dimen/title_text_size"
-        app:layout_constraintBottom_toTopOf="@+id/following_list"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/Dark_Gray_Background"
-        app:layout_constraintBottom_toBottomOf="@+id/following_label"
-        app:layout_constraintStart_toEndOf="@+id/following_label"
-        app:layout_constraintTop_toTopOf="@+id/following_label"
-        app:srcCompat="@drawable/ic_baseline_format_list_bulleted_24"
-        app:tint="@color/Lighter_Gray_Text" />
 
     <ImageButton
         android:id="@+id/add_habit_button"
@@ -113,11 +92,50 @@
         app:srcCompat="@drawable/ic_baseline_add_24"
         app:tint="@color/Lighter_Gray_Text" />
 
-    <ListView
-        android:id="@+id/following_list"
-        android:layout_width="409dp"
-        android:layout_height="80dp"
+    <ImageButton
+        android:id="@+id/feedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/Dark_Gray_Background"
+        app:layout_constraintEnd_toStartOf="@+id/homeButton"
+        app:layout_constraintTop_toTopOf="@+id/homeButton"
+        app:srcCompat="@drawable/ic_baseline_list_alt_24"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/Dark_Gray_Background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_home_24"
+        app:tint="@color/Light_Gray_Text_Background" />
+
+    <ImageButton
+        android:id="@+id/friendsButton"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:backgroundTint="@color/Dark_Gray_Background"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintTop_toTopOf="@+id/homeButton"
+        app:srcCompat="@drawable/ic_baseline_people_24"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <ImageButton
+        android:id="@+id/logoutButton"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/Dark_Gray_Background"
+        android:tint="@color/Lighter_Gray_Text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_logout_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

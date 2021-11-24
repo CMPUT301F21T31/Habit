@@ -18,8 +18,8 @@
         android:ems="10"
         android:fontFamily="@font/lato"
         android:gravity="center"
+        android:hint="Location"
         android:inputType="textPersonName"
-        android:text="Location"
         app:layout_constraintBottom_toTopOf="@+id/comments_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,9 +33,9 @@
         android:ems="10"
         android:fontFamily="@font/lato"
         android:gravity="center|center_horizontal"
+        android:hint="Comment"
         android:inputType="textPersonName"
         android:maxLength="20"
-        android:text="Comments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +44,7 @@
         android:id="@+id/imageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/Medium_Gray_Background"
         android:src="@drawable/circle"
         app:layout_constraintBottom_toTopOf="@+id/location_edit_text"
@@ -53,7 +53,7 @@
         app:tint="@color/Lighter_Gray_Text" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/habitEventPhotoButton"
         android:layout_width="45dp"
         android:layout_height="36dp"
         android:backgroundTint="@color/Lighter_Gray_Text"
@@ -67,16 +67,15 @@
         android:id="@+id/habit_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/lato_bold"
         android:text="TextView"
         android:textColor="@color/Lighter_Gray_Text"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -85,8 +84,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/circle"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton3"
-        app:layout_constraintStart_toStartOf="@+id/imageButton3"
+        app:layout_constraintEnd_toEndOf="@+id/habitEventPhotoButton"
+        app:layout_constraintStart_toStartOf="@+id/habitEventPhotoButton"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:tint="@color/Dark_Gray_Background" />
 
@@ -99,5 +98,41 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <ImageButton
+        android:id="@+id/addHabitEventButton"
+        android:layout_width="47dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/Medium_Gray_Background"
+        android:src="@drawable/ic_done"
+        app:layout_constraintBottom_toTopOf="@+id/habit_event_title"
+        app:layout_constraintStart_toEndOf="@+id/habit_event_title"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <ImageButton
+        android:id="@+id/backHabitEventButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/Medium_Gray_Background"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintBottom_toTopOf="@+id/habit_event_title"
+        app:layout_constraintEnd_toStartOf="@+id/habit_event_title"
+        app:tint="@color/Lighter_Gray_Text" />
+
+    <ImageButton
+        android:id="@+id/deleteHabitEventButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/Medium_Gray_Background"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toTopOf="@+id/habit_event_title"
+        app:layout_constraintEnd_toStartOf="@+id/addHabitEventButton"
+        app:layout_constraintStart_toEndOf="@+id/backHabitEventButton"
         app:tint="@color/Lighter_Gray_Text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
