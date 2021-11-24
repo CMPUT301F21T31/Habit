@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/apklk_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Habit" >
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAdSnnqg5xUBniMtkIgAboB0Qab-azKiM4" />
         <activity
             android:name=".FriendsActivity"
             android:exported="false" />
