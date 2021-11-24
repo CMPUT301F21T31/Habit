@@ -1,27 +1,18 @@
 package com.example.habit;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -38,8 +29,6 @@ public class Habit implements Parcelable {
     private ArrayList<String> events;
     private String habitId;
     private String userId;
-    private int completed;
-    private Boolean ifPublic;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -51,23 +40,21 @@ public class Habit implements Parcelable {
      * @param events Instances of this habit occurring
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic) {
+            Boolean> daysOfWeek, ArrayList<String> events) {
         this.title = title;
         this.reason = reason;
         this.start = start;
         this.end = end;
         this.daysOfWeek = daysOfWeek;
         this.events = events;
-        this.ifPublic = ifPublic;
     }
-
 
     /**
      * Habit constructor without events, will create Habit with empty events array
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, Boolean ifPublic) {
-        this(title, reason, start, end, daysOfWeek, new ArrayList<String>(), ifPublic);
+            Boolean> daysOfWeek) {
+        this(title, reason, start, end, daysOfWeek, new ArrayList<String>());
     }
 
     /**
@@ -82,18 +69,17 @@ public class Habit implements Parcelable {
      * @param in Parcel passed through intent, containing a Habit object
      */
     protected Habit(Parcel in) {
-        this.title = in.readString();
-        this.reason = in.readString();
-        this.start = new Date(in.readLong());
-        this.end = new Date(in.readLong());
-        this.habitId = in.readString();
-        this.userId = in.readString();
-        this.ifPublic = in.readBoolean();
-        Bundle b1 = in.readBundle();
-        this.daysOfWeek = (HashMap<String, Boolean>)b1.getSerializable("HashMap");
-        Bundle b2 = in.readBundle();
-        this.events = b2.getStringArrayList("Events");
-        this.completed = in.readInt();
+        title = in.readString();
+        reason = in.readString();
+        start = new Date(in.readLong());
+        end = new Date(in.readLong());
+
+        Bundle bundle = in.readBundle();
+        daysOfWeek = (HashMap<String, Boolean>)bundle.getSerializable("HashMap");
+
+        events = in.createStringArrayList();
+        habitId = in.readString();
+        userId = in.readString();
     }
 
     /**
@@ -131,16 +117,14 @@ public class Habit implements Parcelable {
         dest.writeString(reason);
         dest.writeLong(start.getTime());
         dest.writeLong(end.getTime());
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("HashMap", daysOfWeek);
+        dest.writeBundle(bundle);
+
+        dest.writeList(events);
         dest.writeString(habitId);
         dest.writeString(userId);
-        dest.writeBoolean(ifPublic);
-        Bundle b1 = new Bundle();
-        b1.putSerializable("HashMap", daysOfWeek);
-        dest.writeBundle(b1);
-        Bundle b2 = new Bundle();
-        b2.putStringArrayList("Events", events);
-        dest.writeBundle(b2);
-        dest.writeInt(completed);
     }
 
     /**
@@ -260,14 +244,6 @@ public class Habit implements Parcelable {
         this.daysOfWeek = daysOfWeek;
     }
 
-    public Boolean getIfPublic() {
-        return ifPublic;
-    }
-
-    public void setIfPublic(Boolean ifPublic) {
-        this.ifPublic = ifPublic;
-    }
-
     /**
      * Helper function to convert a list of booleans to a days dictionary for habit constructor
      * @param days List of booleans in order of Monday, Tuesday, ... Sunday e.g. (True, ... , False)
@@ -341,48 +317,6 @@ public class Habit implements Parcelable {
         return events;
     }
 
-    public int getCompleted() {
-        return completed;
-    }
-
-    public void addCompleted() {
-        completed++;
-    }
-
-    //    public Boolean completedToday() {
-//
-//    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private int totalPlanned() {
-
-        int planned = 0;
-
-        // Convert dates to local dates
-        LocalDate s = start.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate e = end.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-
-        // Loop through all days between start and end, incrementing counter
-        LocalDate localDate = s;
-        while (localDate.isBefore(e)) {
-            DayOfWeek dow = localDate.getDayOfWeek();
-            if (this.isOnDay(dow.getDisplayName(TextStyle.FULL, Locale.getDefault()))) {
-                planned++;
-            }
-        }
-
-        return planned;
-    }
-
-    private int totalCompleted() {
-        // TODO: Maybe we should just store this and increment when a habit is completed?
-        return 0;
-    }
-
     /* Firestore Methods */
 
     /**
@@ -392,7 +326,7 @@ public class Habit implements Parcelable {
      * @param event HabitEvent object to add
      */
     public static void addEvent(String habitId, HabitEvent event) {
-        String eventId = addEventToEvents(event, habitId);
+        String eventId = addEventToEvents(event);
         addEventToHabit(habitId, eventId);
     }
 
@@ -410,14 +344,11 @@ public class Habit implements Parcelable {
     /**
      * Add HabitEvent object to the HabitEvents collection
      * @param event HabitEvent object to add
-     * @param habitId String id of parent habit
      * @return String ID of event added
      */
-    private static String addEventToEvents(HabitEvent event, String habitId) {
+    private static String addEventToEvents(HabitEvent event) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference newEvent = db.collection("habitEvents").document();
-        event.setHabitEventId(newEvent.getId());
-        event.setHabitId(habitId);
         newEvent.set(event);
         return newEvent.getId();
     }
@@ -430,18 +361,6 @@ public class Habit implements Parcelable {
     public static void deleteEvent(String habitId, String eventId) {
         deleteEventFromEvents(eventId);
         deleteEventFromHabit(habitId, eventId);
-    }
-
-    /**
-     * Update an existing habitEvent in DB
-     * @param habitEventId
-     * @param habitEvent
-     */
-    public static void updateHabitEvent(String habitEventId, HabitEvent habitEvent) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("habitEvents")
-                .document(habitEventId)
-                .set(habitEvent);
     }
 
     /**

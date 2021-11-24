@@ -12,14 +12,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,7 +61,6 @@ public class editHabit extends AppCompatActivity {
     ImageButton confirm;
     ImageButton startDate;
     ImageButton endDate;
-    ImageButton addHabitEventButton;
     Button Monday;
     Button Tuesday;
     Button Wednesday;
@@ -72,15 +68,14 @@ public class editHabit extends AppCompatActivity {
     Button Friday;
     Button Saturday;
     Button Sunday;
-    Switch ifPublic;
     EditText title;
     EditText reason;
-    TextView startMonth;
-    TextView startDay;
-    TextView startYear;
-    TextView endMonth;
-    TextView endDay;
-    TextView endYear;
+    EditText startMonth;
+    EditText startDay;
+    EditText startYear;
+    EditText endMonth;
+    EditText endDay;
+    EditText endYear;
     ListView habitEventsListView;
     ArrayList<HabitEvent> habitEventsDataList;
     HabitEventList habitEventAdapter;
@@ -124,8 +119,12 @@ public class editHabit extends AppCompatActivity {
         Friday = findViewById(R.id.friday);
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
-        addHabitEventButton = findViewById(R.id.addHabitEventButton2);
-        ifPublic = findViewById(R.id.edit_public);
+
+        // Setup habit events list
+        habitEventsDataList = new ArrayList<>();
+        habitEventAdapter = new HabitEventList(this, habitEventsDataList);
+        habitEventsListView = findViewById(R.id.habit_event_list);
+        habitEventsListView.setAdapter(habitEventAdapter);
 
         // After enter the edit interface, the existing information should replace the hints
         User curr_user;
@@ -133,11 +132,6 @@ public class editHabit extends AppCompatActivity {
         Habit selected_habit = getIntent().getExtras().getParcelable("habit");
         Log.i("GOT HABIT", selected_habit.toString());
 
-        // Setup habit events list
-        habitEventsDataList = new ArrayList<>();
-        habitEventAdapter = new HabitEventList(this, habitEventsDataList, selected_habit);
-        habitEventsListView = findViewById(R.id.habit_event_list);
-        habitEventsListView.setAdapter(habitEventAdapter);
 
         title.setText(selected_habit.getTitle());
         reason.setText(selected_habit.getReason());
@@ -338,26 +332,6 @@ public class editHabit extends AppCompatActivity {
                 calendar.set(Syear, Smonth, Sday);
                 endDateDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
                 endDateDialog.show();
-            }
-        });
-
-        // Add a habit event for this habit
-        addHabitEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AddHabitEventFragment(selected_habit)
-                        .show(getSupportFragmentManager(), "ADD_HabitEvent");
-            }
-        });
-
-        // Get the current public status
-        Boolean publicStatus = selected_habit.getIfPublic();
-        ifPublic.setChecked(publicStatus);
-        ifPublic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selected_habit.setIfPublic(ifPublic.isChecked());
-                User.updateHabit(selected_habit.getHabitId(), selected_habit);
             }
         });
 

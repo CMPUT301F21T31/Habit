@@ -14,8 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,15 +54,14 @@ public class addHabit extends AppCompatActivity {
     Button Friday;
     Button Saturday;
     Button Sunday;
-    Switch addPublic;
     EditText title;
     EditText reason;
-    TextView startMonth;
-    TextView startDay;
-    TextView startYear;
-    TextView endMonth;
-    TextView endDay;
-    TextView endYear;
+    EditText startMonth;
+    EditText startDay;
+    EditText startYear;
+    EditText endMonth;
+    EditText endDay;
+    EditText endYear;
 
     int Syear;
     int Smonth;
@@ -103,10 +100,8 @@ public class addHabit extends AppCompatActivity {
         Friday = findViewById(R.id.friday);
         Saturday = findViewById(R.id.saturday);
         Sunday = findViewById(R.id.sunday);
-        addPublic = findViewById(R.id.add_public);
 
         final boolean[] myButtonIsClicked = {false};
-        //boolean ifPublic = false;
 
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,7 +261,6 @@ public class addHabit extends AppCompatActivity {
             }
         });
 
-
         // Passing the recurrence to the habit after clicked the confirm button
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,7 +292,7 @@ public class addHabit extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date, addPublic.isChecked());
+                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date);
                     User.addHabit(user.getUid(), curr_habit);
                     finish();
                 }
