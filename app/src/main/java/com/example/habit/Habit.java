@@ -40,6 +40,7 @@ public class Habit implements Parcelable {
     private String userId;
     private int completed;
     private Boolean ifPublic;
+    private int listPosition;
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -51,7 +52,7 @@ public class Habit implements Parcelable {
      * @param events Instances of this habit occurring
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic) {
+            Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic, int listPosition) {
         this.title = title;
         this.reason = reason;
         this.start = start;
@@ -59,6 +60,7 @@ public class Habit implements Parcelable {
         this.daysOfWeek = daysOfWeek;
         this.events = events;
         this.ifPublic = ifPublic;
+        this.listPosition = listPosition;
     }
 
 
@@ -66,8 +68,8 @@ public class Habit implements Parcelable {
      * Habit constructor without events, will create Habit with empty events array
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
-            Boolean> daysOfWeek, Boolean ifPublic) {
-        this(title, reason, start, end, daysOfWeek, new ArrayList<String>(), ifPublic);
+            Boolean> daysOfWeek, Boolean ifPublic, int listPosition) {
+        this(title, reason, start, end, daysOfWeek, new ArrayList<String>(), ifPublic, listPosition);
     }
 
     /**
@@ -81,6 +83,7 @@ public class Habit implements Parcelable {
      * Constructor building Habit object from Parcel
      * @param in Parcel passed through intent, containing a Habit object
      */
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Habit(Parcel in) {
         this.title = in.readString();
         this.reason = in.readString();
@@ -100,6 +103,7 @@ public class Habit implements Parcelable {
      * CREATOR field required for Parcelable
      */
     public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Habit createFromParcel(Parcel source) {
             return new Habit(source);
@@ -125,6 +129,7 @@ public class Habit implements Parcelable {
      * @param dest destination parcel to send
      * @param flags parcel flags
      */
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
@@ -266,6 +271,14 @@ public class Habit implements Parcelable {
 
     public void setIfPublic(Boolean ifPublic) {
         this.ifPublic = ifPublic;
+    }
+
+    public int getListPosition() {
+        return listPosition;
+    }
+
+    public void setListPosition(int listPosition) {
+        this.listPosition = listPosition;
     }
 
     /**

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@drawable/habit_list_item">
+    android:background="@drawable/habit_list_item"
+    android:descendantFocusability="blocksDescendants" >
 
     <ImageView
         android:id="@+id/habit_status_bar_all"
         android:layout_width="5dp"
         android:layout_height="match_parent"
-        android:layout_marginVertical="7dp"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="7dp"
         android:background="@drawable/habit_status_bar" />
 
     <TextView
@@ -40,14 +42,38 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="150dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="7dp"
+        android:layout_toLeftOf="@id/moveHabitDownButton"
         android:alpha="0.5"
         android:background="@drawable/habit_progress_bar"
+        android:backgroundTint="@color/Medium_Gray_Background"
         android:scaleY="5" />
 
+    <ImageButton
+        android:id="@+id/moveHabitUpButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/Medium_Gray_Background"
+        android:paddingTop="20dp"
+        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <ImageButton
+        android:id="@+id/moveHabitDownButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/Medium_Gray_Background"
+        android:paddingBottom="20dp"
+        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
 
 </RelativeLayout>

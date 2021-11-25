@@ -69,6 +69,7 @@ public class addHabit extends AppCompatActivity {
     int Syear;
     int Smonth;
     int Sday;
+    int nextPosition;
 
     Timestamp startTime;
     Timestamp endTime;
@@ -80,6 +81,8 @@ public class addHabit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_habit);
+        Intent intent = getIntent();
+        nextPosition = intent.getIntExtra("nextPosition", 0);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -298,7 +301,7 @@ public class addHabit extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date, addPublic.isChecked());
+                    Habit curr_habit = new Habit(habit_title, habit_reason, startTime, endTime, selected_date, addPublic.isChecked(), nextPosition);
                     User.addHabit(user.getUid(), curr_habit);
                     finish();
                 }
