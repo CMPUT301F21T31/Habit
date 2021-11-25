@@ -242,9 +242,10 @@ public class FriendsActivity extends AppCompatActivity {
                         User.stopFollowing(user.getUuid(), clickedUser.getUuid());
 
                     case 2:
-                        // TODO: @Lewis this should lead to habits of followed user
-                        break;
-
+                        Intent intent = new Intent(FriendsActivity.this, FriendsHabit.class);
+                        String userId = clickedUser.getUuid();
+                        intent.putExtra("user id", userId);
+                        startActivity(intent);
                 }
 
                 return false;
@@ -293,7 +294,8 @@ public class FriendsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwipeEnd(int position) {}
+            public void onSwipeEnd(int position) {
+            }
         });
 
         followRequestListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
