@@ -30,8 +30,9 @@ import java.util.Objects;
 public class User {
 
     private String displayName;
-    private String userName;
     private String email;
+    private String uuid;
+    private Boolean stayLoggedIn;
     private ArrayList<String> habits;
     private ArrayList<String> followers;
     private ArrayList<String> following;
@@ -40,31 +41,31 @@ public class User {
     /**
      * Constructor for user with habit list
      * @param displayName Non-unique name used throughout app
-     * @param userName Unique name used for adding followers
      * @param habits List of habits
      * @param email Email used for firebase auth
      */
-    public User(String displayName, String userName, String email, ArrayList<String> habits,
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits,
                 ArrayList<String> followers, ArrayList<String> following, ArrayList<String> requests) {
         this.displayName = displayName;
-        this.userName = userName;
         this.email = email;
+        this.uuid = uuid;
+        this.stayLoggedIn = stayLoggedIn;
         this.habits = habits;
         this.followers = followers;
         this.following = following;
         this.requests = requests;
     }
 
-    public User(String displayName, String userName, String email, ArrayList<String> habits) {
-        this(displayName, userName, email, habits, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits) {
+        this(displayName, email, uuid, stayLoggedIn, habits, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>());
     }
 
     /**
      * Constructor for user with no habits, creates user with empty habit list
      */
-    public User(String displayName, String userName, String email) {
-        this(displayName, userName, email, new ArrayList<String>(), new ArrayList<String>(),
+    public User(String displayName, String email, String uuid, Boolean stayLoggedIn) {
+        this(displayName, email, uuid, stayLoggedIn, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>(), new ArrayList<String>());
     }
 
@@ -91,26 +92,6 @@ public class User {
     }
 
     /**
-     * Get username of user, which is unique in the system
-     * NOTE: Removing this as email is already unique
-     * @return String with username
-     */
-    @Deprecated
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * Set username for user, should have already checked if unique
-     * NOTE: Removing this as email is already unique
-     * @param userName String username to set
-     */
-    @Deprecated
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    /**
      * Get a users email
      * @return String with user email
      */
@@ -127,10 +108,30 @@ public class User {
     }
 
     /**
+     * Get a user's ID
+     * @return
+     */
+    public String getUuid() {
+        return uuid;
+    }
+
+    public Boolean getStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(Boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
+    /**
      * @return all of User's habits
      */
     public ArrayList<String> getHabits() {
         return habits;
+    }
+
+    public void setHabits(ArrayList<String> habits) {
+        this.habits = habits;
     }
 
     public ArrayList<String> getFollowers() {
@@ -146,6 +147,16 @@ public class User {
     }
 
     /* Firestore Methods */
+
+    /**
+     * Update a user object
+     * @param uuid
+     * @param user
+     */
+    public static void updateUser(String uuid, User user) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(uuid).set(user);
+    }
 
     /**
      * Add a habit object to the habits collection and add a reference to that habit to a users
@@ -200,9 +211,10 @@ public class User {
      * @param uuid String id to delete from
      * @param habitId String id of habit to delete
      */
-    public static void deleteHabit(String uuid, String habitId) {
+    public static void deleteHabit(String uuid, String habitId, int deletedPosition) {
         deleteHabitFromHabits(habitId);
         deleteHabitFromUser(uuid, habitId);
+        fixHabitPositions(uuid, deletedPosition);
     }
 
     /**
@@ -226,39 +238,34 @@ public class User {
     }
 
     /**
-     * Add uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
+     * Maintain the list position variable of other habits when one is deleted
+     * @param uuid
+     * @param deletedPosition
      */
-    private static void addFollowing(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayUnion(uuid2));
-        uuid2User.update("followers", FieldValue.arrayUnion(uuid1));
-    }
+    private static void fixHabitPositions(String uuid, int deletedPosition) {
 
-    /**
-     * Remove uuid1 as a follower of uuid2
-     * @param uuid1
-     * @param uuid2
-     */
-    private static void removeFollowing(String uuid1, String uuid2) {
+        // Get habits that belong to this user and are below the deleted habit in the list
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("following", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("followers", FieldValue.arrayRemove(uuid1));
-    }
+        db.collection("habits")
+                .whereEqualTo("userId", uuid)
+                .whereGreaterThan("listPosition", deletedPosition)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    /**
+                     * Subtract 1 from the position of any Habit that is lower in the list
+                     * @param task Task to wait for
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (Habit habit: Objects.requireNonNull(task.getResult()).toObjects(Habit.class)) {
+                                habit.setListPosition(habit.getListPosition() - 1);
+                                updateHabit(habit.getHabitId(), habit);
+                            }
+                        }
+                    }
+                });
 
-    // uuid1 removes uuid2 as a follower
-    // Not sure if this is needed
-    private static void removeFollower(String uuid1, String uuid2) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference uuid1User = db.collection("users").document(uuid1);
-        DocumentReference uuid2User = db.collection("users").document(uuid2);
-        uuid1User.update("followers", FieldValue.arrayRemove(uuid2));
-        uuid2User.update("following", FieldValue.arrayRemove(uuid1));
     }
 
     /**
@@ -295,5 +302,60 @@ public class User {
                         }
                     }
                 });
+    }
+
+    /**
+     * Uuid1 declines a follow request from uuid2
+     * @param uuid1
+     * @param uuid2
+     */
+    public static void declineRequest(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+
+        // Remove request from uuid1
+        uuid1User.update("requests", FieldValue.arrayRemove(uuid2));
+    }
+
+    /**
+     * uuid1 accepts the follow request from uuid2
+     * @param uuid1
+     */
+    public static void acceptRequest(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+        DocumentReference uuid2User = db.collection("users").document(uuid2);
+
+        // Remove request from uuid1
+        uuid1User.update("requests", FieldValue.arrayRemove(uuid2));
+
+        // Add uuid1 to uuid2's following list
+        uuid2User.update("following", FieldValue.arrayUnion(uuid1));
+
+        // Add uuid2 to uuid1's followers list
+        uuid1User.update("followers", FieldValue.arrayUnion(uuid2));
+    }
+
+    /**
+     * uuid1 stops following uuid2
+     * @param uuid1
+     */
+    public static void stopFollowing(String uuid1, String uuid2) {
+
+        // Get user documents
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference uuid1User = db.collection("users").document(uuid1);
+        DocumentReference uuid2User = db.collection("users").document(uuid2);
+
+        // Remove uuid2 from uuid1's following list
+        uuid1User.update("following", FieldValue.arrayRemove(uuid2));
+
+        // Remove uuid1 from uuid2's followers list
+        uuid2User.update("followers", FieldValue.arrayRemove(uuid1));
+
     }
 }

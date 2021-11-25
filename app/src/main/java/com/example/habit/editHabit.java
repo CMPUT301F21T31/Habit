@@ -308,7 +308,7 @@ public class editHabit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Should we have some kind of confirm alert box?
-                User.deleteHabit(user.getUid(), selected_habit.getHabitId());
+                User.deleteHabit(user.getUid(), selected_habit.getHabitId(), selected_habit.getListPosition());
                 finish();
             }
         });
