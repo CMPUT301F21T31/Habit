@@ -130,6 +130,10 @@ public class User {
         return habits;
     }
 
+    public void setHabits(ArrayList<String> habits) {
+        this.habits = habits;
+    }
+
     public ArrayList<String> getFollowers() {
         return followers;
     }
@@ -151,7 +155,7 @@ public class User {
      */
     public static void updateUser(String uuid, User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Users").document(uuid).set(user);
+        db.collection("users").document(uuid).set(user);
     }
 
     /**
@@ -207,9 +211,10 @@ public class User {
      * @param uuid String id to delete from
      * @param habitId String id of habit to delete
      */
-    public static void deleteHabit(String uuid, String habitId) {
+    public static void deleteHabit(String uuid, String habitId, int deletedPosition) {
         deleteHabitFromHabits(habitId);
         deleteHabitFromUser(uuid, habitId);
+        fixHabitPositions(uuid, deletedPosition);
     }
 
     /**
@@ -230,6 +235,37 @@ public class User {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference thisUser = db.collection("users").document(uuid);
         thisUser.update("habits", FieldValue.arrayRemove(habitId));
+    }
+
+    /**
+     * Maintain the list position variable of other habits when one is deleted
+     * @param uuid
+     * @param deletedPosition
+     */
+    private static void fixHabitPositions(String uuid, int deletedPosition) {
+
+        // Get habits that belong to this user and are below the deleted habit in the list
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("habits")
+                .whereEqualTo("userId", uuid)
+                .whereGreaterThan("listPosition", deletedPosition)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    /**
+                     * Subtract 1 from the position of any Habit that is lower in the list
+                     * @param task Task to wait for
+                     */
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (Habit habit: Objects.requireNonNull(task.getResult()).toObjects(Habit.class)) {
+                                habit.setListPosition(habit.getListPosition() - 1);
+                                updateHabit(habit.getHabitId(), habit);
+                            }
+                        }
+                    }
+                });
+
     }
 
     /**

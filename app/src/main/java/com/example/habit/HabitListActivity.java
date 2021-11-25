@@ -4,11 +4,13 @@ import static java.lang.Thread.sleep;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class HabitListActivity extends AppCompatActivity {
@@ -131,6 +134,7 @@ public class HabitListActivity extends AppCompatActivity {
                             db.collection("habits")
                                     .whereEqualTo("userId", fb_user.getUid()) // Only get habits for this user
                                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @RequiresApi(api = Build.VERSION_CODES.N)
                                         @Override
                                         public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
@@ -149,6 +153,7 @@ public class HabitListActivity extends AppCompatActivity {
                                             dailyHabitsDataList.clear();
 
                                             for (QueryDocumentSnapshot doc : value) {
+
                                                 // Get all changed habits and add to list
                                                 Habit habit = doc.toObject(Habit.class);
                                                 Log.d("CHANGE", doc.toObject(Habit.class).toString());
@@ -159,6 +164,12 @@ public class HabitListActivity extends AppCompatActivity {
                                                     dailyHabitsDataList.add(habit);
                                                 }
                                             }
+
+                                            // Sort the habit lists based on list position
+                                            allHabitsDataList.sort(Comparator.comparing(Habit::getListPosition));
+                                            dailyHabitsDataList.sort(Comparator.comparing(Habit::getListPosition));
+
+                                            // Tell the adapters to display/re-display the lists
                                             allHabitsAdapter.notifyDataSetChanged();
                                             dailyHabitsAdapter.notifyDataSetChanged();
                                         }
@@ -263,7 +274,7 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-        // set creator
+        // Set creator
         dailyHabitsListView.setMenuCreator(creator);
 
         // Direct the user to addHabit interface
@@ -277,12 +288,15 @@ public class HabitListActivity extends AppCompatActivity {
         });
 
         // Once click the item in the list, then it start to edit the details
+        System.out.println("Setting all habits on item click");
         allHabitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println("In on item click");
                 openEditHabit(i);
             }
         });
+        System.out.println("Set all habits on item click");
 
         /* Button listeners */
 
@@ -329,10 +343,11 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     /**
-     * Open the add habit screen
+     * Open the add habit screen, pass in the list position for the next Habit
      */
     private void openAddHabit() {
         Intent intent = new Intent(this, addHabit.class);
+        intent.putExtra("nextPosition", allHabitsDataList.size());
         startActivity(intent);
     }
 
