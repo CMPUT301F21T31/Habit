@@ -20,6 +20,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAdSnnqg5xUBniMtkIgAboB0Qab-azKiM4" />
         <activity
+            android:name=".viewOnlyHabit"
+            android:exported="false" />
+        <activity
+            android:name=".FriendsHabit"
+            android:exported="false" />
+        <activity
             android:name=".FriendsActivity"
             android:exported="false" />
         <activity

@@ -1,8 +1,12 @@
 package com.example.habit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +41,7 @@ public class FriendsHabit extends AppCompatActivity {
 
     TextView title;
     ListView habitList;
+    ImageButton back;
     ArrayList<Habit> dataList;
     HabitList habitListAdapter;
 
@@ -46,83 +51,90 @@ public class FriendsHabit extends AppCompatActivity {
         setContentView(R.layout.friends_habit);
 
         auth = FirebaseAuth.getInstance();
-        fb_user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
         title = findViewById(R.id.title_with_name);
         habitList = findViewById((R.id.habit_view_list));
+        back = findViewById((R.id.back));
 
         dataList = new ArrayList<>();
         habitListAdapter = new HabitList(this, dataList, false);
         habitList.setAdapter(habitListAdapter);
 
-        if (fb_user == null) {
-            // Go back to login
-        } else {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-            // Get User record for logged in user
-            DocumentReference docRef = db
-                    .collection("users")
-                    .document(fb_user.getUid());
-            docRef
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
+        Intent intent = getIntent();
+        String userId = intent.getExtras().getString("user id");
 
-                            // Get user object and their habit IDs
-                            user = document.toObject(User.class);
-                            Habit habit = document.toObject(Habit.class);
-                            title.setText(user.getDisplayName() + "'s Habits");
+        // Get User record for logged in user
+        DocumentReference docRef = db
+                .collection("users")
+                .document(userId);
+        docRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
 
-                            ArrayList<String> habits = user.getHabits();
+                        // Get user object and their habit IDs
+                        user = document.toObject(User.class);
+                        Habit habit = document.toObject(Habit.class);
+                        title.setText(user.getDisplayName() + "'s Habits");
 
-                            // On change listener for habits belonging to this user
-                            db.collection("habits")
-                                    .whereEqualTo("userId", fb_user.getUid()) // Only get habits for this user
-                                    .whereEqualTo(String.valueOf(true), habit.getIfPublic())
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        ArrayList<String> habits = user.getHabits();
 
-                                            // Log failure and exit
-                                            if (error != null) {
-                                                Log.w("FAILED", "Listen failed.", error);
-                                                return;
-                                            }
+                        // On change listener for habits belonging to this user
+                        db.collection("habits")
+                                .whereEqualTo("userId", userId) // Only get habits for this user
+                                .whereEqualTo("ifPublic", true)
+                                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                                            // Get today's weekday so we know which habits to add to today list
-                                            String weekday = new SimpleDateFormat("EEEE").format(new Date()).toString();
-                                            Log.i("Today", weekday);
-
-                                            // Clear old habits
-                                            dataList.clear();
-
-                                            for (QueryDocumentSnapshot doc : value) {
-                                                // Get all changed habits and add to list
-                                                Habit habit = doc.toObject(Habit.class);
-                                                Log.d("CHANGE", doc.toObject(Habit.class).toString());
-                                                dataList.add(habit);
-
-                                                // Add to daily list if Habit occurs today
-                                                if (habit.isOnDay(weekday)) {
-                                                    dataList.add(habit);
-                                                }
-                                            }
-                                            habitListAdapter.notifyDataSetChanged();
+                                        // Log failure and exit
+                                        if (error != null) {
+                                            Log.w("FAILED", "Listen failed.", error);
+                                            return;
                                         }
-                                    });
-                        } else {
-                            Log.d("HABIT NOT EXISTS", "No such document");
-                        }
+
+                                        // Clear old habits
+                                        dataList.clear();
+
+                                        for (QueryDocumentSnapshot doc : value) {
+                                            // Get all changed habits and add to list
+                                            Habit habit = doc.toObject(Habit.class);
+                                            Log.d("CHANGE", doc.toObject(Habit.class).toString());
+                                            dataList.add(habit);
+                                        }
+                                        habitListAdapter.notifyDataSetChanged();
+                                    }
+                                });
                     } else {
-                        Log.d("READ FAIL", "get failed with ", task.getException());
+                        Log.d("HABIT NOT EXISTS", "No such document");
                     }
+                } else {
+                    Log.d("READ FAIL", "get failed with ", task.getException());
                 }
-            });
-        }
+            }
+        });
+
+        habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent1 = new Intent(FriendsHabit.this, viewOnlyHabit.class);
+                Habit habitToView = habitListAdapter.getItem(position);
+                intent1.putExtra("habit", habitToView);
+                startActivity(intent1);
+             }
+        });
+
     }
 }
