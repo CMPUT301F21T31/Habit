@@ -58,10 +58,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@color/Medium_Gray_Background"
-        android:paddingTop="20dp"
-        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:layout_marginRight="10dp"
+        android:paddingTop="20dp"
+        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
     <ImageButton
         android:id="@+id/moveHabitDownButton"
@@ -71,6 +72,7 @@
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/Medium_Gray_Background"
         android:paddingBottom="20dp"
+        android:layout_marginRight="10dp"
         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:focusable="false"
         android:focusableInTouchMode="false" />

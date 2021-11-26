@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -295,11 +296,21 @@ public class User {
                                 // Add requesterUuid to requested user's requests list
                                 DocumentReference requestedUser = document.getReference();
                                 requestedUser.update("requests", FieldValue.arrayUnion(requesterUuid));
+
+                                // Email not found
+                                Toast.makeText(context, "Request sent.", Toast.LENGTH_SHORT);
                             }
                         } else {
                             // Email not found
-                            Toast.makeText(context, "Could not find a user with that email!", Toast.LENGTH_SHORT);
+                            Toast.makeText(context, "Search failed - please try again.", Toast.LENGTH_SHORT);
                         }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Email not found
+                        Toast.makeText(context, "Could not find a user with that email!", Toast.LENGTH_SHORT);
                     }
                 });
     }

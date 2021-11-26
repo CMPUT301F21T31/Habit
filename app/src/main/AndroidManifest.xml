@@ -29,9 +29,6 @@
             android:name=".FriendsActivity"
             android:exported="false" />
         <activity
-            android:name=".FeedActivity"
-            android:exported="false" />
-        <activity
             android:name=".splashscreen2"
             android:exported="true" />
         <activity
@@ -77,9 +74,6 @@
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".tutorial_2usern"
-            android:exported="true" />
         <activity
             android:name=".editHabit"
             android:exported="false" />
