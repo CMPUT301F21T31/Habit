@@ -67,7 +67,6 @@ public class HabitListActivity extends AppCompatActivity {
     // Buttons
     AppCompatButton allButton;
     AppCompatButton todayButton;
-    ImageButton feedButton;
     ImageButton homeButton;
     ImageButton friendsButton;
     ImageButton logoutButton;
@@ -100,7 +99,6 @@ public class HabitListActivity extends AppCompatActivity {
         // Initialize buttons
         allButton = findViewById(R.id.habit_list_all_button);
         todayButton = findViewById(R.id.habit_list_today_button);
-        feedButton = findViewById(R.id.feedButton);
         homeButton = findViewById(R.id.homeButton);
         friendsButton = findViewById(R.id.friendsButton);
         logoutButton = findViewById(R.id.logoutButton);
@@ -320,13 +318,6 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-        feedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFeed();
-            }
-        });
-
         friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -360,11 +351,6 @@ public class HabitListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, editHabit.class);
         Habit habitToEdit = allHabitsAdapter.getItem(i);
         intent.putExtra("habit", habitToEdit);
-        startActivity(intent);
-    }
-
-    private void openFeed() {
-        Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
 

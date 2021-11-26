@@ -40,7 +40,6 @@ public class FriendsActivity extends AppCompatActivity {
     User user;
 
     // Buttons
-    ImageButton feedButton;
     ImageButton homeButton;
     ImageButton friendsButton;
     ImageButton followRequestButton;
@@ -67,7 +66,6 @@ public class FriendsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Initialize buttons
-        feedButton = findViewById(R.id.feedButton);
         homeButton = findViewById(R.id.homeButton);
         friendsButton = findViewById(R.id.friendsButton);
         followRequestButton = findViewById(R.id.new_follow_request_button);
@@ -345,13 +343,6 @@ public class FriendsActivity extends AppCompatActivity {
 
         /* Button listeners */
 
-        feedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFeed();
-            }
-        });
-
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,11 +356,6 @@ public class FriendsActivity extends AppCompatActivity {
                 new sendRequest().show(getSupportFragmentManager(), "send request");
             }
         });
-    }
-
-    private void openFeed() {
-        Intent intent = new Intent(this, FeedActivity.class);
-        startActivity(intent);
     }
 
     private void openHome() {
