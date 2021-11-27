@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.google.android.gms.maps.model.LatLng;
 import java.util.Objects;
 
 public class AddHabitEventFragment extends DialogFragment {
@@ -50,10 +52,12 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageView photoView;
     ConstraintLayout noPhotoFrame;
     ConstraintLayout photoFrame;
+    SharedPreferences sharedPref;
 
     ImageButton addButton;
     ImageButton backButton;
     ImageButton photoButton;
+    ImageView imageView4;       // TODO: @JUSTIN this is the image we have for this event
 
     PhotoUtil photoUtil;
     String currentPhotoPath;
@@ -82,11 +86,12 @@ public class AddHabitEventFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         TextView title = view.findViewById(R.id.habit_event_title);
         title.setText(habit.getTitle() + " Event");
-
+      
         // Get photo and related views
         photoFrame = view.findViewById(R.id.photoFrame);
         noPhotoFrame = view.findViewById(R.id.noPhotoFrame);
         photoView = view.findViewById(R.id.habitEventPhotoFrame);
+        // Get EditTexts
 
         // Get EditTexts
         locationEditText = view.findViewById(R.id.location_edit_text);
@@ -104,6 +109,8 @@ public class AddHabitEventFragment extends DialogFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                 startActivity(intent);
+
+
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +179,7 @@ public class AddHabitEventFragment extends DialogFragment {
                     System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
                 }
                 frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
             }
         });
 
