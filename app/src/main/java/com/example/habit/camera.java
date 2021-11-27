@@ -64,7 +64,7 @@ public class camera extends AppCompatActivity {
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
             //Set Capture Image to ImageView
           //  imageView.setImageBitmap(captureImage);
-            Intent intent = new Intent(this, camera.class);
+            Intent intent = new Intent(this, editHabit.class);
             intent.putExtra("bitmap", captureImage);
             imageView.setImageBitmap(intent.getParcelableExtra("bitmap"));
         }

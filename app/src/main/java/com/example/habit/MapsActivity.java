@@ -59,6 +59,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("location", center);
                 String mylocation= prefs.getString("location","");
                 Toast.makeText(MapsActivity.this,mylocation.toString(),Toast.LENGTH_LONG).show();
+               // center.latitude
+                //center.longitude
                 finish();
             }
         });
