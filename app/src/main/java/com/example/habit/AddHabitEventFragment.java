@@ -43,7 +43,7 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageButton addButton;
     ImageButton backButton;
     ImageButton photoButton;
-    ImageView imageView4;
+    ImageView imageView4;       // TODO: @JUSTIN this is the image we have for this event
 
 
     /**
