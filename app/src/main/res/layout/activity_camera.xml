@@ -23,4 +23,10 @@
         android:text="Open Camera"
         android:layout_marginTop="10dp"/>
 
+    <Button
+        android:id="@+id/donecam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="done" />
+
 </LinearLayout>
