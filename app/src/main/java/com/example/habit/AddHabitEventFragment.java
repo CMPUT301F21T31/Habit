@@ -28,6 +28,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Objects;
 
 public class AddHabitEventFragment extends DialogFragment {
@@ -38,7 +40,7 @@ public class AddHabitEventFragment extends DialogFragment {
     private EditText commentsEditText;
     private Button locationb;
 
-
+    SharedPreferences sharedPref;
 
     ImageButton addButton;
     ImageButton backButton;
@@ -81,14 +83,16 @@ public class AddHabitEventFragment extends DialogFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                 startActivity(intent);
+
+
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), camera.class);
-                startActivity(intent);
+              //  Intent intent = new Intent(getActivity(), camera.class);
+               // startActivity(intent);
                 // photo = ...; // TODO: @qg Properly get and set photo here
                 String location = locationEditText.getText().toString(); // TODO: @qg Properly get and set location here, will have to change from string
                 String comments = commentsEditText.getText().toString();
@@ -153,7 +157,7 @@ public class AddHabitEventFragment extends DialogFragment {
         int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
         getDialog().getWindow().setLayout(width, height);
 
-        locationEditText.setText("sda");
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -168,5 +172,6 @@ public class AddHabitEventFragment extends DialogFragment {
             imageView4.setImageBitmap(intent.getParcelableExtra("bitmap"));
             imageView4.setVisibility(View.VISIBLE);
         }
+
     }
 }

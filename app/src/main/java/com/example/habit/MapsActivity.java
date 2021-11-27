@@ -33,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    SharedPreferences sharedPref;
     Button done;
 
     @Override
@@ -61,6 +62,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this,mylocation.toString(),Toast.LENGTH_LONG).show();
                // center.latitude
                 //center.longitude
+             //   return(center)
+                // get or create SharedPreferences
+               // sharedPref = getSharedPreferences("myPref", MODE_PRIVATE);
+
+                // save your string in SharedPreferences
+             //   sharedPref.edit().putString("location", mylocation).commit();
                 finish();
             }
         });
