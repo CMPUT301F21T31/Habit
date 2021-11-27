@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageButton addButton;
     ImageButton backButton;
     ImageButton photoButton;
+    ImageView imageView4;       // TODO: @JUSTIN this is the image we have for this event
 
 
     /**
@@ -64,7 +67,7 @@ public class AddHabitEventFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         TextView title = view.findViewById(R.id.habit_event_title);
         title.setText(habit.getTitle() + " Event");
-
+        imageView4= view.findViewById(R.id.imageView4);
         // Get EditTexts
 
         locationEditText = view.findViewById(R.id.location_edit_text);
@@ -113,8 +116,9 @@ public class AddHabitEventFragment extends DialogFragment {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), camera.class);
-                startActivity(intent);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,100);
+
                 // TODO: @qg Add what happens when use clicks the photo button in HabitEvent fragment
             }
         });
@@ -136,6 +140,7 @@ public class AddHabitEventFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        imageView4.setVisibility(View.INVISIBLE);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -149,5 +154,19 @@ public class AddHabitEventFragment extends DialogFragment {
         getDialog().getWindow().setLayout(width, height);
 
         locationEditText.setText("sda");
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            //Get Capture Image
+            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
+            //Set Capture Image to ImageView
+            //  imageView.setImageBitmap(captureImage);
+            Intent intent = new Intent(getActivity(),camera.class);
+            intent.putExtra("bitmap", captureImage);
+            imageView4.setImageBitmap(intent.getParcelableExtra("bitmap"));
+            imageView4.setVisibility(View.VISIBLE);
+        }
     }
 }

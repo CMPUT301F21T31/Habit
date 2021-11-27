@@ -130,4 +130,15 @@
         android:text="location"
         tools:layout_editor_absoluteX="218dp"
         tools:layout_editor_absoluteY="480dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="206dp"
+        android:layout_height="179dp"
+        android:src="@drawable/circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="145dp"
+        tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
