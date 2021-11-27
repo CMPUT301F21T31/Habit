@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -39,6 +41,7 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageButton addButton;
     ImageButton backButton;
     ImageButton photoButton;
+
 
     /**
      * Create a new fragment to add a HabitEvent
@@ -63,11 +66,13 @@ public class AddHabitEventFragment extends DialogFragment {
         title.setText(habit.getTitle() + " Event");
 
         // Get EditTexts
+
         locationEditText = view.findViewById(R.id.location_edit_text);
         commentsEditText = view.findViewById(R.id.comments_edit_text);
         locationb=view.findViewById(R.id.locationb);
         // Set add button
         addButton = view.findViewById(R.id.addHabitEventButton);
+
         locationb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,5 +147,7 @@ public class AddHabitEventFragment extends DialogFragment {
         int width = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_width);
         int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
         getDialog().getWindow().setLayout(width, height);
+
+        locationEditText.setText("sda");
     }
 }

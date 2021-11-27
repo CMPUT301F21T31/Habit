@@ -21,6 +21,7 @@ public class camera extends AppCompatActivity {
     //Initialize Variables
     ImageView imageView;
     Button btOpen;
+    Button done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class camera extends AppCompatActivity {
         //Assign Variables
         imageView = findViewById(R.id.imageView);
         btOpen = findViewById(R.id.bt_open);
+        done= findViewById(R.id.donecam);
 
         //Request For Camera Permission
         if (ContextCompat.checkSelfPermission(camera.this,
@@ -38,7 +40,12 @@ public class camera extends AppCompatActivity {
                     Manifest.permission.CAMERA
             },100);
         }
-
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         btOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +63,10 @@ public class camera extends AppCompatActivity {
             //Get Capture Image
             Bitmap captureImage = (Bitmap) data.getExtras().get("data");
             //Set Capture Image to ImageView
-            imageView.setImageBitmap(captureImage);
+          //  imageView.setImageBitmap(captureImage);
+            Intent intent = new Intent(this, camera.class);
+            intent.putExtra("bitmap", captureImage);
+            imageView.setImageBitmap(intent.getParcelableExtra("bitmap"));
         }
     }
 }

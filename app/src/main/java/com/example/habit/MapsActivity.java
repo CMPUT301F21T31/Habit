@@ -1,14 +1,19 @@
 package com.example.habit;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -28,6 +33,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    Button done;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +44,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        done = findViewById(R.id.done);
 
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng center = mMap.getCameraPosition().target;
+                Intent intent=new Intent(MapsActivity.this,MapsActivity.class);
+        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor=prefs.edit();
+               editor.putString("location",center.toString());
+              editor.apply();
+
+                intent.putExtra("location", center);
+                String mylocation= prefs.getString("location","");
+                Toast.makeText(MapsActivity.this,mylocation.toString(),Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
         ZoomControls zoom = (ZoomControls) findViewById(R.id.zoom);
         zoom.setOnZoomOutClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
         zoom.setOnZoomInClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
@@ -77,11 +101,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng turkey = new LatLng(41.015137	, 28.979530);
-        mMap.addMarker(new MarkerOptions().position(turkey).title("Marker in Turkey"));
+        LatLng turkey = new LatLng(41.015137, 28.979530);
+       // mMap.addMarker(new MarkerOptions().position(turkey).title("Marker in Turkey"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(turkey));
         enableMyLocation();
-        mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+     //   mMap.setMyLocationEnabled(true);
+
     }
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

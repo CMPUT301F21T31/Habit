@@ -70,4 +70,14 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/zoom"></ZoomControls>
 
+    <Button
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/zoom"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="10dp"
+        android:text="done" />
+
 </RelativeLayout>
