@@ -12,15 +12,16 @@
     <EditText
         android:id="@+id/location_edit_text"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="75dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_box"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:fontFamily="@font/lato"
         android:gravity="center"
-        android:hint="Location"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
+        android:hint="Tap Globe to Set Location"
+        android:inputType="textMultiLine"
+        android:maxLines="3"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/comments_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,7 +29,7 @@
     <EditText
         android:id="@+id/comments_edit_text"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_box"
         android:ems="10"
@@ -78,31 +79,22 @@
         app:layout_constraintEnd_toStartOf="@+id/habit_event_title"
         app:tint="@color/Lighter_Gray_Text" />
 
-    <Button
-        android:id="@+id/locationb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/noPhotoFrame" />
-
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/locationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:background="@color/Medium_Gray_Background"
         android:src="@drawable/ic_baseline_travel_explore_24"
-        app:layout_constraintBottom_toTopOf="@+id/comments_edit_text"
+        app:layout_constraintBottom_toTopOf="@+id/location_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noPhotoFrame" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/noPhotoFrame"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/location_edit_text"
+        app:layout_constraintBottom_toBottomOf="@+id/photoFrame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -127,9 +119,9 @@
             android:id="@+id/habitEventPhotoPlusBubble"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/circle"
             android:layout_marginTop="14dp"
             android:layout_marginRight="14dp"
+            android:src="@drawable/circle"
             app:layout_constraintEnd_toEndOf="@+id/habitEventPhotoCircle"
             app:layout_constraintTop_toTopOf="@+id/habitEventPhotoCircle"
             app:tint="@color/Dark_Gray_Background" />
@@ -145,23 +137,24 @@
             app:layout_constraintTop_toTopOf="@+id/habitEventPhotoPlusBubble"
             app:tint="@color/Lighter_Gray_Text" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/photoFrame"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        app:layout_constraintBottom_toTopOf="@+id/location_edit_text"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/locationButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habit_event_title">
+        app:layout_constraintStart_toStartOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/habitEventPhotoFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="39dp"
-            tools:layout_editor_absoluteY="34dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp"
             tools:src="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

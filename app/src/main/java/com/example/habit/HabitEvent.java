@@ -22,7 +22,8 @@ import java.io.ByteArrayOutputStream;
 public class HabitEvent {
 
     // private photo // TODO: How should we store photos?
-    private String location; // TODO: Will have to change this to store an actual location
+    private Double latitude;
+    private Double longitude;
     private String comments;
     private String habitId;
     private String habitEventId;
@@ -31,22 +32,24 @@ public class HabitEvent {
 
     /**
      *
-     * @param location String location for this HabitEvent
-     * @param comment String comments for this HabitEvent
+     * @param latitude
+     * @param longitude
+     * @param comment
      */
-    public HabitEvent(String location, String comment) {
-        this.location = location;
-        this.comments = comments;
+    public HabitEvent(Double latitude, Double longitude, String comment) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.comments = comment;
     }
 
     /**
      *
-     * @param location String location for this HabitEvent
-     * @param comments String comments for this HabitEvent
-     * @param state String state for this HabitEvent, 1=pending, 2=complete, 3=incomplete
+     * @param comments
+     * @param state
      */
-    public HabitEvent(String location, String comments, int state) {
-        this.location = location;
+    public HabitEvent(String comments, int state) {
+        this.latitude = null;
+        this.longitude = null;
         this.comments = comments;
 
         // Default state to "pending" if invalid one is passed in
@@ -59,18 +62,20 @@ public class HabitEvent {
 
     public HabitEvent() {}
 
-    /** Get location of this habit event
-     * @return String location
-     */
-    public String getLocation() {
-        return location;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    /** Set location for this habit event
-     * @param location String location
-     */
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     /**

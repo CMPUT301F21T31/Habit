@@ -1,94 +1,135 @@
 package com.example.habit;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.airbnb.lottie.L;
 import com.example.habit.databinding.ActivityMapsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap map;
     private ActivityMapsBinding binding;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     SharedPreferences sharedPref;
-    Button done;
+
+    Button doneButton;
+    Button goButton;
+    Button mapTypeButton;
+
+    ZoomControls zoomControls;
+
+    Marker clickMarker;
+    LatLng location;
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    Intent incomingIntent;
+    Double initialLat;
+    Double initialLon;
+
+    // The geographical location where the device is currently located.
+    private Location lastKnownLocation;
+
+    // Default location to use if location not provided
+    private final LatLng defaultLocation = new LatLng(53.5267, -113.5271);
+    private static final int DEFAULT_ZOOM = 15;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    boolean locationPermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        // Setup view
+        super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Get intent, use 300 as default value to indicate nothing was passed
+        incomingIntent = getIntent();
+        initialLat = incomingIntent.getDoubleExtra("lat", 300);
+        initialLon = incomingIntent.getDoubleExtra("lon", 300);
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        done = findViewById(R.id.done);
 
-        done.setOnClickListener(new View.OnClickListener() {
+        // Get buttons
+        doneButton = findViewById(R.id.done);
+        mapTypeButton = (Button) findViewById(R.id.btn_Sat);
+        goButton = (Button) findViewById(R.id.btn_Go);
+
+        // Get zoom controls
+        zoomControls = (ZoomControls) findViewById(R.id.zoom);
+
+        // Get location client
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Set done button listener
+        doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LatLng center = mMap.getCameraPosition().target;
-                Intent intent=new Intent(MapsActivity.this,MapsActivity.class);
-        SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-                SharedPreferences.Editor editor=prefs.edit();
-               editor.putString("location",center.toString());
-              editor.apply();
 
-                intent.putExtra("location", center);
-                String mylocation= prefs.getString("location","");
-                Toast.makeText(MapsActivity.this,mylocation.toString(),Toast.LENGTH_LONG).show();
-               // center.latitude
-                //center.longitude
-             //   return(center)
-                // get or create SharedPreferences
-               // sharedPref = getSharedPreferences("myPref", MODE_PRIVATE);
+                // Create intent and add latitude and longitude
+                Intent backToFragment = new Intent();
 
-                // save your string in SharedPreferences
-             //   sharedPref.edit().putString("location", mylocation).commit();
+                // Get selected location
+                backToFragment.putExtra("lat", location.latitude);
+                backToFragment.putExtra("lon", location.longitude);
+                MapsActivity.this.setResult(RESULT_OK, backToFragment);
                 finish();
             }
         });
-        ZoomControls zoom = (ZoomControls) findViewById(R.id.zoom);
-        zoom.setOnZoomOutClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomOut()));
-        zoom.setOnZoomInClickListener(view -> mMap.animateCamera(CameraUpdateFactory.zoomIn()));
 
-        final Button btn_MapType = (Button) findViewById(R.id.btn_Sat);
-        btn_MapType.setOnClickListener(view -> {
-            if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
-                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                btn_MapType.setText("Normal View");
+        // Set zoom in/out button listeners
+        zoomControls.setOnZoomOutClickListener(view -> map.animateCamera(CameraUpdateFactory.zoomOut()));
+        zoomControls.setOnZoomInClickListener(view -> map.animateCamera(CameraUpdateFactory.zoomIn()));
+
+        // Set map type button listener
+        mapTypeButton.setOnClickListener(view -> {
+            if (map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
+                map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                mapTypeButton.setText("Normal View");
             } else {
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                btn_MapType.setText("Satellite View");
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                mapTypeButton.setText("Satellite View");
             }
         });
 
-        Button btnGo = (Button) findViewById(R.id.btn_Go);
-
-        btnGo.setOnClickListener(view -> {
+        // Set go button listener
+        goButton.setOnClickListener(view -> {
             EditText etLocation = (EditText) findViewById(R.id.et_location);
             String location = etLocation.getText().toString();
             if (location != null && !location.equals("")) {
@@ -101,42 +142,168 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 Address address = adressList.get(0);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title("Location " + location));
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                map.addMarker(new MarkerOptions().position(latLng).title("Location " + location));
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
             }
         });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng turkey = new LatLng(41.015137, 28.979530);
-       // mMap.addMarker(new MarkerOptions().position(turkey).title("Marker in Turkey"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(turkey));
-        enableMyLocation();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
+        // Set map reference
+        map = googleMap;
+
+        // Ask user for location permissions
+        getLocationPermission();
+
+        // Turn on location layer
+        updateLocationUI();
+
+        // Get current device location and set position on map
+        getDeviceLocation(true);
+
+        // Set click listener
+        map.setOnMapClickListener(this::onMapClick);
+    }
+
+    public void onMapClick(LatLng point) {
+        System.out.println("Lat: " + Double.toString(point.latitude) + "| Lon:" + Double.toString(point.longitude));
+
+        // Remove click marker if there is one
+        if (clickMarker != null) {
+            clickMarker.remove();
+        }
+
+        // Add new marker and save it's location
+        clickMarker = map.addMarker(new MarkerOptions().position(point).title("Marked Location"));
+        location = clickMarker.getPosition();
+    }
+
+    /**
+     * Gets the current location of the device, and positions the map's camera.
+     */
+    private void getDeviceLocation(Boolean initial) {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted) {
+                @SuppressLint("MissingPermission") Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+
+                                if (initial && initialLat != 300 && initialLon != 300) {
+
+                                    // Move to initial location
+                                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                            new LatLng(initialLat, initialLon), DEFAULT_ZOOM));
+
+                                    // Set selected location to initial location
+                                    location = new LatLng(initialLat, initialLon);
+
+                                    // Set marker to initial location
+                                    clickMarker = map.addMarker(new MarkerOptions().position(location).title("Marked Location"));
+
+                                } else {
+
+                                    // Move to current location
+                                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                            new LatLng(lastKnownLocation.getLatitude(),
+                                                    lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                                    // Set select location to current location
+                                    location = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+                                    // Set marker to current location
+                                    clickMarker = map.addMarker(new MarkerOptions().position(location).title("Marked Location"));
+                                }
+                            }
+                        } else {
+                            Log.d("LocationError", "Current location is null. Using defaults.");
+                            Log.e("LocationError", "Exception: %s", task.getException());
+                            map.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+                            map.getUiSettings().setMyLocationButtonEnabled(false);
+
+                            // Set selection location to the default
+                            location = new LatLng(defaultLocation.latitude, defaultLocation.longitude);
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Prompts the user for permission to use the device location.
+     */
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    /**
+     * Updates the map's UI settings based on whether the user has granted location permission.
+     */
+    @SuppressLint("MissingPermission")
+    private void updateLocationUI() {
+        if (map == null) {
             return;
         }
-     //   mMap.setMyLocationEnabled(true);
-
-    }
-    private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            if (mMap != null) {
-                mMap.setMyLocationEnabled(true);
+        try {
+            if (locationPermissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
             }
-        } else {
-            // Permission to access the location is missing. Show rationale and request permission
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } catch (Exception e)  {
+            Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    /**
+     * Handles the result of the request for location permissions.
+     */
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true;
+                }
+            }
+        }
+        updateLocationUI();
     }
 }
