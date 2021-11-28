@@ -112,9 +112,10 @@ public class HabitList extends ArrayAdapter<Habit> {
                 baranimation.setDuration(1000);
                 progress.startAnimation(baranimation);
                 anima=false;
+                // replace 100 with motion data on progress
             }
             else{progress.setProgress(100);
-
+                // replace 100 with static data on progress
             }
             // Set fields
             habitName.setText(habit.getTitle());
