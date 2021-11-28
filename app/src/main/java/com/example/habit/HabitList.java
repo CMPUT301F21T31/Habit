@@ -113,6 +113,9 @@ public class HabitList extends ArrayAdapter<Habit> {
                 progress.startAnimation(baranimation);
                 anima=false;
             }
+            else{progress.setProgress(100);
+
+            }
             // Set fields
             habitName.setText(habit.getTitle());
         }
