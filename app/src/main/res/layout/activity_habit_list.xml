@@ -103,7 +103,7 @@
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_home_24"
-        app:tint="@color/Light_Gray_Text_Background" />
+        app:tint="@color/Lighter_Gray_Text" />
 
     <ImageButton
         android:id="@+id/friendsButton"
@@ -115,7 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/homeButton"
         app:srcCompat="@drawable/ic_baseline_people_24"
-        app:tint="@color/Lighter_Gray_Text" />
+        app:tint="@color/Light_Gray_Text_Background" />
 
     <ImageButton
         android:id="@+id/logoutButton"
