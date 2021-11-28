@@ -150,7 +150,7 @@ public class editHabit extends AppCompatActivity {
         int sy;
 
         sd = cal.get(Calendar.DAY_OF_MONTH);
-        sm = cal.get(Calendar.MONTH);
+        sm = cal.get(Calendar.MONTH) + 1;
         sy = cal.get(Calendar.YEAR);
 
         startDay.setText(String.valueOf(sd));
@@ -164,7 +164,7 @@ public class editHabit extends AppCompatActivity {
         int ey;
 
         ed = cal.get(Calendar.DAY_OF_MONTH);
-        em = cal.get(Calendar.MONTH);
+        em = cal.get(Calendar.MONTH) + 1;
         ey = cal.get(Calendar.YEAR);
 
         endDay.setText(String.valueOf(ed));
@@ -404,6 +404,10 @@ public class editHabit extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                // 4. Set the start and end dates
+                selected_habit.setStart(startTime);
+                selected_habit.setStart(endTime);
 
                 User.updateHabit(selected_habit.getHabitId(), selected_habit);
                 finish();
