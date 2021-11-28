@@ -28,6 +28,7 @@ public class HabitList extends ArrayAdapter<Habit> {
     private Context context;
     private Boolean daily;
     private User user;
+    static Boolean anima=true;
 
     // Buttons to move habit up or down
     ImageButton upButton;
@@ -106,10 +107,16 @@ public class HabitList extends ArrayAdapter<Habit> {
             TextView habitName = view.findViewById(R.id.habit_name_text);
             TextView occurence = view.findViewById(R.id.habit_occurence_text);
             ProgressBar progress = view.findViewById(R.id.habit_progress_bar);
-            progressbaranimation baranimation = new progressbaranimation(progress, 0, 100);
-            baranimation.setDuration(1000);
-            progress.startAnimation(baranimation);
-
+            if(anima==true) {
+                progressbaranimation baranimation = new progressbaranimation(progress, 0, 100);
+                baranimation.setDuration(1000);
+                progress.startAnimation(baranimation);
+                anima=false;
+                // replace 100 with motion data on progress
+            }
+            else{progress.setProgress(100);
+                // replace 100 with static data on progress
+            }
             // Set fields
             habitName.setText(habit.getTitle());
         }
