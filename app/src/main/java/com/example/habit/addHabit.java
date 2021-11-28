@@ -30,6 +30,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -69,10 +70,13 @@ public class addHabit extends AppCompatActivity {
     int Syear;
     int Smonth;
     int Sday;
+    int Eyear;
+    int Emonth;
+    int Eday;
     int nextPosition;
 
-    Timestamp startTime;
-    Timestamp endTime;
+    Date startTime;
+    Date endTime;
     HashMap<String, Boolean> selected_date = null;
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
@@ -233,12 +237,14 @@ public class addHabit extends AppCompatActivity {
                                 startYear.setText("" + year);
                                 startMonth.setText("" + (month + 1));
                                 startDay.setText("" + dayOfMonth);
-                                startTime = new Timestamp(calendar.getTimeInMillis());
+                                calendar.set(year, month, dayOfMonth);
+                                startTime = calendar.getTime();
                                 Sday = dayOfMonth;
                                 Smonth = month;
                                 Syear = year;
                             }
                         }, year, month, dayOfMonth);
+                calendar.set(Syear, Smonth, Sday);
                 startDateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 startDateDialog.show();
             }
@@ -260,7 +266,12 @@ public class addHabit extends AppCompatActivity {
                                 endYear.setText("" + year);
                                 endMonth.setText("" + (month + 1));
                                 endDay.setText("" + dayOfMonth);
-                                endTime = new Timestamp(calendar.getTimeInMillis());
+                                calendar.set(year, month, dayOfMonth);
+                                endTime = calendar.getTime();
+                                Eyear = year;
+                                Emonth = month;
+                                Eday = dayOfMonth;
+//                                endTime = new Timestamp(calendar.getTimeInMillis());
                             }
                         }, year, month, dayOfMonth);
                 calendar.set(Syear, Smonth, Sday);
