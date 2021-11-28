@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,15 +41,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddHabitEventFragment extends DialogFragment {
 
     private Habit habit;
     private HabitEvent habitEvent;
-    private EditText locationEditText; // TODO: @qg change this
+    private EditText locationEditText;
     private EditText commentsEditText;
-    private Button locationb;
 
     ImageView photoView;
     ConstraintLayout noPhotoFrame;
@@ -57,13 +61,18 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageButton addButton;
     ImageButton backButton;
     ImageButton photoButton;
-    ImageView imageView4;       // TODO: @JUSTIN this is the image we have for this event
+    ImageButton locationButton;
 
     PhotoUtil photoUtil;
     String currentPhotoPath;
     Bitmap photo;
 
+    Geocoder geocoder;
+    Double latitude;
+    Double longitude;
+
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_MAP_LOCATION = 2;
 
     /**
      * Create a new fragment to add a HabitEvent
@@ -91,43 +100,53 @@ public class AddHabitEventFragment extends DialogFragment {
         photoFrame = view.findViewById(R.id.photoFrame);
         noPhotoFrame = view.findViewById(R.id.noPhotoFrame);
         photoView = view.findViewById(R.id.habitEventPhotoFrame);
-        // Get EditTexts
 
         // Get EditTexts
         locationEditText = view.findViewById(R.id.location_edit_text);
         commentsEditText = view.findViewById(R.id.comments_edit_text);
-        locationb=view.findViewById(R.id.locationb);
 
-        // Set add button
+        // Get buttons
         addButton = view.findViewById(R.id.addHabitEventButton);
+        locationButton = view.findViewById(R.id.locationButton);
+        backButton = view.findViewById(R.id.backHabitEventButton);
+        photoButton = view.findViewById(R.id.habitEventPhotoButton);
 
         // PhotoUtil class for handling photos
         photoUtil = new PhotoUtil();
 
-        locationb.setOnClickListener(new View.OnClickListener() {
+        // Get geocoder for extracting location details from lat/long
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Get reference to this fragment and create MapsActivity
+                Fragment frag = AddHabitEventFragment.this;
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
-                startActivity(intent);
 
+                // Include lat and lon in intent
+                intent.putExtra("lat", latitude);
+                intent.putExtra("lon", longitude);
 
+                frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // photo = ...; // TODO: @qg Properly get and set photo here
-                String location = locationEditText.getText().toString(); // TODO: @qg Properly get and set location here, will have to change from string
-                String comments = commentsEditText.getText().toString();
+                // Get comment string
+                String comment = commentsEditText.getText().toString();
 
                 // Create HabitEvent and add to DB
-                habitEvent = new HabitEvent(location, comments); // TODO: @qg Will have to add a "photo" property to the HabitEvent class and change the constructor
+                habitEvent = new HabitEvent(latitude, longitude, comment);
                 Habit.addEvent(habit.getHabitId(), habitEvent);
 
                 // Store photo in Firebase Storage
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                photoUtil.storePhoto(habitEvent.getHabitEventId(), photo);
+                if (photo != null) {
+                    photoUtil.storePhoto(habitEvent.getHabitEventId(), photo, false);
+                }
 
                 // Close dialog
                 Objects.requireNonNull(getDialog()).dismiss();
@@ -135,7 +154,6 @@ public class AddHabitEventFragment extends DialogFragment {
         });
 
         // Set back button
-        backButton = view.findViewById(R.id.backHabitEventButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +162,6 @@ public class AddHabitEventFragment extends DialogFragment {
         });
 
         // Set photo button
-        photoButton = view.findViewById(R.id.habitEventPhotoButton);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +196,43 @@ public class AddHabitEventFragment extends DialogFragment {
                     System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
                 }
                 frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        });
 
+        photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Request camera permission
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
+                            Manifest.permission.CAMERA
+                    }, 100);
+                }
+
+                // Open Camera
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Fragment frag = AddHabitEventFragment.this;
+
+                // Get filepath
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(getContext(),
+                            "com.example.android.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    System.out.println("PhotoURI: " + photoURI);
+                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                }
+                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
 
@@ -200,6 +253,30 @@ public class AddHabitEventFragment extends DialogFragment {
 
                 // Set the picture to map
                 photo = setPic();
+
+            } else if (requestCode == REQUEST_MAP_LOCATION) {
+
+                // Get location from intent, 200 is not a possible lat/lon val so use it as default
+                latitude = data.getDoubleExtra("lat", 200);
+                longitude = data.getDoubleExtra("lon", 200);
+
+                // Set values to null if either was not set
+                if (latitude == 200 || longitude == 200) {
+                    latitude = null;
+                    longitude = null;
+                } else {
+
+                    // Get and display more info about the selected location
+                    try {
+                        List<Address> addresses = null;
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        Address address = addresses.get(0);
+                        locationEditText.setText(address.getAddressLine(0));
+                        System.out.println("Got address");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

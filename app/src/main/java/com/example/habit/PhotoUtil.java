@@ -9,8 +9,11 @@ import android.graphics.Rect;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -39,8 +42,9 @@ public class PhotoUtil {
      * path to where the photo is stored
      * @param habitEventId String ID of the HabitEvent
      * @param bitmap Bitmap of the photo to store
+     * @param deleteOld Boolean indicating if the old photo for this HabitEvent should be deleted
      */
-    public void storePhoto(String habitEventId, Bitmap bitmap) {
+    public void storePhoto(String habitEventId, Bitmap bitmap, Boolean deleteOld) {
 
         // Get new reference for this photo
         StorageReference imageRef = storageRef.child(habitEventId + ".jpg");
@@ -60,10 +64,44 @@ public class PhotoUtil {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                // Delete the old photo in firebase storage
+                if (deleteOld) {
+                    db.collection("habitEvent")
+                            .document(habitEventId)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Object photoPath = task.getResult().get("photoPath");
+                                if (photoPath != null) {
+                                    // Delete old photo
+                                    storageRef.child(photoPath.toString()).delete();
+                                }
+                            }
+                        }
+                    });
+                }
+
                 // Update the corresponding HabitEvent with the path to this photo
                 db.collection("habitEvents").document(habitEventId).update("photoPath", imageRef.getPath());
             }
         });
+    }
+
+    /**
+     * Delete photo at a certain path
+     * @param path String path
+     * @return Boolean indicating if there was an error
+     */
+    public Boolean deletePhoto(String path) {
+        try {
+            storageRef.child(path).delete();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels) {
