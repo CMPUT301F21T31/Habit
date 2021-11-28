@@ -2,13 +2,15 @@ package com.example.habit;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
@@ -16,7 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
@@ -29,6 +37,10 @@ public class ViewEditHabitEventFragment extends DialogFragment {
     private HabitEvent habitEvent;
     private EditText locationEditText; // TODO: @qg change this
     private EditText commentsEditText;
+
+    ImageView photoView;
+    ConstraintLayout noPhotoFrame;
+    ConstraintLayout photoFrame;
 
     ImageButton backButton;
     ImageButton deleteButton;
@@ -67,8 +79,40 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         locationEditText.setText(habitEvent.getLocation());
         commentsEditText.setText(habitEvent.getComments());
 
-        // Set edit button
+        // Buttons
+        backButton = view.findViewById(R.id.backHabitEventButton);
+        deleteButton = view.findViewById(R.id.deleteHabitEventButton);
         editButton = view.findViewById(R.id.addHabitEventButton);
+        photoButton = view.findViewById(R.id.habitEventPhotoButton);
+
+        // Get photo and related views
+        photoFrame = view.findViewById(R.id.photoFrame);
+        noPhotoFrame = view.findViewById(R.id.noPhotoFrame);
+        photoView = view.findViewById(R.id.habitEventPhotoFrame);
+
+        // Get photo
+        Bitmap photo;
+        PhotoUtil photoUtil = new PhotoUtil();
+        StorageReference imageRef = photoUtil.storageRef.child(habitEvent.getPhotoPath());
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                Bitmap photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                photo = PhotoUtil.getRoundedRectBitmap(photo, 100);
+                noPhotoFrame.setVisibility(View.INVISIBLE);
+                photoView.setImageBitmap(photo);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        // Set edit button
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +141,6 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         });
 
         // Set delete button
-        deleteButton = view.findViewById(R.id.deleteHabitEventButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +150,6 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         });
 
         // Set back button
-        backButton = view.findViewById(R.id.backHabitEventButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +158,6 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         });
 
         // Set photo button
-        photoButton = view.findViewById(R.id.habitEventPhotoButton);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

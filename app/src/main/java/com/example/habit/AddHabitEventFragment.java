@@ -1,23 +1,29 @@
 package com.example.habit;
 
-import static android.graphics.Bitmap.CompressFormat.PNG;
-
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +34,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.google.android.gms.maps.model.LatLng;
-
 import java.util.Objects;
 
 public class AddHabitEventFragment extends DialogFragment {
@@ -40,6 +49,9 @@ public class AddHabitEventFragment extends DialogFragment {
     private EditText commentsEditText;
     private Button locationb;
 
+    ImageView photoView;
+    ConstraintLayout noPhotoFrame;
+    ConstraintLayout photoFrame;
     SharedPreferences sharedPref;
 
     ImageButton addButton;
@@ -47,6 +59,11 @@ public class AddHabitEventFragment extends DialogFragment {
     ImageButton photoButton;
     ImageView imageView4;       // TODO: @JUSTIN this is the image we have for this event
 
+    PhotoUtil photoUtil;
+    String currentPhotoPath;
+    Bitmap photo;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     /**
      * Create a new fragment to add a HabitEvent
@@ -69,14 +86,23 @@ public class AddHabitEventFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         TextView title = view.findViewById(R.id.habit_event_title);
         title.setText(habit.getTitle() + " Event");
-        imageView4= view.findViewById(R.id.imageView4);
+      
+        // Get photo and related views
+        photoFrame = view.findViewById(R.id.photoFrame);
+        noPhotoFrame = view.findViewById(R.id.noPhotoFrame);
+        photoView = view.findViewById(R.id.habitEventPhotoFrame);
         // Get EditTexts
 
+        // Get EditTexts
         locationEditText = view.findViewById(R.id.location_edit_text);
         commentsEditText = view.findViewById(R.id.comments_edit_text);
         locationb=view.findViewById(R.id.locationb);
+
         // Set add button
         addButton = view.findViewById(R.id.addHabitEventButton);
+
+        // PhotoUtil class for handling photos
+        photoUtil = new PhotoUtil();
 
         locationb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +117,6 @@ public class AddHabitEventFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-              //  Intent intent = new Intent(getActivity(), camera.class);
-               // startActivity(intent);
                 // photo = ...; // TODO: @qg Properly get and set photo here
                 String location = locationEditText.getText().toString(); // TODO: @qg Properly get and set location here, will have to change from string
                 String comments = commentsEditText.getText().toString();
@@ -100,6 +124,10 @@ public class AddHabitEventFragment extends DialogFragment {
                 // Create HabitEvent and add to DB
                 habitEvent = new HabitEvent(location, comments); // TODO: @qg Will have to add a "photo" property to the HabitEvent class and change the constructor
                 Habit.addEvent(habit.getHabitId(), habitEvent);
+
+                // Store photo in Firebase Storage
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                photoUtil.storePhoto(habitEvent.getHabitEventId(), photo);
 
                 // Close dialog
                 Objects.requireNonNull(getDialog()).dismiss();
@@ -120,16 +148,103 @@ public class AddHabitEventFragment extends DialogFragment {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,100);
 
-                // TODO: @qg Add what happens when use clicks the photo button in HabitEvent fragment
+                // Request camera permission
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
+                            Manifest.permission.CAMERA
+                    }, 100);
+                }
+
+                // Open Camera
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Fragment frag = AddHabitEventFragment.this;
+
+                // Get filepath
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(getContext(),
+                            "com.example.android.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    System.out.println("PhotoURI: " + photoURI);
+                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                }
+                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
             }
         });
 
         // Build and return dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder.setView(view).create();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+
+                // Hide button
+                noPhotoFrame.setVisibility(View.INVISIBLE);
+
+                // Set the picture to map
+                photo = setPic();
+            }
+        }
+    }
+
+    private Bitmap setPic() {
+        // Get the dimensions of the View
+        int targetW = photoView.getWidth();
+        int targetH = photoView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        photoView.setImageBitmap(bitmap);
+        return bitmap;
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,     /* prefix */
+                ".jpg",      /* suffix */
+                storageDir         /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     /**
@@ -144,8 +259,6 @@ public class AddHabitEventFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        imageView4.setVisibility(View.INVISIBLE);
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -156,22 +269,5 @@ public class AddHabitEventFragment extends DialogFragment {
         int width = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_width);
         int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
         getDialog().getWindow().setLayout(width, height);
-
-
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100) {
-            //Get Capture Image
-            Bitmap captureImage = (Bitmap) data.getExtras().get("data");
-            //Set Capture Image to ImageView
-            //  imageView.setImageBitmap(captureImage);
-            Intent intent = new Intent(getActivity(),camera.class);
-            intent.putExtra("bitmap", captureImage);
-            imageView4.setImageBitmap(intent.getParcelableExtra("bitmap"));
-            imageView4.setVisibility(View.VISIBLE);
-        }
-
     }
 }
