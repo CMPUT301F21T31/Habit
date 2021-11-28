@@ -61,9 +61,9 @@
         android:background="@drawable/rounded_corners_button_not_clicked"
         android:fontFamily="@font/lato_bold"
         android:text="@string/today_button_text"
+        android:textAllCaps="false"
         android:textColor="@color/Lighter_Gray_Text"
         android:textSize="@dimen/button_text_size"
-        android:textAllCaps="false"
         app:layout_constraintStart_toEndOf="@+id/habit_list_all_button"
         app:layout_constraintTop_toTopOf="@+id/habit_list_all_button" />
 
@@ -93,17 +93,6 @@
         app:tint="@color/Lighter_Gray_Text" />
 
     <ImageButton
-        android:id="@+id/feedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/Dark_Gray_Background"
-        app:layout_constraintEnd_toStartOf="@+id/homeButton"
-        app:layout_constraintTop_toTopOf="@+id/homeButton"
-        app:srcCompat="@drawable/ic_baseline_list_alt_24"
-        app:tint="@color/Lighter_Gray_Text" />
-
-    <ImageButton
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,30 +100,30 @@
         android:backgroundTint="@color/Dark_Gray_Background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_home_24"
-        app:tint="@color/Light_Gray_Text_Background" />
+        app:tint="@color/Lighter_Gray_Text" />
 
     <ImageButton
         android:id="@+id/friendsButton"
         android:layout_width="72dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:backgroundTint="@color/Dark_Gray_Background"
-        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/homeButton"
         app:srcCompat="@drawable/ic_baseline_people_24"
-        app:tint="@color/Lighter_Gray_Text" />
+        app:tint="@color/Light_Gray_Text_Background" />
 
     <ImageButton
         android:id="@+id/logoutButton"
-        android:layout_width="22dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:backgroundTint="@color/Dark_Gray_Background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/habit_list_all_button"
+        app:layout_constraintTop_toTopOf="@+id/greeting"
         app:srcCompat="@drawable/ic_baseline_logout_24"
         app:tint="@color/Lighter_Gray_Text" />
 

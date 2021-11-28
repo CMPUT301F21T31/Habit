@@ -1,6 +1,7 @@
 package com.example.habit;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public class HabitList extends ArrayAdapter<Habit> {
     private Context context;
     private Boolean daily;
     private User user;
+    static Boolean anima=true;
 
     // Buttons to move habit up or down
     ImageButton upButton;
@@ -67,6 +70,7 @@ public class HabitList extends ArrayAdapter<Habit> {
      * @param parent Parent view of the element
      * @return View for element
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -92,6 +96,7 @@ public class HabitList extends ArrayAdapter<Habit> {
 
         // Get single habit
         habit = habits.get(position);
+        anima = true;
 
         // Set fields depending on which type of HabitList this is
         if (daily) {
@@ -106,10 +111,25 @@ public class HabitList extends ArrayAdapter<Habit> {
             TextView habitName = view.findViewById(R.id.habit_name_text);
             TextView occurence = view.findViewById(R.id.habit_occurence_text);
             ProgressBar progress = view.findViewById(R.id.habit_progress_bar);
-            progressbaranimation baranimation = new progressbaranimation(progress, 0, 100);
-            baranimation.setDuration(1000);
-            progress.startAnimation(baranimation);
 
+            int planned = habit.totalPlanned();
+            float completedPercent;
+            if (planned > 0) {
+                completedPercent = ((float) habit.getCompleted() / habit.totalPlanned())*100;
+            } else {
+                completedPercent = 100;
+            }
+
+            if(anima==true) {
+                progressbaranimation baranimation = new progressbaranimation(progress, 0, completedPercent);
+                baranimation.setDuration(1000);
+                progress.startAnimation(baranimation);
+                anima=false;
+                // replace 100 with motion data on progress
+            }
+            else{progress.setProgress(100);
+                // replace 100 with static data on progress
+            }
             // Set fields
             habitName.setText(habit.getTitle());
         }

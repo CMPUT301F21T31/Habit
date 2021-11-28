@@ -1,21 +1,32 @@
 package com.example.habit;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -367,17 +378,15 @@ public class Habit implements Parcelable {
 //    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private int totalPlanned() {
+    public int totalPlanned() {
 
         int planned = 0;
 
+        long numOfDaysBetween = ChronoUnit.DAYS.between(start.toInstant(), end.toInstant());
+
         // Convert dates to local dates
-        LocalDate s = start.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate e = end.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
+        LocalDate s = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate e = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         // Loop through all days between start and end, incrementing counter
         LocalDate localDate = s;
@@ -386,6 +395,7 @@ public class Habit implements Parcelable {
             if (this.isOnDay(dow.getDisplayName(TextStyle.FULL, Locale.getDefault()))) {
                 planned++;
             }
+            localDate = localDate.plusDays(1);
         }
 
         return planned;

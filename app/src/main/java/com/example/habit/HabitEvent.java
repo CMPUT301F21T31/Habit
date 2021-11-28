@@ -1,6 +1,20 @@
 package com.example.habit;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Class denoting an instance (event) of a particular Habit
@@ -8,30 +22,34 @@ import android.util.Log;
 public class HabitEvent {
 
     // private photo // TODO: How should we store photos?
-    private String location; // TODO: Will have to change this to store an actual location
+    private Double latitude;
+    private Double longitude;
     private String comments;
     private String habitId;
     private String habitEventId;
     private int state; // 1=pending, 2=complete, 3=incomplete
+    private String photoPath;
 
     /**
      *
-     * @param location String location for this HabitEvent
-     * @param comments String comments for this HabitEvent
+     * @param latitude
+     * @param longitude
+     * @param comment
      */
-    public HabitEvent(String location, String comments) {
-        this.location = location;
-        this.comments = comments;
+    public HabitEvent(Double latitude, Double longitude, String comment) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.comments = comment;
     }
 
     /**
      *
-     * @param location String location for this HabitEvent
-     * @param comments String comments for this HabitEvent
-     * @param state String state for this HabitEvent, 1=pending, 2=complete, 3=incomplete
+     * @param comments
+     * @param state
      */
-    public HabitEvent(String location, String comments, int state) {
-        this.location = location;
+    public HabitEvent(String comments, int state) {
+        this.latitude = null;
+        this.longitude = null;
         this.comments = comments;
 
         // Default state to "pending" if invalid one is passed in
@@ -44,18 +62,20 @@ public class HabitEvent {
 
     public HabitEvent() {}
 
-    /** Get location of this habit event
-     * @return String location
-     */
-    public String getLocation() {
-        return location;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    /** Set location for this habit event
-     * @param location String location
-     */
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     /**
@@ -121,5 +141,38 @@ public class HabitEvent {
         if (state > 0 && state < 4) {
             this.state = state;
         }
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    public static void storeImage(String habitEventId, Bitmap bitmap) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://habit-bb585.appspot.com");
+        StorageReference imageRef = storageRef.child(habitEventId + ".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                db.collection("habitEvents").document(habitEventId).update("photoPath", imageRef.getPath());
+            }
+        });
     }
 }

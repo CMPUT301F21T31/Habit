@@ -56,7 +56,7 @@ public class viewOnlyHabitEvent extends DialogFragment {
         commentsTextView = view.findViewById(R.id.comments_view_text);
 
         // Set text fields
-        locationTextView.setText(habitEvent.getLocation());
+//        locationTextView.setText(habitEvent.getLocation());
         commentsTextView.setText(habitEvent.getComments());
 
         // Set back button
