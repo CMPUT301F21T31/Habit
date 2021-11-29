@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -227,6 +228,7 @@ public class HabitListActivity extends AppCompatActivity {
                 if (index == 0) {
 
                 } else {
+
                     // Habit occurrence completed - increment completed count + add event
                     new AddHabitEventFragment(habit)
                             .show(getSupportFragmentManager(), "ADD_HabitEvent");

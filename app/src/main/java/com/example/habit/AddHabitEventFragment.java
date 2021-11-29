@@ -121,15 +121,24 @@ public class AddHabitEventFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                // Get reference to this fragment and create MapsActivity
-                Fragment frag = AddHabitEventFragment.this;
-                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    }, 1);
+                } else {
+                    System.out.println("Permission granted");
 
-                // Include lat and lon in intent
-                intent.putExtra("lat", latitude);
-                intent.putExtra("lon", longitude);
+                    // Get reference to this fragment and create MapsActivity
+                    Fragment frag = AddHabitEventFragment.this;
+                    Intent intent = new Intent(getActivity(), MapsActivity.class);
 
-                frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
+                    // Include lat and lon in intent
+                    intent.putExtra("lat", latitude);
+                    intent.putExtra("lon", longitude);
+
+                    frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
+                }
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -172,30 +181,31 @@ public class AddHabitEventFragment extends DialogFragment {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{
                             Manifest.permission.CAMERA
                     }, 100);
-                }
+                } else {
 
-                // Open Camera
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Fragment frag = AddHabitEventFragment.this;
+                    // Open Camera
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Fragment frag = AddHabitEventFragment.this;
 
-                // Get filepath
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    // Get filepath
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(getContext(),
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    System.out.println("PhotoURI: " + photoURI);
-                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getContext(),
+                                "com.example.android.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        System.out.println("PhotoURI: " + photoURI);
+                        System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    }
+                    frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
 
@@ -209,30 +219,31 @@ public class AddHabitEventFragment extends DialogFragment {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{
                             Manifest.permission.CAMERA
                     }, 100);
-                }
+                } else {
 
-                // Open Camera
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Fragment frag = AddHabitEventFragment.this;
+                    // Open Camera
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Fragment frag = AddHabitEventFragment.this;
 
-                // Get filepath
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    // Get filepath
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(getContext(),
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    System.out.println("PhotoURI: " + photoURI);
-                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getContext(),
+                                "com.example.android.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        System.out.println("PhotoURI: " + photoURI);
+                        System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    }
+                    frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
 

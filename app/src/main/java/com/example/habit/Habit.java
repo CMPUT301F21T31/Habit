@@ -54,7 +54,7 @@ public class Habit implements Parcelable {
     private Boolean ifPublic;
     private int listPosition;
 
-    private static final List<String> days = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+//    private static final
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -384,7 +384,7 @@ public class Habit implements Parcelable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getOccursText() {
-
+        List<String> days = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
         Map<String, String> abbreviations = new HashMap<String, String>() {{
             put("Monday", "Mon");
             put("Tuesday", "Tues");
@@ -404,8 +404,8 @@ public class Habit implements Parcelable {
         return String.join(", ", s);
     }
 
-    public ArrayList<Boolean> getOccursArray() {
-
+    public ArrayList<Boolean> daysList() {
+        List<String> days = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
         ArrayList<Boolean> o = new ArrayList<>();
         for (String day : days) {
             o.add(this.isOnDay(day));

@@ -35,5 +35,6 @@
     <string name="location_permission_denied">0</string>
     <string name="permission_required_toast">1</string>
     <string name="permission_rationale_location">location</string>
+    <string name="maps_api_key">AIzaSyDhrBnPkVHgMjDE6S4ieafB_dHXS3GSUCU</string>
     <string name="title_activity_maps2">MapsActivity2</string>
 </resources>

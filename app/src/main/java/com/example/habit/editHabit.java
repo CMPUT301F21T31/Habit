@@ -138,7 +138,7 @@ public class editHabit extends AppCompatActivity {
         User curr_user;
 
         Habit selected_habit = getIntent().getExtras().getParcelable("habit");
-        recurrence = selected_habit.getOccursArray();
+        recurrence = selected_habit.daysList();
         Log.i("GOT HABIT", selected_habit.toString());
 
         // Set initial start and end values to those from the edited habit

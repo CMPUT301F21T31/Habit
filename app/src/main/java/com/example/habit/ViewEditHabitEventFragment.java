@@ -77,6 +77,7 @@ public class ViewEditHabitEventFragment extends DialogFragment {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_MAP_LOCATION = 2;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     final long ONE_MEGABYTE = 1024 * 1024;
 
     /**
@@ -128,14 +129,16 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
         // Get and display more info about the location
-        try {
-            List<Address> addresses = null;
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            Address address = addresses.get(0);
-            locationEditText.setText(address.getAddressLine(0));
-            System.out.println("Got address");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (latitude != null && longitude != null) {
+            try {
+                List<Address> addresses = null;
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                Address address = addresses.get(0);
+                locationEditText.setText(address.getAddressLine(0));
+                System.out.println("Got address");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         // Get photo
@@ -213,30 +216,31 @@ public class ViewEditHabitEventFragment extends DialogFragment {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{
                             Manifest.permission.CAMERA
                     }, 100);
-                }
+                } else {
 
-                // Open Camera
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Fragment frag = ViewEditHabitEventFragment.this;
+                    // Open Camera
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Fragment frag = ViewEditHabitEventFragment.this;
 
-                // Get filepath
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    // Get filepath
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(getContext(),
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    System.out.println("PhotoURI: " + photoURI);
-                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getContext(),
+                                "com.example.android.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        System.out.println("PhotoURI: " + photoURI);
+                        System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    }
+                    frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
             }
         });
@@ -251,30 +255,31 @@ public class ViewEditHabitEventFragment extends DialogFragment {
                     ActivityCompat.requestPermissions(requireActivity(), new String[]{
                             Manifest.permission.CAMERA
                     }, 100);
-                }
+                } else {
 
-                // Open Camera
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Fragment frag = ViewEditHabitEventFragment.this;
+                    // Open Camera
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Fragment frag = ViewEditHabitEventFragment.this;
 
-                // Get filepath
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    // Get filepath
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(getContext(),
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    System.out.println("PhotoURI: " + photoURI);
-                    System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(getContext(),
+                                "com.example.android.fileprovider",
+                                photoFile);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        System.out.println("PhotoURI: " + photoURI);
+                        System.out.println("PhotoFile: " + photoFile.getAbsolutePath());
+                    }
+                    frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-                frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         });
 
@@ -283,15 +288,24 @@ public class ViewEditHabitEventFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                // Get reference to this fragment and create MapsActivity
-                Fragment frag = ViewEditHabitEventFragment.this;
-                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                // Request location permission
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    }, 1);
+                } else {
+                    System.out.println("Permission granted");
+                    // Get reference to this fragment and create MapsActivity
+                    Fragment frag = ViewEditHabitEventFragment.this;
+                    Intent intent = new Intent(getActivity(), MapsActivity.class);
 
-                // Include lat and lon in intent
-                intent.putExtra("lat", latitude);
-                intent.putExtra("lon", longitude);
+                    // Include lat and lon in intent
+                    intent.putExtra("lat", latitude);
+                    intent.putExtra("lon", longitude);
 
-                frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
+                    frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
+                }
             }
         });
 
