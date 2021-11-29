@@ -44,7 +44,7 @@ import com.example.habit.entities.Habit;
 import com.example.habit.entities.HabitEvent;
 import com.example.habit.utilities.PhotoUtil;
 import com.example.habit.R;
-import com.example.habit.activity.MapsActivity;
+import com.example.habit.activities.MapsActivity;
 
 import java.util.List;
 import java.util.Locale;

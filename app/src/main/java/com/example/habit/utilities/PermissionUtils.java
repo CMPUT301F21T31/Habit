@@ -27,7 +27,7 @@ import androidx.fragment.app.DialogFragment;
 import android.widget.Toast;
 
 import com.example.habit.R;
-import com.example.habit.activity.MapsActivity;
+import com.example.habit.activities.MapsActivity;
 
 /**
  * Utility class for access to runtime permissions.

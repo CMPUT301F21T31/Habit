@@ -1,4 +1,4 @@
-package com.example.habit.activity;
+package com.example.habit.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

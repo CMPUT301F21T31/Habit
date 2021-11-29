@@ -1,4 +1,4 @@
-package com.example.habit.activity;
+package com.example.habit.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

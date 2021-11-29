@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Dark_Gray_Background"
-    tools:context=".activity.HabitListActivity">
+    tools:context=".activities.HabitListActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout"

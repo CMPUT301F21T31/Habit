@@ -38,7 +38,7 @@ import com.example.habit.entities.Habit;
 import com.example.habit.entities.HabitEvent;
 import com.example.habit.utilities.PhotoUtil;
 import com.example.habit.R;
-import com.example.habit.activity.MapsActivity;
+import com.example.habit.activities.MapsActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
