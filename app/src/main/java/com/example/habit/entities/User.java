@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Class denoting a single User, having a list of Habits
+ * @author Justin
+ * Class denoting a single User of our app. This is the most basic entity class for
+ * our app. Properties of this class are what we store in the database.
  */
 public class User {
 
@@ -32,8 +34,7 @@ public class User {
     private ArrayList<String> requests;
 
     /**
-     * Constructor for a User object with all properties. This is the most basic entity class for
-     * our app. Properties of this class are what we store in the database.
+     * Constructor for a User object with all properties.
      * @param displayName String non-unique name used to refer to user within app
      * @param email String unique email used for firebase authentication and follow requests
      * @param uuid String uuid of user from firebase, used as key for User records in database

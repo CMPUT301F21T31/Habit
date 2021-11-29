@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  * Class denoting a single Habit, belonging to a single User object and having a list of HabitEvents
- * @author justin
+ * @author Justin
  * @see android.app.Activity
  * @see android.content.Context
  */
@@ -47,14 +47,15 @@ public class Habit implements Parcelable {
 
     /**
      * Constructor for a new habit
-     * @param title
-     * @param reason
-     * @param start
-     * @param end
-     * @param daysOfWeek
-     * @param events
-     * @param ifPublic
-     * @param listPosition
+     * @param title String title for this habit
+     * @param reason String reason for this habit, i.e. motivation for doing it
+     * @param start Date that this Habit starts
+     * @param end Date that this Habit ends
+     * @param daysOfWeek Hashmap of days that this habit occurs every week
+     * @param events Array of strings representing habit event IDs for this habit
+     * @param ifPublic Boolean indicating if this is a public habit, i.e. should it be visible to
+     *                 users that follow you
+     * @param listPosition Integer representing position in the habit list
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
             Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic, int listPosition) {
@@ -71,13 +72,14 @@ public class Habit implements Parcelable {
 
     /**
      * Habit constructor without events, will create Habit with empty events array
-     * @param title
-     * @param reason
-     * @param start
-     * @param end
-     * @param daysOfWeek
-     * @param ifPublic
-     * @param listPosition
+     * @param title String title for this habit
+     * @param reason String reason for this habit, i.e. motivation for doing it
+     * @param start Date that this Habit starts
+     * @param end Date that this Habit ends
+     * @param daysOfWeek Hashmap of days that this habit occurs every week
+     * @param ifPublic Boolean indicating if this is a public habit, i.e. should it be visible to
+     *                 users that follow you
+     * @param listPosition Integer representing position in the habit list
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
             Boolean> daysOfWeek, Boolean ifPublic, int listPosition) {
@@ -172,7 +174,7 @@ public class Habit implements Parcelable {
 
     /**
      * set the habit title
-     * @param title
+     * @param title String title to set for this habit
      */
     public void setTitle(String title) {
         this.title = title;
@@ -284,7 +286,7 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * get a boolean value of this habit is it a public or private habit
+     * Get boolean value indicating if this is a public or private habit
      * @return Boolean containing ifPublic
      */
     public Boolean getIfPublic() {
@@ -292,24 +294,24 @@ public class Habit implements Parcelable {
     }
 
     /**
-     * set a boolean value of this habit is it a public or private habit
-     * @param ifPublic
+     * Set boolean value indicating if this is a public or private habit
+     * @param ifPublic Boolean indicating if habit should be public or private
      */
     public void setIfPublic(Boolean ifPublic) {
         this.ifPublic = ifPublic;
     }
 
     /**
-     * get the position of the habit in habitList
-     * @return int containing listPosition
+     * Get the position of the habit in habitList
+     * @return int containing position in the habit list
      */
     public int getListPosition() {
         return listPosition;
     }
 
     /**
-     * set the position of the habit in habitList
-     * @param listPosition
+     * Set the position of the habit in habitList
+     * @param listPosition int position in the habit list
      */
     public void setListPosition(int listPosition) {
         this.listPosition = listPosition;
@@ -509,8 +511,8 @@ public class Habit implements Parcelable {
 
     /**
      * Update an existing habitEvent in DB
-     * @param habitEventId
-     * @param habitEvent
+     * @param habitEventId String containing event ID to update
+     * @param habitEvent HabitEvent object to use in update
      */
     public static void updateHabitEvent(String habitEventId, HabitEvent habitEvent) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

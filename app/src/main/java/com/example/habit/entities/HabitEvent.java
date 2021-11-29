@@ -18,13 +18,10 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Class denoting an instance (event) of a particular Habit
- * @author justin
- * @see android.app.Activity
- * @see android.content.Context
+ * @author Justin
  */
 public class HabitEvent {
 
-    // private photo // TODO: How should we store photos?
     private Double latitude;
     private Double longitude;
     private String comments;
@@ -34,10 +31,10 @@ public class HabitEvent {
     private String photoPath;
 
     /**
-     * new class to temporary store a habit event object
-     * @param latitude
-     * @param longitude
-     * @param comment
+     * Create a new HabitEvent with latitude, longitude, and comment
+     * @param latitude Double representing latitude of where habit event occurred
+     * @param longitude Double representing longitude of where habit event occurred
+     * @param comment String comment for this habit event
      */
     public HabitEvent(Double latitude, Double longitude, String comment) {
         this.latitude = latitude;
@@ -47,8 +44,8 @@ public class HabitEvent {
 
     /**
      *
-     * @param comments
-     * @param state
+     * @param comments String comment for this habit event
+     * @param state State of this habit event
      */
     public HabitEvent(String comments, int state) {
         this.latitude = null;
