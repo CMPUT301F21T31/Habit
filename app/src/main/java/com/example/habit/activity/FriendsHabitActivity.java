@@ -1,13 +1,11 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.habit.entities.Habit;
+import com.example.habit.R;
+import com.example.habit.entities.User;
+import com.example.habit.adapters.HabitListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,9 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * US 05.03.01
@@ -38,7 +38,7 @@ import java.util.Date;
  * @see android.app.Activity
  * @see android.content.Context
  */
-public class FriendsHabit extends AppCompatActivity {
+public class FriendsHabitActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseFirestore db;
@@ -50,7 +50,7 @@ public class FriendsHabit extends AppCompatActivity {
     ListView habitList;
     ImageButton back;
     ArrayList<Habit> dataList;
-    HabitList habitListAdapter;
+    HabitListAdapter habitListAdapter;
 
     /**
      * This method is including updating database and setting the functionalities for all items
@@ -61,7 +61,7 @@ public class FriendsHabit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friends_habit);
+        setContentView(R.layout.activity_friends_habit);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -71,7 +71,7 @@ public class FriendsHabit extends AppCompatActivity {
         back = findViewById((R.id.back));
 
         dataList = new ArrayList<>();
-        habitListAdapter = new HabitList(this, dataList, false, true);
+        habitListAdapter = new HabitListAdapter(this, dataList, false, true);
         habitList.setAdapter(habitListAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class FriendsHabit extends AppCompatActivity {
         habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent1 = new Intent(FriendsHabit.this, viewOnlyHabit.class);
+                Intent intent1 = new Intent(FriendsHabitActivity.this, ViewOnlyHabitActivity.class);
                 Habit habitToView = habitListAdapter.getItem(position);
                 intent1.putExtra("habit", habitToView);
                 startActivity(intent1);

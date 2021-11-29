@@ -1,52 +1,40 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
+import com.example.habit.fragments.AddHabitEventFragment;
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.HabitEvent;
+import com.example.habit.R;
+import com.example.habit.entities.User;
+import com.example.habit.fragments.ViewEditHabitEventFragment;
+import com.example.habit.adapters.HabitEventListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Time;
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -58,7 +46,7 @@ import java.util.HashMap;
  * @see android.app.Activity
  * @see android.content.Context
  */
-public class editHabit extends AppCompatActivity {
+public class EditHabitActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseFirestore db;
@@ -88,7 +76,7 @@ public class editHabit extends AppCompatActivity {
     TextView endYear;
     ListView habitEventsListView;
     ArrayList<HabitEvent> habitEventsDataList;
-    HabitEventList habitEventAdapter;
+    HabitEventListAdapter habitEventAdapter;
 
     Calendar calendar;
 
@@ -113,7 +101,7 @@ public class editHabit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_habit);
+        setContentView(R.layout.activity_edit_habit);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -155,7 +143,7 @@ public class editHabit extends AppCompatActivity {
 
         // Setup habit events list
         habitEventsDataList = new ArrayList<>();
-        habitEventAdapter = new HabitEventList(this, habitEventsDataList, selected_habit);
+        habitEventAdapter = new HabitEventListAdapter(this, habitEventsDataList, selected_habit);
         habitEventsListView = findViewById(R.id.habit_event_list);
         habitEventsListView.setAdapter(habitEventAdapter);
 
@@ -344,7 +332,7 @@ public class editHabit extends AppCompatActivity {
 //                int month = calendar.get(Calendar.MONTH);
 //                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog startDateDialog = new DatePickerDialog(editHabit.this,
+                DatePickerDialog startDateDialog = new DatePickerDialog(EditHabitActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -373,7 +361,7 @@ public class editHabit extends AppCompatActivity {
 //                int month = calendar.get(Calendar.MONTH);
 //                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog endDateDialog = new DatePickerDialog(editHabit.this,
+                DatePickerDialog endDateDialog = new DatePickerDialog(EditHabitActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

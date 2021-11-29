@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

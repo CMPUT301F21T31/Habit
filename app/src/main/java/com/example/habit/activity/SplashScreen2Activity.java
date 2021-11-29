@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 
+import com.example.habit.R;
+import com.example.habit.animations.ProgressBarAnimation;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class splashscreen2 extends AppCompatActivity {
+public class SplashScreen2Activity extends AppCompatActivity {
 private ProgressBar progress;
 private int from=0;
 private int to=100;
@@ -19,14 +22,14 @@ private Timer timer;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen2);
         progress=findViewById(R.id.STARTBAR);
-        progressbaranimation anim = new progressbaranimation(progress, from, to);
+        ProgressBarAnimation anim = new ProgressBarAnimation(progress, from, to);
         anim.setDuration(1000);
         progress.startAnimation(anim);
         timer=new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Intent intent=new Intent(splashscreen2.this,LoginActivity.class);
+                Intent intent=new Intent(SplashScreen2Activity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

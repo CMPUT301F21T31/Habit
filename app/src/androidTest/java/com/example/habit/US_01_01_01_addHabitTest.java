@@ -38,20 +38,20 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class US_01_01_01_addHabitTest {
 
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+//    @Rule
+//    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void uS_01_01_01_addHabitTest() {
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        appCompatButton.perform(click());
+//        ViewInteraction appCompatButton = onView(
+//                allOf(withId(R.id.goTo_login_button), withText("Skip Tutorial"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                3),
+//                        isDisplayed()));
+//        appCompatButton.perform(click());
 
         /*
         ViewInteraction appCompatEditText = onView(

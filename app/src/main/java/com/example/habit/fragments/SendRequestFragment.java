@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,18 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.habit.R;
+import com.example.habit.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -28,7 +27,7 @@ import java.util.Objects;
  * @see android.app.Activity
  * @see android.content.Context
  */
-public class sendRequest extends DialogFragment {
+public class SendRequestFragment extends DialogFragment {
 
     private FirebaseAuth auth;
     FirebaseUser user;

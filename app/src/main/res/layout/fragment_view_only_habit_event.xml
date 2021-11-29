@@ -7,7 +7,7 @@
     android:layout_margin="30dp"
     android:background="@drawable/rounded_box"
     android:backgroundTint="@color/Medium_Gray_Background"
-    tools:context=".ViewEditHabitEventFragment">
+    tools:context=".fragments.ViewEditHabitEventFragment">
 
     <TextView
         android:id="@+id/location_view_text"

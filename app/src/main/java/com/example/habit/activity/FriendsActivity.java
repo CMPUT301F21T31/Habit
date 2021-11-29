@@ -1,10 +1,9 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,11 +17,14 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.example.habit.R;
+import com.example.habit.entities.User;
+import com.example.habit.adapters.FriendsListAdapter;
+import com.example.habit.fragments.SendRequestFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,8 +49,8 @@ public class FriendsActivity extends AppCompatActivity {
     // Lists
     ArrayList<User> followingListData;
     ArrayList<User> followRequestListData;
-    FriendsList followingListAdapter;
-    FriendsList followRequestListAdapter;
+    FriendsListAdapter followingListAdapter;
+    FriendsListAdapter followRequestListAdapter;
     SwipeMenuListView followingListView;
     SwipeMenuListView followRequestListView;
     SwipeMenuCreator followingSwipeCreator;
@@ -73,8 +75,8 @@ public class FriendsActivity extends AppCompatActivity {
         // Initialize lists data, views, and adapters
         followingListData = new ArrayList<User>();
         followRequestListData = new ArrayList<User>();
-        followingListAdapter = new FriendsList(this, 0, followingListData, 0);
-        followRequestListAdapter = new FriendsList(this, 0, followRequestListData, 1);
+        followingListAdapter = new FriendsListAdapter(this, 0, followingListData, 0);
+        followRequestListAdapter = new FriendsListAdapter(this, 0, followRequestListData, 1);
         followingListView = findViewById(R.id.following_list);
         followRequestListView = findViewById(R.id.follow_requests_list);
         followingListView.setAdapter(followingListAdapter);
@@ -240,7 +242,7 @@ public class FriendsActivity extends AppCompatActivity {
                         User.stopFollowing(user.getUuid(), clickedUser.getUuid());
 
                     case 2:
-                        Intent intent = new Intent(FriendsActivity.this, FriendsHabit.class);
+                        Intent intent = new Intent(FriendsActivity.this, FriendsHabitActivity.class);
                         String userId = clickedUser.getUuid();
                         intent.putExtra("user id", userId);
                         startActivity(intent);
@@ -353,7 +355,7 @@ public class FriendsActivity extends AppCompatActivity {
         followRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new sendRequest().show(getSupportFragmentManager(), "send request");
+                new SendRequestFragment().show(getSupportFragmentManager(), "send request");
             }
         });
     }

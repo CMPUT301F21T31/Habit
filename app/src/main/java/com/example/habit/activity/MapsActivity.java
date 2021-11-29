@@ -1,6 +1,5 @@
-package com.example.habit;
+package com.example.habit.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import androidx.annotation.NonNull;
@@ -21,9 +19,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.airbnb.lottie.L;
+import com.example.habit.R;
 import com.example.habit.databinding.ActivityMapsBinding;
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;

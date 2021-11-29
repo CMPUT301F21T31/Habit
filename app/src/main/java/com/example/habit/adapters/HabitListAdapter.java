@@ -116,10 +116,10 @@ public class HabitListAdapter extends ArrayAdapter<Habit> {
             Log.i("HABIT VIEW NOTE", "VIEW NULL");
             if (daily) {
                 // Use daily habit content view
-                view = LayoutInflater.from(context).inflate(R.layout.daily_habit_content, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.daily_habit_list_content, parent, false);
             } else {
                 // Use all habit content view
-                view = LayoutInflater.from(context).inflate(R.layout.all_habit_content, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.all_habit_list_content, parent, false);
 
                 // Get buttons for all view
                 upButton = view.findViewById(R.id.moveHabitUpButton);

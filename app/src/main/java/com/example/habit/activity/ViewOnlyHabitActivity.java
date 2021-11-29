@@ -1,21 +1,24 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.HabitEvent;
+import com.example.habit.R;
+import com.example.habit.entities.User;
+import com.example.habit.adapters.HabitEventListAdapter;
+import com.example.habit.fragments.ViewOnlyHabitEventFragment;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -37,7 +40,7 @@ import java.util.HashMap;
  * @see android.app.Activity
  * @see android.content.Context
  */
-public class viewOnlyHabit extends AppCompatActivity {
+public class ViewOnlyHabitActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseFirestore db;
@@ -60,7 +63,7 @@ public class viewOnlyHabit extends AppCompatActivity {
     TextView endYear;
     ListView habitEventsListView;
     ArrayList<HabitEvent> habitEventsDataList;
-    HabitEventList habitEventAdapter;
+    HabitEventListAdapter habitEventAdapter;
 
     int Syear;
     int Smonth;
@@ -79,7 +82,7 @@ public class viewOnlyHabit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_habit_details);
+        setContentView(R.layout.activity_view_only_habit);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -109,7 +112,7 @@ public class viewOnlyHabit extends AppCompatActivity {
 
         // Setup habit events list
         habitEventsDataList = new ArrayList<>();
-        habitEventAdapter = new HabitEventList(this, habitEventsDataList, selected_habit);
+        habitEventAdapter = new HabitEventListAdapter(this, habitEventsDataList, selected_habit);
         habitEventsListView = findViewById(R.id.habit_event_list);
         habitEventsListView.setAdapter(habitEventAdapter);
 
@@ -207,7 +210,7 @@ public class viewOnlyHabit extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("HABIT EVENT", "Item clicked");
-                new viewOnlyHabitEvent(habitEventAdapter.getItem(position), selected_habit).show(getSupportFragmentManager(), "VIEW/EDIT_HabitEvent");
+                new ViewOnlyHabitEventFragment(habitEventAdapter.getItem(position), selected_habit).show(getSupportFragmentManager(), "VIEW/EDIT_HabitEvent");
             }
         });
     }

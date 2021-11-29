@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
@@ -34,36 +35,35 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.HabitEvent;
+import com.example.habit.utilities.PhotoUtil;
+import com.example.habit.R;
+import com.example.habit.activity.MapsActivity;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-/**
- * Fragment to display a HabitEvent
- */
-public class ViewEditHabitEventFragment extends DialogFragment {
+public class AddHabitEventFragment extends DialogFragment {
 
     private Habit habit;
     private HabitEvent habitEvent;
-    private EditText locationEditText; // TODO: @qg change this
+    private EditText locationEditText;
     private EditText commentsEditText;
 
     ImageView photoView;
     ConstraintLayout noPhotoFrame;
     ConstraintLayout photoFrame;
+    SharedPreferences sharedPref;
 
+    ImageButton addButton;
     ImageButton backButton;
-    ImageButton deleteButton;
-    ImageButton editButton;
     ImageButton photoButton;
     ImageButton locationButton;
 
@@ -77,18 +77,14 @@ public class ViewEditHabitEventFragment extends DialogFragment {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_MAP_LOCATION = 2;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    final long ONE_MEGABYTE = 1024 * 1024;
 
     /**
-     * Get a new fragment to display a HabitEvent
-     * @param habitEvent HabitEvent to display
-     * @param habit Parent habit
+     * Create a new fragment to add a HabitEvent
+     * @param habit Habit object to which to add event
      */
-    public ViewEditHabitEventFragment(HabitEvent habitEvent, Habit habit) {
-        this.habitEvent = habitEvent;
-        this.habit = habit;
-    }
+     public AddHabitEventFragment(Habit habit) {
+         this.habit = habit;
+     }
 
     /**
      * Set fields in fragment view
@@ -100,87 +96,69 @@ public class ViewEditHabitEventFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_view_edit_habit_event, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_habit_event, null);
         TextView title = view.findViewById(R.id.habit_event_title);
         title.setText(habit.getTitle() + " Event");
-
-        // Get EditTexts
-        locationEditText = view.findViewById(R.id.location_edit_text);
-        commentsEditText = view.findViewById(R.id.comments_edit_text);
-
-        // Set text fields
-        commentsEditText.setText(habitEvent.getComments());
-
-        // Buttons
-        backButton = view.findViewById(R.id.backHabitEventButton);
-        deleteButton = view.findViewById(R.id.deleteHabitEventButton);
-        editButton = view.findViewById(R.id.addHabitEventButton);
-        photoButton = view.findViewById(R.id.habitEventPhotoButton);
-        locationButton = view.findViewById(R.id.locationButton);
-
+      
         // Get photo and related views
         photoFrame = view.findViewById(R.id.photoFrame);
         noPhotoFrame = view.findViewById(R.id.noPhotoFrame);
         photoView = view.findViewById(R.id.habitEventPhotoFrame);
 
-        // Get location
-        latitude = habitEvent.getLatitude();
-        longitude = habitEvent.getLongitude();
+        // Get EditTexts
+        locationEditText = view.findViewById(R.id.location_edit_text);
+        commentsEditText = view.findViewById(R.id.comments_edit_text);
+
+        // Get buttons
+        addButton = view.findViewById(R.id.addHabitEventButton);
+        locationButton = view.findViewById(R.id.locationButton);
+        backButton = view.findViewById(R.id.backHabitEventButton);
+        photoButton = view.findViewById(R.id.habitEventPhotoButton);
+
+        // PhotoUtil class for handling photos
+        photoUtil = new PhotoUtil();
+
+        // Get geocoder for extracting location details from lat/long
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
-        // Get and display more info about the location
-        if (latitude != null && longitude != null) {
-            try {
-                List<Address> addresses = null;
-                addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                Address address = addresses.get(0);
-                locationEditText.setText(address.getAddressLine(0));
-                System.out.println("Got address");
-            } catch (IOException e) {
-                e.printStackTrace();
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (ContextCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    }, 1);
+                } else {
+                    System.out.println("Permission granted");
+
+                    // Get reference to this fragment and create MapsActivity
+                    Fragment frag = AddHabitEventFragment.this;
+                    Intent intent = new Intent(getActivity(), MapsActivity.class);
+
+                    // Include lat and lon in intent
+                    intent.putExtra("lat", latitude);
+                    intent.putExtra("lon", longitude);
+
+                    frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
+                }
             }
-        }
-
-        // Get photo
-        PhotoUtil photoUtil = new PhotoUtil();
-
-        if (habitEvent.getPhotoPath() != null) {
-            StorageReference imageRef = photoUtil.storageRef.child(habitEvent.getPhotoPath());
-            imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    // Data for "images/island.jpg" is returns, use this as needed
-                    Bitmap photo = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    noPhotoFrame.setVisibility(View.INVISIBLE);
-                    photoView.setImageBitmap(photo);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                }
-            });
-        }
-
-        // Set edit button click listener
-        editButton.setOnClickListener(new View.OnClickListener() {
+        });
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Get and set comments
-                String comments = commentsEditText.getText().toString();
-                habitEvent.setComments(comments);
+                // Get comment string
+                String comment = commentsEditText.getText().toString();
 
-                // Set location
-                habitEvent.setLatitude(latitude);
-                habitEvent.setLongitude(longitude);
+                // Create HabitEvent and add to DB
+                habitEvent = new HabitEvent(latitude, longitude, comment);
+                Habit.addEvent(habit.getHabitId(), habitEvent);
 
-                // Update habit in DB
-                Habit.updateHabitEvent(habitEvent.getHabitEventId(), habitEvent);
-
-                // Update photo in Firebase Storage
+                // Store photo in Firebase Storage
                 if (photo != null) {
-                    photoUtil.storePhoto(habitEvent.getHabitEventId(), photo, true);
+                    photoUtil.storePhoto(habitEvent.getHabitEventId(), photo, false);
                 }
 
                 // Close dialog
@@ -188,16 +166,7 @@ public class ViewEditHabitEventFragment extends DialogFragment {
             }
         });
 
-        // Set delete button click listener
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Habit.deleteEvent(habit.getHabitId(), habitEvent.getHabitEventId());
-                Objects.requireNonNull(getDialog()).dismiss();
-            }
-        });
-
-        // Set back button click listener
+        // Set back button
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +189,7 @@ public class ViewEditHabitEventFragment extends DialogFragment {
 
                     // Open Camera
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    Fragment frag = ViewEditHabitEventFragment.this;
+                    Fragment frag = AddHabitEventFragment.this;
 
                     // Get filepath
                     File photoFile = null;
@@ -241,7 +210,6 @@ public class ViewEditHabitEventFragment extends DialogFragment {
                     }
                     frag.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
-
             }
         });
 
@@ -259,7 +227,7 @@ public class ViewEditHabitEventFragment extends DialogFragment {
 
                     // Open Camera
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    Fragment frag = ViewEditHabitEventFragment.this;
+                    Fragment frag = AddHabitEventFragment.this;
 
                     // Get filepath
                     File photoFile = null;
@@ -283,59 +251,11 @@ public class ViewEditHabitEventFragment extends DialogFragment {
             }
         });
 
-        // Set location button click listener
-        locationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Request location permission
-                if (ContextCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(requireActivity(), new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    }, 1);
-                } else {
-                    System.out.println("Permission granted");
-                    // Get reference to this fragment and create MapsActivity
-                    Fragment frag = ViewEditHabitEventFragment.this;
-                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-
-                    // Include lat and lon in intent
-                    intent.putExtra("lat", latitude);
-                    intent.putExtra("lon", longitude);
-
-                    frag.startActivityForResult(intent, REQUEST_MAP_LOCATION);
-                }
-            }
-        });
-
         // Build and return dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder.setView(view).create();
     }
 
-    /**
-     * Create a new fragment view
-     * @param inflater Inflater to use
-     * @param container Container for dialog
-     * @param savedInstanceState Previous state
-     * @return View for HabitEvent fragment
-     */
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        int width = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
-        getDialog().getWindow().setLayout(width, height);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -361,7 +281,7 @@ public class ViewEditHabitEventFragment extends DialogFragment {
                     longitude = null;
                 } else {
 
-                    // Get more info about the selected location
+                    // Get and display more info about the selected location
                     try {
                         List<Address> addresses = null;
                         addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -417,5 +337,29 @@ public class ViewEditHabitEventFragment extends DialogFragment {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * Create a new fragment view
+     * @param inflater Inflater to use
+     * @param container Container for dialog
+     * @param savedInstanceState Previous state
+     * @return View for HabitEvent fragment
+     */
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        int width = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
+        getDialog().getWindow().setLayout(width, height);
     }
 }

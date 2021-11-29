@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.HabitEvent;
+import com.example.habit.R;
 
 import java.util.Objects;
 
@@ -26,7 +29,7 @@ import java.util.Objects;
  * @see android.app.Activity
  * @see android.content.Context
  */
-public class viewOnlyHabitEvent extends DialogFragment {
+public class ViewOnlyHabitEventFragment extends DialogFragment {
 
     private Habit habit;
     private HabitEvent habitEvent;
@@ -40,7 +43,7 @@ public class viewOnlyHabitEvent extends DialogFragment {
      * @param habitEvent HabitEvent to display
      * @param habit Parent habit
      */
-    public viewOnlyHabitEvent(HabitEvent habitEvent, Habit habit) {
+    public ViewOnlyHabitEventFragment(HabitEvent habitEvent, Habit habit) {
         this.habitEvent = habitEvent;
         this.habit = habit;
     }
@@ -55,7 +58,7 @@ public class viewOnlyHabitEvent extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.habitevent_view_only, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_view_only_habit_event, null);
         TextView title = view.findViewById(R.id.habit_event_title);
         title.setText(habit.getTitle() + " Event");
 

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.habit.entities.User;
+
 import java.util.ArrayList;
 
 /**
@@ -23,10 +25,10 @@ public class UserTests {
         ArrayList<String> habits = new ArrayList<String>();
         habits.add("JBjAnWMkUzIYPPOxBmg6");
         habits.add("mEsBB2ddAmmWid33HWjF");
-        mockUser1 = new User("Boby", "bob99", "bobsmith@gmail.com", habits);
+        mockUser1 = new User("Boby", "bobsmith@gmail.com", "test_uuid", true, habits);
 
         // Mock user with no habit IDs, using constructor 2
-        mockUser2 = new User("Carla", "crox44", "carlathegreat@hotmail.com");
+        mockUser2 = new User("Carla", "carlathegreat@hotmail.com", "test_uuid", true);
     }
 
     @Test
@@ -39,18 +41,6 @@ public class UserTests {
         mockUser1.setDisplayName("Not Boby");
         assertNotEquals("Boby", mockUser1.getDisplayName());
         assertEquals("Not Boby", mockUser1.getDisplayName());
-    }
-
-    @Test
-    void testGetUserName() {
-        assertEquals("bob99", mockUser1.getUserName());
-    }
-
-    @Test
-    void testSetUserName() {
-        mockUser2.setUserName("xXCARLAXx");
-        assertNotEquals("crox44", mockUser2.getUserName());
-        assertEquals("xXCARLAXx", mockUser2.getUserName());
     }
 
     @Test

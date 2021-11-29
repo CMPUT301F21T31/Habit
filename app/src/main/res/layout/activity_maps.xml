@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".MapsActivity" >
+    tools:context=".activity.MapsActivity" >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -60,7 +60,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="45dp"
-    tools:context=".MapsActivity" />
+    tools:context=".activity.MapsActivity" />
 
     <ZoomControls
         android:layout_alignParentBottom="true"

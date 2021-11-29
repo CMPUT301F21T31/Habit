@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 
 
@@ -12,7 +12,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class splashscreen extends AppCompatActivity {
+import com.example.habit.R;
+
+public class SplashScreenActivity extends AppCompatActivity {
 
     Animation zoom;
     ImageView img;
@@ -30,7 +32,7 @@ public class splashscreen extends AppCompatActivity {
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(getApplicationContext(),splashscreen2.class);
+                Intent i = new Intent(getApplicationContext(), SplashScreen2Activity.class);
                 startActivity(i);
                 finish();
             }

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.habit.entities.Habit;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -54,9 +56,8 @@ public class HabitTests {
 
 
         // Create mock habits for testing using constructor with and without events
-        mockHabit1 = new Habit("Swimming", "Get fit", start1, end1, daysOfWeek1, events);
-        mockHabit2 = new Habit("Reading", "Learn", start1, end1, daysOfWeek2);
-
+        mockHabit1 = new Habit("Swimming", "Get fit", start1, end1, daysOfWeek1, events, true, 0);
+        mockHabit2 = new Habit("Reading", "Learn", start1, end1, daysOfWeek2, true, 0);
     }
 
     @Test
@@ -67,45 +68,41 @@ public class HabitTests {
         ArrayList<Boolean> oneDay = new ArrayList<Boolean>(Arrays.asList(false, false, false, true, false, false, false));
         ArrayList<Boolean> manyDays = new ArrayList<Boolean>(Arrays.asList(true, false, false, true, true, true, false));
 
-        HashMap<String, Boolean> allDaysExpected = new HashMap<String, Boolean>(Map.of(
-                "Monday", true,
-                "Tuesday", true,
-                "Wednesday", true,
-                "Thursday", true,
-                "Friday", true,
-                "Saturday", true,
-                "Sunday", true
-        ));
+        HashMap<String, Boolean> allDaysExpected = new HashMap<String, Boolean>();
+        allDaysExpected.put("Monday", true);
+        allDaysExpected.put("Tuesday", true);
+        allDaysExpected.put("Wednesday", true);
+        allDaysExpected.put("Thursday", true);
+        allDaysExpected.put("Friday", true);
+        allDaysExpected.put("Saturday", true);
+        allDaysExpected.put("Sunday", true);
 
-        HashMap<String, Boolean> noDaysExpected = new HashMap<String, Boolean>(Map.of(
-                "Monday", false,
-                "Tuesday", false,
-                "Wednesday", false,
-                "Thursday", false,
-                "Friday", false,
-                "Saturday", false,
-                "Sunday", false
-        ));
+        HashMap<String, Boolean> noDaysExpected = new HashMap<String, Boolean>();
+        noDaysExpected.put("Monday", false);
+        noDaysExpected.put("Tuesday", false);
+        noDaysExpected.put("Wednesday", false);
+        noDaysExpected.put("Thursday", false);
+        noDaysExpected.put("Friday", false);
+        noDaysExpected.put("Saturday", false);
+        noDaysExpected.put("Sunday", false);
 
-        HashMap<String, Boolean> oneDayExpected = new HashMap<String, Boolean>(Map.of(
-                "Monday", false,
-                "Tuesday", false,
-                "Wednesday", false,
-                "Thursday", true,
-                "Friday", false,
-                "Saturday", false,
-                "Sunday", false
-        ));
+        HashMap<String, Boolean> oneDayExpected = new HashMap<String, Boolean>();
+        oneDayExpected.put("Monday", false);
+        oneDayExpected.put("Tuesday", false);
+        oneDayExpected.put("Wednesday", false);
+        oneDayExpected.put("Thursday", true);
+        oneDayExpected.put("Friday", false);
+        oneDayExpected.put("Saturday", false);
+        oneDayExpected.put("Sunday", false);
 
-        HashMap<String, Boolean> manyDaysExpected = new HashMap<String, Boolean>(Map.of(
-                "Monday", true,
-                "Tuesday", false,
-                "Wednesday", false,
-                "Thursday", true,
-                "Friday", true,
-                "Saturday", true,
-                "Sunday", false
-        ));
+        HashMap<String, Boolean> manyDaysExpected = new HashMap<String, Boolean>();
+        manyDaysExpected.put("Monday", true);
+        manyDaysExpected.put("Tuesday", false);
+        manyDaysExpected.put("Wednesday", false);
+        manyDaysExpected.put("Thursday", true);
+        manyDaysExpected.put("Friday", true);
+        manyDaysExpected.put("Saturday", true);
+        manyDaysExpected.put("Sunday", false);
 
         HashMap<String, Boolean> result1 = Habit.generateDaysDict(allDays);
         HashMap<String, Boolean> result2 = Habit.generateDaysDict(noDays);

@@ -57,9 +57,9 @@ public class FriendsListAdapter extends ArrayAdapter<User> {
         if (view == null) {
             Log.i("HABIT VIEW NOTE", "VIEW NULL");
             if (type == 0 ) {
-                view = LayoutInflater.from(context).inflate(R.layout.following_user_list_content, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.following_list_content, parent, false);
             } else {
-                view = LayoutInflater.from(context).inflate(R.layout.follow_request_user_list_content, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.follow_request_list_content, parent, false);
             }
         }
 

@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,12 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.HabitEvent;
+import com.example.habit.R;
+
 import java.util.ArrayList;
 
 /**
  * List containing all HabitEvents for a given Habit
  */
-public class HabitEventList extends ArrayAdapter<HabitEvent> {
+public class HabitEventListAdapter extends ArrayAdapter<HabitEvent> {
 
     private ArrayList<HabitEvent> habitEvents;
     private Context context;
@@ -28,7 +32,7 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
      * @param context Context of where this is created
      * @param habitEvents List of events to display
      */
-    public HabitEventList(Context context, ArrayList<HabitEvent> habitEvents, Habit parentHabit) {
+    public HabitEventListAdapter(Context context, ArrayList<HabitEvent> habitEvents, Habit parentHabit) {
         super(context, 0, habitEvents);
         Log.i("EVENT VIEW NOTE", "CREATING HabitEventList");
         this.habitEvents = habitEvents;
@@ -53,7 +57,7 @@ public class HabitEventList extends ArrayAdapter<HabitEvent> {
         // Get habitEvent element layout
         if (view == null || true) {
             Log.i("EVENT VIEW NOTE", "VIEW NULL");
-            view = LayoutInflater.from(context).inflate(R.layout.habit_event_content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.habit_event_list_content, parent, false);
         }
 
         // Get single habit event

@@ -36,22 +36,22 @@
             android:value="AIzaSyDhrBnPkVHgMjDE6S4ieafB_dHXS3GSUCU" />
 
         <activity
-            android:name=".viewOnlyHabit"
+            android:name=".activity.ViewOnlyHabitActivity"
             android:exported="false" />
         <activity
-            android:name=".FriendsHabit"
+            android:name=".activity.FriendsHabitActivity"
             android:exported="false" />
         <activity
-            android:name=".FriendsActivity"
+            android:name=".activity.FriendsActivity"
             android:exported="false" />
         <activity
-            android:name=".splashscreen2"
+            android:name=".activity.SplashScreen2Activity"
             android:exported="true" />
         <activity
-            android:name=".splashscreen"
+            android:name=".activity.SplashScreenActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,17 +60,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".addHabit"
+            android:name=".activity.AddHabitActivity"
             android:exported="false" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".activity.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".editHabit"
+            android:name=".activity.EditHabitActivity"
             android:exported="false" />
         <activity
-            android:name=".HabitListActivity"
+            android:name=".activity.HabitListActivity"
             android:exported="false" />
 
         <provider

@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.activity;
 
 import static java.lang.Thread.sleep;
 
@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +26,11 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.example.habit.fragments.AddHabitEventFragment;
+import com.example.habit.entities.Habit;
+import com.example.habit.R;
+import com.example.habit.entities.User;
+import com.example.habit.adapters.HabitListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,12 +61,12 @@ public class HabitListActivity extends AppCompatActivity {
     // All habits list
     ListView allHabitsListView;
     ArrayList<Habit> allHabitsDataList;
-    HabitList allHabitsAdapter;
+    HabitListAdapter allHabitsAdapter;
 
     // Daily habits list
     SwipeMenuListView dailyHabitsListView;
     ArrayList<Habit> dailyHabitsDataList;
-    HabitList dailyHabitsAdapter;
+    HabitListAdapter dailyHabitsAdapter;
     RelativeLayout dailyHabitBackground;
 
     // Buttons
@@ -87,13 +91,13 @@ public class HabitListActivity extends AppCompatActivity {
 
         // Initialize all habits list
         allHabitsDataList = new ArrayList<>();
-        allHabitsAdapter = new HabitList(this, allHabitsDataList, false);
+        allHabitsAdapter = new HabitListAdapter(this, allHabitsDataList, false);
         allHabitsListView = findViewById(R.id.all_habits_list);
         allHabitsListView.setAdapter(allHabitsAdapter);
 
         // Initialize daily habits list
         dailyHabitsDataList = new ArrayList<>();
-        dailyHabitsAdapter = new HabitList(this, dailyHabitsDataList, true);
+        dailyHabitsAdapter = new HabitListAdapter(this, dailyHabitsDataList, true);
         dailyHabitsListView = findViewById(R.id.daily_habits_list);
         dailyHabitsListView.setAdapter(dailyHabitsAdapter);
 
@@ -331,7 +335,7 @@ public class HabitListActivity extends AppCompatActivity {
      * Open the add habit screen, pass in the list position for the next Habit
      */
     private void openAddHabit() {
-        Intent intent = new Intent(this, addHabit.class);
+        Intent intent = new Intent(this, AddHabitActivity.class);
         intent.putExtra("nextPosition", allHabitsDataList.size());
         startActivity(intent);
     }
@@ -342,7 +346,7 @@ public class HabitListActivity extends AppCompatActivity {
      */
     private void openEditHabit(int i) {
         Log.i("Test", "Launching edit habit");
-        Intent intent = new Intent(this, editHabit.class);
+        Intent intent = new Intent(this, EditHabitActivity.class);
         Habit habitToEdit = allHabitsAdapter.getItem(i);
         intent.putExtra("habit", habitToEdit);
         startActivity(intent);
