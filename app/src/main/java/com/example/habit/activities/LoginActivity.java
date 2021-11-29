@@ -82,10 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is logged in
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        // Get firebase instance TODO: What to do if this fails
-        if (currentUser != null) {
-            db = FirebaseFirestore.getInstance();
-        }
+        // Get firebase instance
+        db = FirebaseFirestore.getInstance();
 
         if (currentUser != null && !logoutClicked) {
 
@@ -155,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d("LOGIN SUCCESS", "signInWithEmail:success");
 
                                     // Update user object if checked "Remember me"
-                                    if (rememberUser || user == null || user.getStayLoggedIn() == null) {
+                                    if ((currentUser != null) && (rememberUser || user == null || user.getStayLoggedIn() == null)) {
                                         db.collection("users")
                                                 .document(currentUser.getUid())
                                                 .update("stayLoggedIn", rememberUser);
