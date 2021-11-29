@@ -48,6 +48,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * Main screen for application containing list of both all habits and today's habits. User can
+ * navigate to friends screen, add a new habit, view one of their existing habits, or logout.
+ *
+ * Each element in the all habit list is clickable, opening the EditHabitActivity. In the daily
+ * habit list, each element is swipeable with the options to denote an instance of that habit, i.e.
+ * create a habit event, or mark that habit as incomplete for today.
+ */
 public class HabitListActivity extends AppCompatActivity {
 
     // Firebase references

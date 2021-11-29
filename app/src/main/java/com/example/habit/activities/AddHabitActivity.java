@@ -33,7 +33,8 @@ import java.util.HashMap;
  * US 01.01.01
  * US 01.02.01
  * US 01.06.01
- * This class is create the add habit interface
+ * Add habit interface, containing text, calendar, switch, and button inputs allowing the user
+ * to fill out all properties of a new Habit.
  * @author lewisning
  * @see android.app.Activity
  * @see android.content.Context

@@ -28,6 +28,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Initial login activity which allows user to enter a signup with an email and password, which
+ * will then prompt them for a display name. User can also login with a previously created account
+ * and optionally indicate that the app should keep them signed in for the future.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

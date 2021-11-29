@@ -33,6 +33,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Friends view containing two lists. The upper list being users you follow, which can be swiped to
+ * reveal a buttons to view that user's habits, and another button to stop following them. The lower
+ * list contains any incoming follow requests, each item can be swiped to reveal two buttons for
+ * accepting or denying the request.
+ */
 public class FriendsActivity extends AppCompatActivity {
 
     // Auth and db

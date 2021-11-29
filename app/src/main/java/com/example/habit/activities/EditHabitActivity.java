@@ -41,7 +41,9 @@ import java.util.HashMap;
 
 /**
  * US 01.04.01
- * Edit habit interface
+ * Edit/View habit interface, containing text, calendar, switch, and button inputs allowing the user
+ * to fill out all properties of an existing Habit. Also displays a list of the HabitEvents for
+ * this habit with a button to add a new one.
  * @author lewisning
  * @see android.app.Activity
  * @see android.content.Context
