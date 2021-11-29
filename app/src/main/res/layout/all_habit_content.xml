@@ -18,9 +18,9 @@
     <TextView
         android:id="@+id/habit_name_text"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_toLeftOf="@id/habit_progress_bar"
         android:layout_toRightOf="@id/habit_status_bar_all"
         android:fontFamily="@font/lato_bold"
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/habit_name_text"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="13dp"
         android:layout_toLeftOf="@id/habit_progress_bar"
         android:layout_toRightOf="@id/habit_status_bar_all"
         android:textColor="@color/Light_Gray_Text_Background" />

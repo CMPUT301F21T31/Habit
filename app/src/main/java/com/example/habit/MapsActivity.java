@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.airbnb.lottie.L;
 import com.example.habit.databinding.ActivityMapsBinding;
+import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +35,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button mapTypeButton;
 
     ZoomControls zoomControls;
+    PlacesClient placesClient;
 
     Marker clickMarker;
     LatLng location;
@@ -85,6 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Construct a PlacesClient
+        Places.initialize(getApplicationContext(), getString(R.string.maps_api_key));
+        placesClient = Places.createClient(this);
 
         // Get buttons
         doneButton = findViewById(R.id.done);
@@ -153,9 +161,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Set map reference
         map = googleMap;
-
-        // Ask user for location permissions
-        getLocationPermission();
 
         // Turn on location layer
         updateLocationUI();
@@ -252,6 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
+        System.out.println("Requesting location perms");
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -261,6 +267,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+        updateLocationUI();
     }
 
     /**
@@ -275,10 +282,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (locationPermissionGranted) {
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
+                System.out.println("Updated map UI for current location");
             } else {
                 map.setMyLocationEnabled(false);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
+
+                // Ask user for location permissions
                 getLocationPermission();
             }
         } catch (Exception e)  {

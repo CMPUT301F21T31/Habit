@@ -71,7 +71,7 @@ public class FriendsHabit extends AppCompatActivity {
         back = findViewById((R.id.back));
 
         dataList = new ArrayList<>();
-        habitListAdapter = new HabitList(this, dataList, false);
+        habitListAdapter = new HabitList(this, dataList, false, true);
         habitList.setAdapter(habitListAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {

@@ -280,7 +280,6 @@ public class addHabit extends AppCompatActivity {
                                 Eyear = year;
                                 Emonth = month;
                                 Eday = dayOfMonth;
-//                                endTime = new Timestamp(calendar.getTimeInMillis());
                             }
                         }, year, month, dayOfMonth);
                 calendar.set(Syear, Smonth, Sday);

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -225,17 +226,10 @@ public class HabitListActivity extends AppCompatActivity {
                 Habit habit = dailyHabitsAdapter.getItem(position);
 
                 if (index == 0) {
-                    // Habit occurrence not completed - mark not done --> TODO: Not required so leaving this for now
-//                    ImageView statusBar = findViewById(R.id.habit_status_bar_daily);
-//                    statusBar.setBackgroundResource(R.drawable.habit_status_bar_red);
-//
-//                    // Update habit event state
-//                    Habit.updateHabitEvent();
 
                 } else {
+
                     // Habit occurrence completed - increment completed count + add event
-                    habit.addCompleted();
-                    User.updateHabit(habit.getHabitId(), habit);
                     new AddHabitEventFragment(habit)
                             .show(getSupportFragmentManager(), "ADD_HabitEvent");
                 }
