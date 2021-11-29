@@ -1,28 +1,20 @@
-package com.example.habit;
+package com.example.habit.entities;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
-import java.net.ContentHandler;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -40,10 +32,16 @@ public class User {
     private ArrayList<String> requests;
 
     /**
-     * Constructor for user with habit list
-     * @param displayName Non-unique name used throughout app
-     * @param habits List of habits
-     * @param email Email used for firebase auth
+     * Constructor for a User object with all properties. This is the most basic entity class for
+     * our app. Properties of this class are what we store in the database.
+     * @param displayName String non-unique name used to refer to user within app
+     * @param email String unique email used for firebase authentication and follow requests
+     * @param uuid String uuid of user from firebase, used as key for User records in database
+     * @param stayLoggedIn Boolean indicating if the app should keep the user logged in when possible
+     * @param habits List of string HabitIDs belonging to this user
+     * @param followers List of string UserIDs that follow this user
+     * @param following List of string UserIDs that this user is following
+     * @param requests List of string UsersIDs with current requests to follow this user
      */
     public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits,
                 ArrayList<String> followers, ArrayList<String> following, ArrayList<String> requests) {
@@ -57,6 +55,14 @@ public class User {
         this.requests = requests;
     }
 
+    /**
+     *
+     * @param displayName String non-unique name used to refer to user within app
+     * @param email String unique email used for firebase authentication and follow requests
+     * @param uuid String uuid of user from firebase, used as key for User records in database
+     * @param stayLoggedIn Boolean indicating if the app should keep the user logged in when possible
+     * @param habits List of string HabitIDs belonging to this user
+     */
     public User(String displayName, String email, String uuid, Boolean stayLoggedIn, ArrayList<String> habits) {
         this(displayName, email, uuid, stayLoggedIn, habits, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>());
@@ -110,39 +116,64 @@ public class User {
 
     /**
      * Get a user's ID
-     * @return
+     * @return String user ID
      */
     public String getUuid() {
         return uuid;
     }
 
+    /**
+     * Get a boolean indicating if the user app should try to keep the user logged in
+     * @return Boolean stayLoggedIn flag
+     */
     public Boolean getStayLoggedIn() {
         return stayLoggedIn;
     }
 
+    /**
+     * Set the stayLoggedIn flag
+     * @param stayLoggedIn
+     */
     public void setStayLoggedIn(Boolean stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
     }
 
     /**
-     * @return all of User's habits
+     * Get an array list of all the habit IDs for this user
+     * @return ArrayList of ID strings
      */
     public ArrayList<String> getHabits() {
         return habits;
     }
 
+    /**
+     * Set this users list of habit IDs
+     * @param habits Array of habit ID strings
+     */
     public void setHabits(ArrayList<String> habits) {
         this.habits = habits;
     }
 
+    /**
+     * Get array list of user IDs that follow this user
+     * @return ArrayList of ID strings
+     */
     public ArrayList<String> getFollowers() {
         return followers;
     }
 
+    /**
+     * Get array list of user IDs that this user follows
+     * @return ArrayList of ID strings
+     */
     public ArrayList<String> getFollowing() {
         return following;
     }
 
+    /**
+     * Get array list of user IDs that have a request to follow this user
+     * @return ArrayList of ID strings
+     */
     public ArrayList<String> getRequests() {
         return requests;
     }
@@ -151,8 +182,8 @@ public class User {
 
     /**
      * Update a user object
-     * @param uuid
-     * @param user
+     * @param uuid Uuid of the user object to update
+     * @param user User object to use in update
      */
     public static void updateUser(String uuid, User user) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -240,8 +271,8 @@ public class User {
 
     /**
      * Maintain the list position variable of other habits when one is deleted
-     * @param uuid
-     * @param deletedPosition
+     * @param uuid String id of user
+     * @param deletedPosition Integer indicating the position of the deleted habit
      */
     private static void fixHabitPositions(String uuid, int deletedPosition) {
 
@@ -270,7 +301,8 @@ public class User {
     }
 
     /**
-     * Send a follow request
+     * Send a follow request from user indicated by requesterUuid, to the user with the provided
+     * email. Takes a context so an alert can be displayed if the email doesn't belong to any user.
      * @param context Context for displaying alert messages
      * @param requesterUuid String uuid of requester
      * @param email Email address to request
@@ -316,7 +348,8 @@ public class User {
     }
 
     /**
-     * Uuid1 declines a follow request from uuid2
+     * Uuid1 declines a follow request from uuid2. Updates the following and followers lists of
+     * both users.
      * @param uuid1
      * @param uuid2
      */
@@ -331,7 +364,8 @@ public class User {
     }
 
     /**
-     * uuid1 accepts the follow request from uuid2
+     * Uuid1 accepts a follow request from uuid2. Updates the following and followers lists of
+     * both users.
      * @param uuid1
      */
     public static void acceptRequest(String uuid1, String uuid2) {
@@ -352,7 +386,7 @@ public class User {
     }
 
     /**
-     * uuid1 stops following uuid2
+     * Uuid1 stops following uuid2. Updates the following and followers lists of both users.
      * @param uuid1
      */
     public static void stopFollowing(String uuid1, String uuid2) {

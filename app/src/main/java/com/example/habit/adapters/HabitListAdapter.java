@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.adapters;
 
 import android.content.Context;
 import android.os.Build;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,20 +17,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.habit.R;
+import com.example.habit.entities.Habit;
+import com.example.habit.entities.User;
+import com.example.habit.animations.ProgressBarAnimation;
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
- * Displays either all user habits or only today's with a different view for each
+ * Adapter for displaying either all habits or only today's, with a different view for each option
+ * US 01.07.01
+ * US 01.08.01
+ * US 01.08.02
+ * US 01.09.01
  */
-public class HabitList extends ArrayAdapter<Habit> {
+public class HabitListAdapter extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
     private Context context;
     private Boolean daily;
     private Boolean friendsHabit;
-    private User user;
-    static Boolean anima=true;
+    static Boolean animation = true;
 
     // Buttons to move habit up or down
     ImageButton upButton;
@@ -45,9 +51,9 @@ public class HabitList extends ArrayAdapter<Habit> {
      * Create a new HabitList to display either daily or all habits
      * @param context Context of where this is created
      * @param habits ArrayList of habits to display
-     * @param daily Is this a daily list
+     * @param daily Boolean indicating if this is a daily habits list or not
      */
-    public HabitList(Context context, ArrayList<Habit> habits, Boolean daily) {
+    public HabitListAdapter(Context context, ArrayList<Habit> habits, Boolean daily) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
@@ -55,7 +61,15 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.friendsHabit = false;
     }
 
-    public HabitList(Context context, ArrayList<Habit> habits, Boolean daily, Boolean friendsHabit) {
+    /**
+     * Constructor with an additional option to indicate if this list is used to display the habits
+     * of a user you are following, in which case it should not have any up or down arrows
+     * @param context Context of where this is created
+     * @param habits ArrayList of habits to display
+     * @param daily Boolean indicating if this is a daily habits list or not
+     * @param friendsHabit Boolean indicating if this is a friend's habit list
+     */
+    public HabitListAdapter(Context context, ArrayList<Habit> habits, Boolean daily, Boolean friendsHabit) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
@@ -63,13 +77,17 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.friendsHabit = friendsHabit;
     }
 
+    /**
+     * Get total number of elements in the list
+     * @return Integer containing total number of elements in the list
+     */
     @Override
     public int getCount() {
         return habits.size();
     }
 
     /**
-     *
+     * Get an item at position pos from this list
      * @param pos
      * @return
      */
@@ -117,7 +135,7 @@ public class HabitList extends ArrayAdapter<Habit> {
 
         // Get single habit
         habit = habits.get(position);
-        anima = true;
+        animation = true;
 
         // Set fields depending on which type of HabitList this is
         if (daily) {
@@ -141,15 +159,16 @@ public class HabitList extends ArrayAdapter<Habit> {
                 completedPercent = 100;
             }
 
-            if(anima==true) {
-                progressbaranimation baranimation = new progressbaranimation(progress, 0, completedPercent);
+            if (animation ==true) {
+                ProgressBarAnimation baranimation = new ProgressBarAnimation(progress, 0, completedPercent);
                 baranimation.setDuration(1000);
                 progress.startAnimation(baranimation);
-                anima=false;
+                animation =false;
                 // replace 100 with motion data on progress
             }
-            else{progress.setProgress(100);
+            else {
                 // replace 100 with static data on progress
+                progress.setProgress(100);
             }
 
             // Set fields
@@ -159,6 +178,8 @@ public class HabitList extends ArrayAdapter<Habit> {
 
         // Set up and down button click listeners if in all view
         if (!daily) {
+
+            // Set listener to move the habit up one spot in the list
             upButton.setOnClickListener(new View.OnClickListener() {
 
                 /**
@@ -190,6 +211,7 @@ public class HabitList extends ArrayAdapter<Habit> {
                 }
             });
 
+            // Set listener to move the habit down one spot in the list
             downButton.setOnClickListener(new View.OnClickListener() {
 
                 /**

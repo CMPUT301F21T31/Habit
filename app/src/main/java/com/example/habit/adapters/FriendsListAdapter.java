@@ -1,4 +1,4 @@
-package com.example.habit;
+package com.example.habit.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,9 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.habit.R;
+import com.example.habit.entities.User;
+
 import java.util.ArrayList;
 
-public class FriendsList extends ArrayAdapter<User> {
+/**
+ * Adapter for displaying users you follow and requests from other users to follow you
+ * US 05.02.02
+ */
+public class FriendsListAdapter extends ArrayAdapter<User> {
 
     private Context context;
     private ArrayList<User> users;
@@ -26,7 +33,7 @@ public class FriendsList extends ArrayAdapter<User> {
      * @param users User objects in list
      * @param type 0 == following list, 1 == follow request list
      */
-    public FriendsList(@NonNull Context context, int resource, ArrayList<User> users, int type) {
+    public FriendsListAdapter(@NonNull Context context, int resource, ArrayList<User> users, int type) {
         super(context, 0, users);
         this.context = context;
         this.users = users;
@@ -46,7 +53,7 @@ public class FriendsList extends ArrayAdapter<User> {
 
         View view = convertView;
 
-        // Get element layout
+        // Get element layout based on type, either following or requests list
         if (view == null) {
             Log.i("HABIT VIEW NOTE", "VIEW NULL");
             if (type == 0 ) {
