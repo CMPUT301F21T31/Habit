@@ -23,12 +23,21 @@ import java.util.Objects;
 
 /**
  * US 05.01.01
+ * This class is creating a dialog fragment to sending a follow request to other users
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
  */
 public class sendRequest extends DialogFragment {
 
     private FirebaseAuth auth;
     FirebaseUser user;
 
+    /**
+     * This method is focusing on the functionalities of all items on the dialog.
+     * @param savedInstanceState
+     * @return Dialog view of HabitEvent
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

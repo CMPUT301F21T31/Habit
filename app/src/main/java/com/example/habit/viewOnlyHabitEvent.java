@@ -18,6 +18,14 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Objects;
 
+/**
+ * US 05.03.01
+ * This class is viewing all events of each PUBLIC habits belongs to the current user followers.
+ * All text boxes and image in the interface are viewable ONLY.
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
+ */
 public class viewOnlyHabitEvent extends DialogFragment {
 
     private Habit habit;

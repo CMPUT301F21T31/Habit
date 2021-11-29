@@ -29,6 +29,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * US 05.03.01
+ * This class is viewing the details of all PUBLIC habits belongs to the current user followers.
+ * All text boxes and image in the interface are viewable ONLY.
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
+ */
 public class viewOnlyHabit extends AppCompatActivity {
 
     private FirebaseAuth auth;
