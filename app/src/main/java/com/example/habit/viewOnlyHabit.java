@@ -29,6 +29,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * US 05.03.01
+ * This class is viewing the details of each PUBLIC habit belongs to the current user followers.
+ * All text boxes in the interface are viewable ONLY.
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
+ */
 public class viewOnlyHabit extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -64,6 +72,11 @@ public class viewOnlyHabit extends AppCompatActivity {
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
 
+
+    /**
+     * This method is working with view_habit_details.xml layout file.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

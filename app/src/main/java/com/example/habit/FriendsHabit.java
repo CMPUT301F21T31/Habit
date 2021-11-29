@@ -31,6 +31,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * US 05.03.01
+ * This class is creating a list PUBLIC habits belongs to the current user followers.
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
+ */
 public class FriendsHabit extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -45,6 +52,12 @@ public class FriendsHabit extends AppCompatActivity {
     ArrayList<Habit> dataList;
     HabitList habitListAdapter;
 
+    /**
+     * This method is including updating database and setting the functionalities for all items
+     * on the interface.
+     * Working with friends_habit.xml layout file
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
