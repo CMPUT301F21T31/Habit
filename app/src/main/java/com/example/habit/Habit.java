@@ -38,6 +38,9 @@ import java.util.NoSuchElementException;
 
 /**
  * Class denoting a single Habit, belonging to a single User object and having a list of HabitEvents
+ * @author justin
+ * @see android.app.Activity
+ * @see android.content.Context
  */
 public class Habit implements Parcelable {
 
@@ -54,13 +57,15 @@ public class Habit implements Parcelable {
     private int listPosition;
 
     /**
-     * Constructor for a new habit TODO: Should some of these be optional?
-     * @param title What this habit is called
-     * @param reason Motivation/goal for this habit
-     * @param start When the habit should start (just date, no time)
-     * @param end When the habit should end (just date, no time)
-     * @param daysOfWeek Hashmap with weekday keys and a boolean indicating if the habit occurs on that day
-     * @param events Instances of this habit occurring
+     * Constructor for a new habit
+     * @param title
+     * @param reason
+     * @param start
+     * @param end
+     * @param daysOfWeek
+     * @param events
+     * @param ifPublic
+     * @param listPosition
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
             Boolean> daysOfWeek, ArrayList<String> events, Boolean ifPublic, int listPosition) {
@@ -77,6 +82,13 @@ public class Habit implements Parcelable {
 
     /**
      * Habit constructor without events, will create Habit with empty events array
+     * @param title
+     * @param reason
+     * @param start
+     * @param end
+     * @param daysOfWeek
+     * @param ifPublic
+     * @param listPosition
      */
     public Habit(String title, String reason, Date start, Date end, HashMap<String,
             Boolean> daysOfWeek, Boolean ifPublic, int listPosition) {
@@ -167,6 +179,10 @@ public class Habit implements Parcelable {
         return title;
     }
 
+    /**
+     * set the habit title
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
@@ -276,18 +292,34 @@ public class Habit implements Parcelable {
         this.daysOfWeek = daysOfWeek;
     }
 
+    /**
+     * get a boolean value of this habit is it a public or private habit
+     * @return Boolean containing ifPublic
+     */
     public Boolean getIfPublic() {
         return ifPublic;
     }
 
+    /**
+     * set a boolean value of this habit is it a public or private habit
+     * @param ifPublic
+     */
     public void setIfPublic(Boolean ifPublic) {
         this.ifPublic = ifPublic;
     }
 
+    /**
+     * get the position of the habit in habitList
+     * @return int containing listPosition
+     */
     public int getListPosition() {
         return listPosition;
     }
 
+    /**
+     * set the position of the habit in habitList
+     * @param listPosition
+     */
     public void setListPosition(int listPosition) {
         this.listPosition = listPosition;
     }
@@ -365,10 +397,17 @@ public class Habit implements Parcelable {
         return events;
     }
 
+    /**
+     * get how many time user has completed this habit
+     * @return int containing completed
+     */
     public int getCompleted() {
         return completed;
     }
 
+    /**
+     * increment by 1 when calling this function
+     */
     public void addCompleted() {
         completed++;
     }
@@ -377,6 +416,10 @@ public class Habit implements Parcelable {
 //
 //    }
 
+    /**
+     * planning the total number of how many times the user plan to do this habit
+     * @return int containing planned
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int totalPlanned() {
 
