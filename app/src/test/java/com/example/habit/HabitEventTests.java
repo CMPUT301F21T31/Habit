@@ -80,12 +80,12 @@ public class  HabitEventTests {
 
     @Test
     void testGetLongitude() {
-        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLongitude()));
+        assertEquals(java.util.Optional.of(20.3242), java.util.Optional.of(mockHabitEvent1.getLongitude()));
     }
 
     @Test
     void testSetLongitude() {
-        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLongitude()));
+        assertEquals(java.util.Optional.of(20.3242), java.util.Optional.of(mockHabitEvent1.getLongitude()));
         mockHabitEvent1.setLongitude(-20.112);
         assertEquals(java.util.Optional.of(-20.112), java.util.Optional.of(mockHabitEvent1.getLongitude()));
     }

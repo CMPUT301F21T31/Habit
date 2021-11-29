@@ -263,9 +263,14 @@ public class HabitTests {
 
     @Test
     void testDaysList() {
-        ArrayList<String> expected = new ArrayList<>();
-        expected.add("Tuesday");
-        expected.add("Friday");
+        ArrayList<Boolean> expected = new ArrayList<>();
+        expected.add(false);
+        expected.add(true);
+        expected.add(false);
+        expected.add(false);
+        expected.add(true);
+        expected.add(false);
+        expected.add(false);
         assertEquals(expected, mockHabit1.daysList());
     }
 
