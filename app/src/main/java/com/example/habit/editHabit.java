@@ -54,6 +54,9 @@ import java.util.HashMap;
 /**
  * US 01.04.01
  * Edit habit interface
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
  */
 public class editHabit extends AppCompatActivity {
 
@@ -102,6 +105,11 @@ public class editHabit extends AppCompatActivity {
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
 
+    /**
+     * this method is implementing the functionalities of all items on the edit details of
+     * habit interface
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

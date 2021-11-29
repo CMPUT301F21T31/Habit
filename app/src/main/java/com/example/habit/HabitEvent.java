@@ -134,7 +134,7 @@ public class HabitEvent {
 
     /**
      * Get the habitEventId of this habitEvent
-     * @return String ID corresponding to that in firestore
+     * @return String ID corresponding to that in firebase
      */
     public String getHabitEventId() {
         return habitEventId;
