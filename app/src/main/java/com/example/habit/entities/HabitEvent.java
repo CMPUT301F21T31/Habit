@@ -178,41 +178,4 @@ public class HabitEvent {
         return photoPath;
     }
 
-    /**
-     * Set the photoPath of selected image
-     * @param photoPath
-     */
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
-
-    /**
-     * This method is storing image to the database
-     * @param habitEventId
-     * @param bitmap
-     */
-    public static void storeImage(String habitEventId, Bitmap bitmap) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://habit-bb585.appspot.com");
-        StorageReference imageRef = storageRef.child(habitEventId + ".jpg");
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = imageRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                db.collection("habitEvents").document(habitEventId).update("photoPath", imageRef.getPath());
-            }
-        });
-    }
 }

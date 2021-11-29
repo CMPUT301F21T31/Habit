@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.habit.entities.HabitEvent;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class HabitEventTests {
+public class  HabitEventTests {
 
     HabitEvent mockHabitEvent1;
     HabitEvent mockHabitEvent2;
@@ -15,21 +15,9 @@ public class HabitEventTests {
     @BeforeEach
     void setup() {
         // Instantiate mock habit events
-        mockHabitEvent1 = new HabitEvent("Swam 20 laps", 1);
+        mockHabitEvent1 = new HabitEvent(-50.23431, 20.3242, "Swam 20 laps");
         mockHabitEvent2 = new HabitEvent( "Finished chapter 7", 1);
     }
-
-//    @Test
-//    void getLocation() {
-//        assertEquals("Edmonton", mockHabitEvent1.getLocation());
-//    }
-//
-//    @Test
-//    void setLocation() {
-//        mockHabitEvent1.setLocation("Calgary");
-//        assertNotEquals("Edmonton", mockHabitEvent1.getLocation());
-//        assertEquals("Calgary", mockHabitEvent1.getLocation());
-//    }
 
     @Test
     void getComments() {
@@ -75,5 +63,30 @@ public class HabitEventTests {
         mockHabitEvent2.setHabitEventId("fasfsafklj3");
         assertNotEquals("fasfsafklj3", mockHabitEvent2.getHabitEventId());
         assertEquals("jlk5432lkjf", mockHabitEvent2.getHabitEventId());
+    }
+
+    @Test
+    void testGetLatitude() {
+        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLatitude()));
+        //-50.23431, 20.3242
+    }
+
+    @Test
+    void testSetLatitude() {
+        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLatitude()));
+        mockHabitEvent1.setLatitude(-20.112);
+        assertEquals(java.util.Optional.of(-20.112), java.util.Optional.of(mockHabitEvent1.getLatitude()));
+    }
+
+    @Test
+    void testGetLongitude() {
+        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLongitude()));
+    }
+
+    @Test
+    void testSetLongitude() {
+        assertEquals(java.util.Optional.of(-50.23431), java.util.Optional.of(mockHabitEvent1.getLongitude()));
+        mockHabitEvent1.setLongitude(-20.112);
+        assertEquals(java.util.Optional.of(-20.112), java.util.Optional.of(mockHabitEvent1.getLongitude()));
     }
 }

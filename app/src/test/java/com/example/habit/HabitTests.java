@@ -47,7 +47,7 @@ public class HabitTests {
 
         // Mock dates
         LocalDate d1 = LocalDate.parse("2021-11-01");
-        LocalDate d2 = LocalDate.parse("2022-06-07");
+        LocalDate d2 = LocalDate.parse("2021-12-04");
         LocalDate d3 = LocalDate.parse("2022-10-21");
         start1 = new Date();
         start2 = Date.from(d1.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -225,5 +225,52 @@ public class HabitTests {
     @Test
     void getEvents() {
         assertEquals(events, mockHabit1.getEvents());
+    }
+
+    @Test
+    void testGetIfPublic() {
+        assertTrue(mockHabit1.getIfPublic());
+    }
+
+    @Test
+    void testSetIsPublic() {
+        assertTrue(mockHabit1.getIfPublic());
+        mockHabit1.setIfPublic(false);
+        assertFalse(mockHabit1.getIfPublic());
+    }
+
+    @Test
+    void testGetListPosition() {
+        assertEquals(0, mockHabit1.getListPosition());
+    }
+
+    @Test
+    void testSetListPosition() {
+        assertEquals(0, mockHabit1.getListPosition());
+        mockHabit1.setListPosition(1);
+        assertEquals(1, mockHabit1.getListPosition());
+    }
+
+    @Test
+    void testGetCompleted() {
+        assertEquals(0, mockHabit1.getCompleted());
+    }
+
+    @Test
+    void testGetOccursText() {
+        assertEquals("Tues, Fri", mockHabit1.getOccursText());
+    }
+
+    @Test
+    void testDaysList() {
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("Tuesday");
+        expected.add("Friday");
+        assertEquals(expected, mockHabit1.daysList());
+    }
+
+    @Test
+    void testTotalPlanned() {
+        assertEquals(2, mockHabit1.totalPlanned());
     }
 }

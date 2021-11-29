@@ -45,8 +45,6 @@ public class Habit implements Parcelable {
     private Boolean ifPublic;
     private int listPosition;
 
-//    private static final
-
     /**
      * Constructor for a new habit
      * @param title
@@ -398,16 +396,6 @@ public class Habit implements Parcelable {
         return completed;
     }
 
-    /**
-     * increment by 1 when calling this function
-     */
-    public void addCompleted() {
-        completed++;
-    }
-
-    //    public Boolean completedToday() {
-//
-//    }
 
     /**
      * planning the total number of how many times the user plan to do this habit
@@ -467,11 +455,6 @@ public class Habit implements Parcelable {
         }
 
         return planned;
-    }
-
-    private int totalCompleted() {
-        // TODO: Maybe we should just store this and increment when a habit is completed?
-        return 0;
     }
 
     /* Firestore Methods */

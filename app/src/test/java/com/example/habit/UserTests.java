@@ -17,18 +17,33 @@ public class UserTests {
     // Declare mock users we will use in testing
     User mockUser1;
     User mockUser2;
+    ArrayList<String> mock_user_ids1;
+    ArrayList<String> mock_user_ids2;
 
     @BeforeEach
     void testSetup() {
 
-        // Mock user with a few habit IDs, using constructor 1
+        // Mock other user IDs for use in follower/following/requests testing
+        mock_user_ids1 = new ArrayList<String>();
+        mock_user_ids1.add("uuid1");
+        mock_user_ids1.add("uuid2");
+        mock_user_ids1.add("uuid3");
+        mock_user_ids2 = new ArrayList<String>();
+        mock_user_ids2.add("uuid1");
+        mock_user_ids2.add("uuid2");
+        mock_user_ids2.add("uuid3");
+
+        // Mock user with a few habit IDs plus following, followers, and requests lists, using
+        // constructor 1
         ArrayList<String> habits = new ArrayList<String>();
         habits.add("JBjAnWMkUzIYPPOxBmg6");
         habits.add("mEsBB2ddAmmWid33HWjF");
-        mockUser1 = new User("Boby", "bobsmith@gmail.com", "test_uuid", true, habits);
+        mockUser1 = new User("Boby", "bobsmith@gmail.com", "test_uuid",
+                true, habits, mock_user_ids1, mock_user_ids1, mock_user_ids1);
 
         // Mock user with no habit IDs, using constructor 2
-        mockUser2 = new User("Carla", "carlathegreat@hotmail.com", "test_uuid", true);
+        mockUser2 = new User("Carla", "carlathegreat@hotmail.com",
+                "test_uuid", true);
     }
 
     @Test
@@ -65,5 +80,47 @@ public class UserTests {
         assertEquals(habits, mockUser1.getHabits());
         assertArrayEquals(habits.toArray(), mockUser1.getHabits().toArray());
         assertEquals(habits.get(1), mockUser1.getHabits().get(1));
+    }
+
+    @Test
+    void testSetHabits() {
+        // Habit IDs to add
+        ArrayList<String> habits = new ArrayList<String>();
+        habits.add("JBjAnWMkUzIYPPOxBmg6");
+        habits.add("mEsBB2ddAmmWid33HWjF");
+
+        mockUser1.setHabits(habits);
+        assertEquals(habits, mockUser1.getHabits());
+    }
+
+    @Test
+    void testGetUuid() {
+        assertEquals("test_uuid", mockUser1.getUuid());
+    }
+
+    @Test
+    void testGetStayLoggedIn() {
+        assertTrue(mockUser1.getStayLoggedIn());
+    }
+
+    @Test
+    void testSetStayLoggedIn() {
+        mockUser1.setStayLoggedIn(false);
+        assertFalse(mockUser1.getStayLoggedIn());
+    }
+
+    @Test
+    void testGetFollowers() {
+        assertEquals(mockUser1.getFollowers(), mock_user_ids1);
+    }
+
+    @Test
+    void testGetFollowing() {
+        assertEquals(mockUser1.getFollowing(), mock_user_ids1);
+    }
+
+    @Test
+    void testGetRequests() {
+        assertEquals(mockUser1.getRequests(), mock_user_ids1);
     }
 }
