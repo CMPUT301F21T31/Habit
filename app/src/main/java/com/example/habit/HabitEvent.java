@@ -18,6 +18,9 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Class denoting an instance (event) of a particular Habit
+ * @author justin
+ * @see android.app.Activity
+ * @see android.content.Context
  */
 public class HabitEvent {
 
@@ -31,7 +34,7 @@ public class HabitEvent {
     private String photoPath;
 
     /**
-     *
+     * new class to temporary store a habit event object
      * @param latitude
      * @param longitude
      * @param comment
@@ -62,18 +65,34 @@ public class HabitEvent {
 
     public HabitEvent() {}
 
+    /**
+     * Get the latitude of the selected location
+     * @return Double containing latitude
+     */
     public Double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Set the latitude of the selected location
+     * @param latitude
+     */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * Get the longitude of the selected location
+     * @return Double containing longitude
+     */
     public Double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Set the longitude of the selected location
+     * @param longitude
+     */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
@@ -115,7 +134,7 @@ public class HabitEvent {
 
     /**
      * Get the habitEventId of this habitEvent
-     * @return String ID corresponding to that in firestore
+     * @return String ID corresponding to that in firebase
      */
     public String getHabitEventId() {
         return habitEventId;
@@ -133,24 +152,45 @@ public class HabitEvent {
         }
     }
 
+    /**
+     * Get the state of the current habitEvent
+     * @return int containing state
+     */
     public int getState() {
         return state;
     }
 
+    /**
+     * Set the state of the current habitEvent
+     * @param state
+     */
     public void setState(int state) {
         if (state > 0 && state < 4) {
             this.state = state;
         }
     }
 
+    /**
+     * Get the photoPath of selected image
+     * @return string containing photoPath
+     */
     public String getPhotoPath() {
         return photoPath;
     }
 
+    /**
+     * Set the photoPath of selected image
+     * @param photoPath
+     */
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
     }
 
+    /**
+     * This method is storing image to the database
+     * @param habitEventId
+     * @param bitmap
+     */
     public static void storeImage(String habitEventId, Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -38,7 +38,10 @@ import java.util.HashMap;
  * US 01.01.01
  * US 01.02.01
  * US 01.06.01
- * Create the add habit interface
+ * This class is create the add habit interface
+ * @author lewisning
+ * @see android.app.Activity
+ * @see android.content.Context
  */
 public class addHabit extends AppCompatActivity {
 
@@ -81,6 +84,12 @@ public class addHabit extends AppCompatActivity {
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
 
+    /**
+     * This method is implementing all functionalities of items on the interface which is adding
+     * details of each habit
+     * Working with add_habit.xml layout file
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
