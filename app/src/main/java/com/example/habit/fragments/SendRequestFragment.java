@@ -2,9 +2,12 @@ package com.example.habit.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -33,8 +36,22 @@ public class SendRequestFragment extends DialogFragment {
     FirebaseUser user;
 
     /**
+     * Create a new send request fragment view
+     * @param inflater Inflater to use
+     * @param container Container for dialog
+     * @param savedInstanceState Previous state
+     * @return View for SendRequest fragment
+     */
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /**
      * This method is focusing on the functionalities of all items on the dialog.
-     * @param savedInstanceState
+     * @param savedInstanceState Previous instance variables
      * @return Dialog view of HabitEvent
      */
     @NonNull

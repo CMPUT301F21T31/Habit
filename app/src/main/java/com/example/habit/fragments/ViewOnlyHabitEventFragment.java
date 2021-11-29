@@ -150,7 +150,7 @@ public class ViewOnlyHabitEventFragment extends DialogFragment {
     }
 
     /**
-     * Create a new fragment view
+     * Create a new HabitEvent fragment view
      * @param inflater Inflater to use
      * @param container Container for dialog
      * @param savedInstanceState Previous state
@@ -167,8 +167,8 @@ public class ViewOnlyHabitEventFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        int width = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_width);
-        int height = getResources().getDimensionPixelSize(R.dimen.habitEvent_fragment_height);
+        int width = getResources().getDimensionPixelSize(R.dimen.sendRequest_fragment_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.sendRequest_fragment_height);
         getDialog().getWindow().setLayout(width, height);
     }
 }

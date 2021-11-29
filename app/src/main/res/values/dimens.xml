@@ -6,4 +6,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="habitEvent_fragment_width">325dp</dimen>
     <dimen name="habitEvent_fragment_height">420dp</dimen>
+    <dimen name="sendRequest_fragment_width">325dp</dimen>
+    <dimen name="sendRequest_fragment_height">420dp</dimen>
 </resources>
