@@ -45,6 +45,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -85,12 +87,17 @@ public class editHabit extends AppCompatActivity {
     ArrayList<HabitEvent> habitEventsDataList;
     HabitEventList habitEventAdapter;
 
+    Calendar calendar;
+
     int Syear;
     int Smonth;
     int Sday;
+    int Eyear;
+    int Emonth;
+    int Eday;
 
-    Timestamp startTime;
-    Timestamp endTime;
+    Date startTime;
+    Date endTime;
     HashMap<String, Boolean> selected_date = null;
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
@@ -131,7 +138,12 @@ public class editHabit extends AppCompatActivity {
         User curr_user;
 
         Habit selected_habit = getIntent().getExtras().getParcelable("habit");
+        recurrence = selected_habit.getOccursArray();
         Log.i("GOT HABIT", selected_habit.toString());
+
+        // Set initial start and end values to those from the edited habit
+        startTime = selected_habit.getStart();
+        endTime = selected_habit.getEnd();
 
         // Setup habit events list
         habitEventsDataList = new ArrayList<>();
@@ -141,6 +153,8 @@ public class editHabit extends AppCompatActivity {
 
         title.setText(selected_habit.getTitle());
         reason.setText(selected_habit.getReason());
+
+        calendar = Calendar.getInstance();
 
         Date sDate = selected_habit.getStart();
         Calendar cal = Calendar.getInstance(); // Add this
@@ -154,7 +168,7 @@ public class editHabit extends AppCompatActivity {
         sy = cal.get(Calendar.YEAR);
 
         startDay.setText(String.valueOf(sd));
-        startMonth.setText(String.valueOf(sm));
+        startMonth.setText(String.valueOf(sm + 1));
         startYear.setText(String.valueOf(sy));
 
         Date eDate = selected_habit.getEnd();
@@ -168,7 +182,7 @@ public class editHabit extends AppCompatActivity {
         ey = cal.get(Calendar.YEAR);
 
         endDay.setText(String.valueOf(ed));
-        endMonth.setText(String.valueOf(em));
+        endMonth.setText(String.valueOf(em + 1));
         endYear.setText(String.valueOf(ey));
 
         final boolean[] myButtonIsClicked = {false};
@@ -317,10 +331,10 @@ public class editHabit extends AppCompatActivity {
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+//                Calendar calendar = Calendar.getInstance();
+//                int year = calendar.get(Calendar.YEAR);
+//                int month = calendar.get(Calendar.MONTH);
+//                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog startDateDialog = new DatePickerDialog(editHabit.this,
                         new DatePickerDialog.OnDateSetListener() {
@@ -329,12 +343,14 @@ public class editHabit extends AppCompatActivity {
                                 startYear.setText("" + year);
                                 startMonth.setText("" + (month + 1));
                                 startDay.setText("" + dayOfMonth);
-                                startTime = new Timestamp(calendar.getTimeInMillis());
+                                calendar.set(year, month, dayOfMonth);
+                                startTime = calendar.getTime();
                                 Sday = dayOfMonth;
                                 Smonth = month;
                                 Syear = year;
                             }
-                        }, year, month, dayOfMonth);
+                        }, sy, sm, sd);
+//                calendar.set(Syear, Smonth, Sday);
                 startDateDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 startDateDialog.show();
             }
@@ -344,10 +360,10 @@ public class editHabit extends AppCompatActivity {
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+//                Calendar calendar = Calendar.getInstance();
+//                int year = calendar.get(Calendar.YEAR);
+//                int month = calendar.get(Calendar.MONTH);
+//                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog endDateDialog = new DatePickerDialog(editHabit.this,
                         new DatePickerDialog.OnDateSetListener() {
@@ -356,10 +372,14 @@ public class editHabit extends AppCompatActivity {
                                 endYear.setText("" + year);
                                 endMonth.setText("" + (month + 1));
                                 endDay.setText("" + dayOfMonth);
-                                endTime = new Timestamp(calendar.getTimeInMillis());
+                                calendar.set(year, month, dayOfMonth);
+                                endTime = calendar.getTime();
+                                Eday = dayOfMonth;
+                                Emonth = month;
+                                Eyear = year;
                             }
-                        }, year, month, dayOfMonth);
-                calendar.set(Syear, Smonth, Sday);
+                        }, ey, em, ed);
+//                calendar.set(Eyear, Emonth, Eday);
                 endDateDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
                 endDateDialog.show();
             }
@@ -404,6 +424,10 @@ public class editHabit extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                // Set the new start and end
+                selected_habit.setStart(startTime);
+                selected_habit.setEnd(endTime);
 
                 User.updateHabit(selected_habit.getHabitId(), selected_habit);
                 finish();

@@ -64,6 +64,10 @@ public class viewOnlyHabit extends AppCompatActivity {
     ArrayList<Boolean> recurrence = new ArrayList<Boolean>(
             Arrays.asList(false, false, false, false, false, false, false));
 
+    /**
+     * Display a habit with view only fields and a list of events for this habit
+     * @param savedInstanceState Bundle contain previous instance information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

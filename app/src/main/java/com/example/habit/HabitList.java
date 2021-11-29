@@ -29,6 +29,7 @@ public class HabitList extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habits;
     private Context context;
     private Boolean daily;
+    private Boolean friendsHabit;
     private User user;
     static Boolean anima=true;
 
@@ -51,6 +52,15 @@ public class HabitList extends ArrayAdapter<Habit> {
         this.habits = habits;
         this.context = context;
         this.daily = daily;
+        this.friendsHabit = false;
+    }
+
+    public HabitList(Context context, ArrayList<Habit> habits, Boolean daily, Boolean friendsHabit) {
+        super(context, 0, habits);
+        this.habits = habits;
+        this.context = context;
+        this.daily = daily;
+        this.friendsHabit = friendsHabit;
     }
 
     @Override
@@ -58,6 +68,11 @@ public class HabitList extends ArrayAdapter<Habit> {
         return habits.size();
     }
 
+    /**
+     *
+     * @param pos
+     * @return
+     */
     @Override
     public Habit getItem(int pos) {
         return habits.get(pos);
@@ -91,6 +106,12 @@ public class HabitList extends ArrayAdapter<Habit> {
                 // Get buttons for all view
                 upButton = view.findViewById(R.id.moveHabitUpButton);
                 downButton = view.findViewById(R.id.moveHabitDownButton);
+
+                // Hide up/down buttons if viewing a friends habit
+                if (friendsHabit) {
+                    upButton.setVisibility(View.INVISIBLE);
+                    downButton.setVisibility(View.INVISIBLE);
+                }
             }
         }
 
@@ -130,8 +151,10 @@ public class HabitList extends ArrayAdapter<Habit> {
             else{progress.setProgress(100);
                 // replace 100 with static data on progress
             }
+
             // Set fields
             habitName.setText(habit.getTitle());
+            occurence.setText(habit.getOccursText());
         }
 
         // Set up and down button click listeners if in all view

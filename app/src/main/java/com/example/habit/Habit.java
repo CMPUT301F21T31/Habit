@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -52,6 +53,8 @@ public class Habit implements Parcelable {
     private int completed;
     private Boolean ifPublic;
     private int listPosition;
+
+    private static final List<String> days = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 
     /**
      * Constructor for a new habit TODO: Should some of these be optional?
@@ -108,6 +111,7 @@ public class Habit implements Parcelable {
         Bundle b2 = in.readBundle();
         this.events = b2.getStringArrayList("Events");
         this.completed = in.readInt();
+        this.listPosition = in.readInt();
     }
 
     /**
@@ -157,6 +161,7 @@ public class Habit implements Parcelable {
         b2.putStringArrayList("Events", events);
         dest.writeBundle(b2);
         dest.writeInt(completed);
+        dest.writeInt(listPosition);
     }
 
     /**
@@ -378,6 +383,38 @@ public class Habit implements Parcelable {
 //    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getOccursText() {
+
+        Map<String, String> abbreviations = new HashMap<String, String>() {{
+            put("Monday", "Mon");
+            put("Tuesday", "Tues");
+            put("Wednesday", "Wed");
+            put("Thursday", "Thurs");
+            put("Friday", "Fri");
+            put("Saturday", "Sat");
+            put("Sunday", "Sun");
+        }};
+
+        ArrayList<String> s = new ArrayList<>();
+        for (String day : days) {
+            if (this.isOnDay(day)) {
+                s.add(abbreviations.get(day));
+            }
+        }
+        return String.join(", ", s);
+    }
+
+    public ArrayList<Boolean> getOccursArray() {
+
+        ArrayList<Boolean> o = new ArrayList<>();
+        for (String day : days) {
+            o.add(this.isOnDay(day));
+        }
+        return o;
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public int totalPlanned() {
 
         int planned = 0;
@@ -427,7 +464,8 @@ public class Habit implements Parcelable {
     private static void addEventToHabit(String habitId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference thisHabit = db.collection("habits").document(habitId);
-        thisHabit.update("events", FieldValue.arrayUnion(eventId));
+        thisHabit.update("events", FieldValue.arrayUnion(eventId),
+                "completed", FieldValue.increment(1));
     }
 
     /**
